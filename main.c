@@ -1,0 +1,8 @@
+#include <stdio.h>
+
+int main() {
+    /* get the names from the command line as args
+     * and send each one to assembler_main.c
+     */
+    return 0;
+}
