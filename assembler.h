@@ -7,5 +7,5 @@
 
 #endif //ASSEMBLER_ASSEMBLER_H
 
-
+struct {unsigned int bits:12;} typedef word;
 
