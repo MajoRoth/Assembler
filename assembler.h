@@ -7,30 +7,41 @@
 
 #endif //ASSEMBLER_ASSEMBLER_H
 
-struct {
+typedef struct word{
     unsigned int bits:12;
-} typedef word;
+} word;
 
-struct RamNode{
+typedef struct RamNode{
     word w;
     int ARE;
-};
+} RamNode;
 
-struct OperationItem{
+typedef struct OperationItem{
     char *name;
     int opcode;
     int funct;
-};
+} OperationItem;
 
-struct SymbolNode{
+typedef struct SymbolNode{
+    SymbolNode *next;
     char *symbol;
     int value;
     int attributes[2]; // one line can have 2 symbols. for example data and extern
-};
+} SymbolNode;
 
 enum attribute {code, data, external, entry};
 enum ARE {A, R, E};
+enum boolean {FALSE, TRUE};
 
 
-struct OperationItem *get_operation_table();
+/* data structures functions */
+OperationItem *get_operation_table();
+int get_funct_by_name(char *name, struct OperationItem hash_table[]);
+int get_opcode_by_name(char *name, struct OperationItem hash_table[]);
+SymbolNode *get_symbol_root(char *symbol, int value, int attribute);
+SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *prev);
+
+/* text process */
+char *get_line();
+int is_directive(char *line);
 
