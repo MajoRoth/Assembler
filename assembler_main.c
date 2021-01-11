@@ -5,7 +5,7 @@
 
 int assembler (char *file_path){
     /* declaring data types */
-    struct RamNode RAM[4096];
+    struct RamNode RAM[4096]; /* we need diferent tabels for code and instructions */
     struct OperationItem hash_table[16] = get_operation_table();
     SymbolNode root;
 

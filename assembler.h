@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_LINE 80;
+#define MAX_LABEL 31;
+
 typedef struct word{
     unsigned int bits:12;
 } word;
