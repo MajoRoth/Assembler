@@ -1,9 +1,18 @@
 //
 // Created by Amit Roth on 11/01/2021.
 //
-
+#include "assembler.h"
 char *get_line(){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
+    char line[80];
+    int i=0
+    while ((c=getchar()) != '\n'){
+        if (c == '\0') return '\0'
+        line[i] = c;
+        i++
+    }
+
+    return line;
 }
 
 char *is_label(char *line){

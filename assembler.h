@@ -7,6 +7,9 @@
 
 #endif //ASSEMBLER_ASSEMBLER_H
 
+#include <stdio.h>
+#include <string.h>
+
 typedef struct word{
     unsigned int bits:12;
 } word;
