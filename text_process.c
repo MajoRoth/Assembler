@@ -15,18 +15,19 @@ char *get_line(FILE *file_name){
     return line;
 }
 
-char *is_label(char *line){
-    /* checks for label. if there is label set the flag is_label to true, else to false */
+int is_label(char *line, char *label){
+    /* checks for label. if there is label set the flag is_label to true, else to false
+     * returns the index which the line resumes*/
     int i;
     char *label;
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* check weather c in A-Z or a-z */
-                return label; /* need to be check if label already exists in symbol table */
+                return i; /* need to be check if label already exists in symbol table */
             }
             else{
                 printf("ERROR: label {} does not start with a letter", label);
-                return '\0';
+                return i;
             }
         }
         if ((48 <= line[i] && line[i] <= 57) || (65 <= line[i] && line[i] <= 90) || (97 <= line[i] && line[i] <= 122)){
@@ -34,7 +35,7 @@ char *is_label(char *line){
             label[i] = line[i];
         }
         else if{
-            return '\0';
+            return 0;
         }
     }
 }

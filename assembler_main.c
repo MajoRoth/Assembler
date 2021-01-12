@@ -3,7 +3,7 @@
 //
 #include "assembler.h"
 
-int assembler (char *file_path){
+int assembler (FILE *file_path){
     /* declaring data types */
     struct RamNode RAM[4096]; /* we need diferent tabels for code and instructions */
     struct OperationItem hash_table[16] = get_operation_table();
@@ -22,6 +22,7 @@ int assembler (char *file_path){
     int attributes[2];
 
     while ((line = get_line(file_path)) != '\0'){
+        i = is_label(line, label);
         if (label = is_label(line) != '\0'){
             is_label = TRUE;
         }
