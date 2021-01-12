@@ -21,7 +21,7 @@ int assembler (char *file_path){
     int directive = data;
     int attributes[2];
 
-    while ((line = get_line()) != '\0'){
+    while ((line = get_line(file_path)) != '\0'){
         if (label = is_label(line) != '\0'){
             is_label = TRUE;
         }

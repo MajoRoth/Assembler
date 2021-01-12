@@ -2,11 +2,11 @@
 // Created by Amit Roth on 11/01/2021.
 //
 #include "assembler.h"
-char *get_line(){
+char *get_line(FILE *file_name){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
     char line[MAX_LINE];
     int i=0
-    while ((c=getchar()) != '\n'){
+    while ((c=getc(file_name)) != '\n'){
         if (c == '\0') return '\0'
         line[i] = c;
         i++
