@@ -12,6 +12,8 @@
 
 #define MAX_LINE 80;
 #define MAX_LABEL 31;
+#define MAX_DIRECTIVE 6;
+#define MAX_COMMAND 4;
 
 typedef struct word{
     unsigned int bits:12;

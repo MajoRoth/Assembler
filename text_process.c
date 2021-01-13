@@ -22,7 +22,7 @@ int is_label(char *line, char *label){
     char *label;
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
-            if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* check weather c in A-Z or a-z */
+            if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* checks wether c in A-Z or a-z */
                 return i; /* need to be check if label already exists in symbol table */
             }
             else{
@@ -31,7 +31,7 @@ int is_label(char *line, char *label){
             }
         }
         if ((48 <= line[i] && line[i] <= 57) || (65 <= line[i] && line[i] <= 90) || (97 <= line[i] && line[i] <= 122)){
-            /* check weather c in A-Z or a-z  or 0-9*/
+            /* checks wether c in A-Z or a-z  or 0-9*/
             label[i] = line[i];
         }
         else if{
@@ -40,9 +40,27 @@ int is_label(char *line, char *label){
     }
 }
 
-int is_directive(char *line){
+int is_directive(char *line, int i, int *directive_type){/*enum element is int??? */
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns enum attribute {code, data, external, entry} or -1*/
+    char directive;
+    /* ignores the spaces */
+    while(line[i] == ' ' || line[i] == '\t'){
+        i++
+    }
+    /*checks wether the next "word" is a directive*/
+    if (line[i] != '.'){
+        return i;
+    }
+    else{
+        /*in case there is a directive, finds what it is*/
+        i++;
+        while(){
+
+        }
+
+
+    }
 }
 
 char get_command(){
