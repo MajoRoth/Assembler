@@ -26,7 +26,7 @@ int is_label(char *line, char *label){
                 return i; /* need to be check if label already exists in symbol table */
             }
             else{
-                printf("ERROR: label {} does not start with a letter", label);
+                printf("ERROR: label {} does not start with a letter", label);/*exit program? */
                 return i;
             }
         }
@@ -57,7 +57,36 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
         /*in case there is a directive, finds what it is*/
         i++;
         while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
-            directive += line[i]
+            if (line[i] < 97 || line[i] > 122){/*directive only include small letters*/
+                printf("ERROR: directive is not valid");/*exit the program??*/
+                directive_type = -1;
+                return i;
+            }
+            else{
+                directive += line[i];
+                }
+                
+            }
+            switch (directive){
+            case 'string':
+            case 'data':
+                directive_type = 1;
+                break;
+            
+            case 'extern':
+                directive_type = 2;
+                break;
+            
+            case 'entry':
+                directive_type = 3;
+                break;
+            
+            default:
+                directive_type = -1;
+                break;
+            }
+
+            return i;
 
         }
 
@@ -67,7 +96,16 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
 
 char get_command(){
     /* ignores spaces and returns the next command */
+    while(line[i] == ' ' || line[i] == '\t'){
+        i++
+    }
+    while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
+            if (line[i] < 97 || line[i] > 122){/*commands only include small letters*/
+                printf("ERROR: command is not valid");/*exit the program??*/
+            }
+    }
 }
+
 
 
 
