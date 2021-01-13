@@ -5,7 +5,8 @@
 
 int assembler (FILE *file_path){
     /* declaring data types */
-    struct RamNode RAM[4096]; /* we need diferent tabels for code and instructions */
+    RamNode command_memory[4096]; /* we need diferent tabels for code and instructions */
+    RamNode directive_memory[4096] /* IDO - BUILD 2 LINKED LISTS */
     struct OperationItem hash_table[16] = get_operation_table();
     SymbolNode root;
 
@@ -17,7 +18,7 @@ int assembler (FILE *file_path){
     char *directive;
 
     int is_label = FALSE; /* flag weather the next line has a label */
-    int is_directive = FALSE; /* flag weather the next line is a directive line */
+    int is_direct = FALSE; /* flag weather the next line is a directive line */
     int directive = data;
     int attributes[2];
 
@@ -27,11 +28,11 @@ int assembler (FILE *file_path){
             is_label = TRUE;
         }
 
-        if ((directive = is_directive(line)) != -1){
-            is_directive = TRUE;
+        if ((directive = is_directive(line, i, *directive)) != -1){
+            is_direct = TRUE;
         }
 
-        if (is_directive==TRUE){
+        if (is_direct==TRUE){
             if(is_label==TRUE && directive==data){
                 /* deal with attributes array [2] later */
                 if (DC==0){

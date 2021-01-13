@@ -70,15 +70,15 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
             switch (directive){
             case 'string':
             case 'data':
-                directive_type = 1;
+                directive_type = data;
                 break;
             
             case 'extern':
-                directive_type = 2;
+                directive_type = external;
                 break;
             
             case 'entry':
-                directive_type = 3;
+                directive_type = entry;
                 break;
             
             default:
