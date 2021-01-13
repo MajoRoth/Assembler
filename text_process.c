@@ -94,14 +94,20 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
     }
 }
 
-char get_command(){
+char get_command(char *line, int i, int *command_type){
     /* ignores spaces and returns the next command */
+    char command;
     while(line[i] == ' ' || line[i] == '\t'){
         i++
     }
     while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
             if (line[i] < 97 || line[i] > 122){/*commands only include small letters*/
                 printf("ERROR: command is not valid");/*exit the program??*/
+                command_type = -1;
+                return i;
+            }
+            else{
+                command += line[i];
             }
     }
 }
