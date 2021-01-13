@@ -50,12 +50,14 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
     }
     /*checks wether the next "word" is a directive*/
     if (line[i] != '.'){
+        directive_type = -1; 
         return i;
     }
     else{
         /*in case there is a directive, finds what it is*/
         i++;
-        while(){
+        while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
+            directive += line[i]
 
         }
 
