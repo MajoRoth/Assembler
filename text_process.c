@@ -88,6 +88,8 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
             }
             switch (directive){
             case 'string':
+                directive_type = string;
+                break;
             case 'data':
                 directive_type = data;
                 break;
