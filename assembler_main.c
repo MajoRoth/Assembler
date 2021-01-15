@@ -16,7 +16,10 @@ int assembler (FILE *file_path){
     char line[80];
     char *label;
     char *directive;
-    char *temp;
+
+    char *temp_s;
+    char temp_c
+    int temp_i;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
@@ -34,14 +37,31 @@ int assembler (FILE *file_path){
         }
 
         if (is_direct==TRUE){
-            if(is_label==TRUE && directive==*data){
+            if(is_label==TRUE && (*directive==data || *directive==string)){
                 /* deal with attributes array [2] later */
                 /* add the line to the symbol table */
                 add_symbol_node(label, DC, "data", get_last_node(root));
                 /* add the command to the data table */
 
-                    /* evaluate for cases - if string add each char in different word and finish with \0
-                     * if str just put the numbers until there is no more numbers */
+                /* evaluate for cases - if string add each char in different word and finish with \0
+                * if str just put the numbers until there is no more numbers */
+                if (*directive == data){
+                    while ((c=get_next_token()) != NULL){
+                        temp_i = atoi(drop_comma(c));
+                        directive_memory[DC].w = get_word(temp_i);
+                        DC++;
+                    }
+                }
+                else{
+                    c=get_next_token();
+                    c = drop_comma(c);
+                    for (temp_i = 0;  c[temp_i] != '\0' ; temp_i++) {
+                        directive_memory[DC].w = get_word(c[temp_i]);
+                        DC++;
+                    }
+                    directive_memory[DC] = get_word('\0');
+                    DC++;
+                }
             }
         }
         else{

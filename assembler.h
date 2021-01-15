@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_TABLE 4096
 #define MAX_LINE 80;
@@ -38,7 +39,7 @@ typedef struct SymbolNode{
     int attributes[2]; // one line can have 2 symbols. for example data and extern
 } SymbolNode;
 
-enum attribute {code, data, external, entry};
+enum attribute {code, data, external, entry, string};
 enum ARE {A, R, E};
 enum boolean {FALSE, TRUE};
 
@@ -54,4 +55,7 @@ SymbolNode *get_last_node(SymbolNode *root);
 /* text process */
 char *get_line();
 int is_directive(char *line);
+char *get_next_token();
+void drop_comma(char *str);
+word *get_word(int i);
 

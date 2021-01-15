@@ -34,6 +34,23 @@ char *get_next_token() {
     return token;
 }
 
+void drop_comma(char *str) {
+    char *src, *dst;
+    char del = ',';
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != del) dst++;
+    }
+    *dst = '\0';
+}
+
+word *get_word(int i) {
+    word w;
+    w.bits = i;
+    return w;
+
+}
+
 int is_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
