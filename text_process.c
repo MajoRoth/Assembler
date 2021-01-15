@@ -15,6 +15,25 @@ char *get_line(FILE *file_name){
     return line;
 }
 
+char *get_first_token(char *line) {
+    /*
+     * call this function the first time on evey new line - then call the rest of the times get_next_token()
+     * line - the output from get_line()
+    */
+    char *token;
+    token = strtok(line, " ");
+    return token;
+}
+
+char *get_next_token() {
+    /*
+     * call this function only if you called get_first_token() before!
+    */
+    char *token;
+    token = strtok(NULL, " ");
+    return token;
+}
+
 int is_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/

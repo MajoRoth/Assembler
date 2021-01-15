@@ -8,7 +8,7 @@ int assembler (FILE *file_path){
     RamNode command_memory[4096]; /* we need diferent tabels for code and instructions */
     RamNode directive_memory[4096] /* IDO - BUILD 2 LINKED LISTS */
     struct OperationItem hash_table[16] = get_operation_table();
-    SymbolNode root;
+    SymbolNode root = get_symbol_root();
 
     int IC = 100;
     int DC = 0;
@@ -33,14 +33,12 @@ int assembler (FILE *file_path){
         }
 
         if (is_direct==TRUE){
-            if(is_label==TRUE && directive==data){
+            if(is_label==TRUE && directive==*data){
                 /* deal with attributes array [2] later */
-                if (DC==0){
-                    root = get_symbol_root(label, IC, data) /* enter the 3 params needed */
-                }
-                else{
-                    add_symbol_node(label, IC, data, root); /* enter the 3 params needed */
-                }
+                /* add the line to the symbol table */
+                add_symbol_node(label, DC, "data", get_last_node(root));
+                /* add the command to the data table */
+
             }
         }
         else{

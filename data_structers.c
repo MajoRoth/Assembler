@@ -36,12 +36,12 @@ int get_opcode_by_name(char *name, struct OperationItem hash_table[]){
 
 /* initialize symbols table - linked list */
 
-SymbolNode *get_symbol_root(char *symbol, int value, int attributes){
+SymbolNode *get_symbol_root(){
     /* init a new symbols linked list */
     SymbolNode root;
-    root.attributes = attributes; /* add capacity for 2 later */
-    root.value = value;
-    root.symbol = symbol;
+    root.attributes = NULL; /* add capacity for 2 later */
+    root.value = *NULL;
+    root.symbol = NULL;
     root.next = NULL;
 
     return root;
@@ -55,5 +55,43 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode 
     node.symbol = symbol;
     prev->next = node;
     return root;
+}
+
+SymbolNode *get_last_node(SymbolNode *root){
+    SymbolNode *last_node = *root;
+    while (last_node->next != NULL){
+        last_node = last_node->next;
+    }
+    return last_node;
+}
+
+/* data table */
+SymbolNode *get_symbol_root(){
+    /* init a new symbols linked list */
+    SymbolNode root;
+    root.attributes = NULL; /* add capacity for 2 later */
+    root.value = *NULL;
+    root.symbol = NULL;
+    root.next = NULL;
+
+    return root;
+}
+
+SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode *prev){
+    /* add symbol node to an existing linked list */
+    SymbolNode node;
+    node.attributes = attributes; /* add capacity for 2 later */
+    node.value = value;
+    node.symbol = symbol;
+    prev->next = node;
+    return root;
+}
+
+SymbolNode *get_last_node(SymbolNode *root){
+    SymbolNode *last_node = *root;
+    while (last_node->next != NULL){
+        last_node = last_node->next;
+    }
+    return last_node;
 }
 
