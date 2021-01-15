@@ -5,8 +5,8 @@
 
 int assembler (FILE *file_path){
     /* declaring data types */
-    RamNode command_memory[4096]; /* we need diferent tabels for code and instructions */
-    RamNode directive_memory[4096] /* IDO - BUILD 2 LINKED LISTS */
+    TableRow command_memory[MAX_TABLE];
+    TableRow directive_memory[MAX_TABLE];
     struct OperationItem hash_table[16] = get_operation_table();
     SymbolNode root = get_symbol_root();
 
@@ -16,6 +16,7 @@ int assembler (FILE *file_path){
     char line[80];
     char *label;
     char *directive;
+    char *temp;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
@@ -39,6 +40,8 @@ int assembler (FILE *file_path){
                 add_symbol_node(label, DC, "data", get_last_node(root));
                 /* add the command to the data table */
 
+                    /* evaluate for cases - if string add each char in different word and finish with \0
+                     * if str just put the numbers until there is no more numbers */
             }
         }
         else{

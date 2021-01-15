@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_TABLE 4096
 #define MAX_LINE 80;
 #define MAX_LABEL 31;
 #define MAX_DIRECTIVE 6;
@@ -19,7 +20,7 @@ typedef struct word{
     unsigned int bits:12;
 } word;
 
-typedef struct RamNode{
+typedef struct TableRow{
     word w;
     int ARE;
 } RamNode;
