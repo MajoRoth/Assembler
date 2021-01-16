@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define MAX_TABLE 4096
 #define MAX_LINE 80;
@@ -55,7 +56,9 @@ SymbolNode *get_last_node(SymbolNode *root);
 /* text process */
 char *get_line();
 int is_directive(char *line);
+char *get_first_token(char *line);
 char *get_next_token();
 void drop_comma(char *str);
 word *get_word(int i);
+char get_command(char *line, int i, int *command_type);
 

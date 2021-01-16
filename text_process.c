@@ -44,6 +44,19 @@ void drop_comma(char *str) {
     *dst = '\0';
 }
 
+void drop_marks(char *str) {
+    /* NEED TO BE WRITEN - FUNCTION NOT READY */
+    char *src, *dst;
+    char del = ',';
+    for (src = dst = str; *src != '\0'; src++) {
+        *dst = *src;
+        if (*dst != del) dst++;
+    }
+    *dst = '\0';
+}
+
+
+
 word *get_word(int i) {
     word w;
     w.bits = i;
@@ -51,7 +64,7 @@ word *get_word(int i) {
 
 }
 
-int is_label(char *line, char *label){
+char *is_label(char *line){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
@@ -59,11 +72,11 @@ int is_label(char *line, char *label){
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* checks wether c in A-Z or a-z */
-                return i; /* need to be check if label already exists in symbol table */
+                return label; /* need to be check if label already exists in symbol table */
             }
             else{
                 printf("ERROR: label {} does not start with a letter", label);/*exit program? */
-                return i;
+                return label;
             }
         }
         if ((48 <= line[i] && line[i] <= 57) || (65 <= line[i] && line[i] <= 90) || (97 <= line[i] && line[i] <= 122)){
@@ -71,7 +84,7 @@ int is_label(char *line, char *label){
             label[i] = line[i];
         }
         else if{
-            return 0;
+            return "\0";
         }
     }
 }

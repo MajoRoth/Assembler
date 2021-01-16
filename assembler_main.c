@@ -15,7 +15,8 @@ int assembler (FILE *file_path){
     int L = 0;
     char line[80];
     char *label;
-    char *directive;
+    int directive;
+    char *argument;
 
     char *temp_s;
     char temp_c
@@ -27,17 +28,22 @@ int assembler (FILE *file_path){
     int attributes[2];
 
     while ((line = get_line(file_path)) != '\0'){
-        i = is_label(line, label);
-        if (label = is_label(line) != '\0'){
+        argument = get_first_token(line);
+        if ((label = is_label(argument)) != '\0'){
             is_label = TRUE;
+            argument = get_next_token();
+            if ((directive = is_directive(argument)) != -1){
+                is_direct = TRUE;
+            }
         }
-
-        if ((directive = is_directive(line, i, *directive)) != -1){
+        else ((directive = is_directive(argument)) != -1){
             is_direct = TRUE;
         }
 
+
         if (is_direct==TRUE){
-            if(is_label==TRUE && (*directive==data || *directive==string)){
+            /* THIS LINE IS A DIRECT LINE */
+            if (is_label==TRUE && (directive==data || directive==string)){
                 /* deal with attributes array [2] later */
                 /* add the line to the symbol table */
                 add_symbol_node(label, DC, "data", get_last_node(root));
@@ -45,16 +51,22 @@ int assembler (FILE *file_path){
 
                 /* evaluate for cases - if string add each char in different word and finish with \0
                 * if str just put the numbers until there is no more numbers */
-                if (*directive == data){
+                if (directive == data){
                     while ((c=get_next_token()) != NULL){
-                        temp_i = atoi(drop_comma(c));
+                        drop_comma(c);
+                        if (atoi(c) == 0 && !isdigit(drop_comma(c))) {
+                            /* PRINT ERROR MESSAGE ?? */
+                            continue;
+                        }
+                        drop_comma(c);
+                        temp_i = atoi(c);
                         directive_memory[DC].w = get_word(temp_i);
                         DC++;
                     }
                 }
                 else{
-                    c=get_next_token();
-                    c = drop_comma(c);
+                    c = get_next_token();
+                    drop_marks(c);
                     for (temp_i = 0;  c[temp_i] != '\0' ; temp_i++) {
                         directive_memory[DC].w = get_word(c[temp_i]);
                         DC++;
@@ -65,6 +77,7 @@ int assembler (FILE *file_path){
             }
         }
         else{
+            /* THIS LINE IS A INSTRUCTION LINE */
             if (is_label==TRUE){
                 /* ADD TO THE SYMBOL TABLE */
             }
