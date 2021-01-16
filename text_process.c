@@ -99,7 +99,7 @@ int is_directive(char *line, int i, int *directive_type){/*enum element is int??
                 return i;
             }
             else{
-                directive += line[i];
+                strcat(directive, line[i]);
                 }
                 
             }
