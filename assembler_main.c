@@ -64,7 +64,7 @@ int assembler (FILE *file_path){
                         DC++;
                     }
                 }
-                else{
+                else {
                     c = get_next_token();
                     drop_marks(c);
                     for (temp_i = 0;  c[temp_i] != '\0' ; temp_i++) {
@@ -75,6 +75,13 @@ int assembler (FILE *file_path){
                     DC++;
                 }
             }
+            else if (directive==external){
+                add_symbol_node(label, 0, "external", get_last_node(root));
+            }
+            else {
+                /* intern - we dont deal with that in the first round */
+            }
+
         }
         else{
             /* THIS LINE IS A INSTRUCTION LINE */
