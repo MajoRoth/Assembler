@@ -31,6 +31,9 @@ typedef struct OperationItem{
     char *name;
     int opcode;
     int funct;
+    int words_num; /* L */
+    int legal_source[4];
+    int legal_dest[4];
 } OperationItem;
 
 typedef struct SymbolNode{
@@ -63,4 +66,5 @@ word *get_word(int i);
 char *is_label(char *line)
 int is_directive(char *argument);
 char get_command(char *argument);
+
 

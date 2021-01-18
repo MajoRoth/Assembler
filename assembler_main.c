@@ -7,7 +7,7 @@ int assembler (FILE *file_path){
     /* declaring data types */
     TableRow command_memory[MAX_TABLE];
     TableRow directive_memory[MAX_TABLE];
-    struct OperationItem hash_table[16] = get_operation_table();
+    OperationItem operation_table[16] = get_operation_table();
     SymbolNode root = get_symbol_root();
 
     int IC = 100;
@@ -17,6 +17,7 @@ int assembler (FILE *file_path){
     char *label;
     int directive;
     char *argument;
+    OperationItem command;
 
     char *temp_s;
     char temp_c
@@ -87,10 +88,19 @@ int assembler (FILE *file_path){
             /* THIS LINE IS A INSTRUCTION LINE */
             if (is_label==TRUE){
                 /* ADD TO THE SYMBOL TABLE */
+                add_symbol_node(label, IC, "code", get_last_node(root));
             }
             /* search the operation name (mov, add) int the table */
-            /* ask for the attributes depends on the operation youve got */
-            /* set L to the number of operands */
+            command = get_command(get_next_token(), operation_table);
+
+            /*
+             * word = get_first_word();
+             * command_array[IC] = word;
+             * IC++
+             * word = get_next()
+             * command_array[IC] = word;
+             * IC++
+             */
 
             /* generate the code and add it to the ram */
             IC += L;

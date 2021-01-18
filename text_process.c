@@ -47,7 +47,7 @@ void drop_comma(char *str) {
 void drop_marks(char *str) {
     /* NEED TO BE WRITEN - FUNCTION NOT READY */
     char *src, *dst;
-    char del = ',';
+    char del = '\"';
     for (src = dst = str; *src != '\0'; src++) {
         *dst = *src;
         if (*dst != del) dst++;
@@ -111,6 +111,7 @@ int is_directive(char *argument){
                 i++;
             }
 
+            /* IDO CHANGE IT UNTIL NEXT MEETING TO IF ELSE, WITH STRCMP */
             switch (directive){
             case 'string':
                 return string;
@@ -127,7 +128,7 @@ int is_directive(char *argument){
         }
     }
 
-char get_command(char *argument){
+OperationItem get_command(char *argument, OperationItem table[16]){
     /* ignores spaces and returns the next command */
     char *command;
     int i = 1;
@@ -142,40 +143,49 @@ char get_command(char *argument){
             i++;
     }
 
-            switch (directive){
-                case 'mov':
-                    return mov;
-                case 'cmp':
-                    return cmp;
-                case 'add':
-                    return add;
-                case 'sub':
-                    return sub;
-                case 'lea':
-                    return lea;
-                case 'not':
-                    return not;
-                case 'ine':
-                    return ine;
-                case 'dec':
-                    return dec;
-                case 'jmp':
-                    return jmp;
-                case 'bne':
-                    return bne;
-                case 'jsr':
-                    return jsr;
-                case 'red':
-                    return red;
-                case 'prn':
-                    return prn;
-                case 'rts':
-                    return rts;
-                case 'stop':
-                    return stop;
-                
-                default:
-                    return -1;
+    for (i=0, i< 16; i++){
+        if (strcmp(table[i].name, command) ==0){
+            return table[i];
+        }
+    }
+
+    return NULL;
+    /*
+    switch (directive){
+        case 'mov':
+            return mov;
+        case 'cmp':
+            return cmp;
+        case 'add':
+            return add;
+        case 'sub':
+            return sub;
+        case 'lea':
+            return lea;
+        case 'not':
+            return not;
+        case 'ine':
+            return ine;
+        case 'dec':
+            return dec;
+        case 'jmp':
+            return jmp;
+        case 'bne':
+            return bne;
+        case 'jsr':
+            return jsr;
+        case 'red':
+            return red;
+        case 'prn':
+            return prn;
+        case 'rts':
+            return rts;
+        case 'stop':
+            return stop;
+
+        default:
+            return -1;
+            */
     }
 }
 

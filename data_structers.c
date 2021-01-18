@@ -10,6 +10,8 @@ OperationItem *get_operation_table(){
     struct OperationItem hash_table[16];
     // initial all of the items and add them to the table
 
+    /* AMIT - UNTIL NEXT MEETING INITIAL ALL OPERATION ITEMS WITH THA VALUES */
+
     hash_table = {mov, cmp, add, sub, lea, clr, not, ine, dec, jmp, bne, jsr, red, prn, rts, stop};
     return hash_table;
 }
