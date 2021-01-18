@@ -64,7 +64,7 @@ word *get_word(int i) {
 
 }
 
-char *is_label(char *line){
+char *get_label(char *line){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;

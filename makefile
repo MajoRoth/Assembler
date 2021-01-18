@@ -1,0 +1,2 @@
+assembler: assembler.h assembler_main.c data_structers.c error_handlers.c main.c text_process.c
+	gcc -Wall -ansi -pedantic assembler.h assembler_main.c  data_structers.c error_handlers.c main.c text_process.c

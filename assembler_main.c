@@ -1,6 +1,3 @@
-//
-// Created by Amit Roth on 09/01/2021.
-//
 #include "assembler.h"
 
 int assembler (FILE *file_path){
@@ -8,36 +5,36 @@ int assembler (FILE *file_path){
     TableRow command_memory[MAX_TABLE];
     TableRow directive_memory[MAX_TABLE];
     OperationItem operation_table[16] = get_operation_table();
-    SymbolNode root = get_symbol_root();
+    SymbolNode *root = get_symbol_root();
 
     int IC = 100;
     int DC = 0;
     int L = 0;
     char line[80];
     char *label;
-    int directive;
+    int directive=data;
     char *argument;
     OperationItem command;
 
     char *temp_s;
-    char temp_c
+    char temp_c;
     int temp_i;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
-    int directive = data;
     int attributes[2];
 
-    while ((line = get_line(file_path)) != '\0'){
+    while (strcmp(line, "\0") != 0){
+        /* (line = get_line(file_path)) != '\0' */
         argument = get_first_token(line);
-        if ((label = is_label(argument)) != '\0'){
+        if ((label = get_label(argument)) != "\0"){
             is_label = TRUE;
             argument = get_next_token();
             if ((directive = is_directive(argument)) != -1){
                 is_direct = TRUE;
             }
         }
-        else ((directive = is_directive(argument)) != -1){
+        else if ((directive = is_directive(argument)) != -1){
             is_direct = TRUE;
         }
 
@@ -53,14 +50,13 @@ int assembler (FILE *file_path){
                 /* evaluate for cases - if string add each char in different word and finish with \0
                 * if str just put the numbers until there is no more numbers */
                 if (directive == data){
-                    while ((c=get_next_token()) != NULL){
-                        drop_comma(c);
-                        if (atoi(c) == 0 && !isdigit(drop_comma(c))) {
+                    while ((temp_s=get_next_token()) != NULL){
+                        drop_comma(temp_s);
+                        if (atoi(temp_s) == 0 && !isdigit(temp_s)) {
                             /* PRINT ERROR MESSAGE ?? */
                             continue;
                         }
-                        drop_comma(c);
-                        temp_i = atoi(c);
+                        temp_i = atoi(temp_s);
                         directive_memory[DC].w = get_word(temp_i);
                         DC++;
                     }
@@ -108,6 +104,8 @@ int assembler (FILE *file_path){
 
         /* reset the variabels */
         L=0;
+
+        strcpy(line, get_line(file_path));
 
 
 

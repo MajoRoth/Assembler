@@ -1,11 +1,7 @@
-//
-// Created by Amit Roth on 09/01/2021.
-//
-
 #ifndef ASSEMBLER_ASSEMBLER_H
 #define ASSEMBLER_ASSEMBLER_H
 
-#endif //ASSEMBLER_ASSEMBLER_H
+#endif
 
 #include <stdio.h>
 #include <string.h>
@@ -25,7 +21,7 @@ typedef struct word{
 typedef struct TableRow{
     word w;
     int ARE;
-} RamNode;
+} TableRow;
 
 typedef struct OperationItem{
     char *name;
@@ -37,10 +33,10 @@ typedef struct OperationItem{
 } OperationItem;
 
 typedef struct SymbolNode{
-    SymbolNode *next;
+    struct SymbolNode *next;
     char *symbol;
     int value;
-    int attributes[2]; // one line can have 2 symbols. for example data and extern
+    int attributes[2]; /* one line can have 2 symbols. for example data and extern */
 } SymbolNode;
 
 enum attribute {code, data, external, entry, string};
@@ -61,9 +57,9 @@ char *get_line();
 char *get_first_token(char *line);
 char *get_next_token();
 void drop_comma(char *str);
-void drop_marks(char *str)
+void drop_marks(char *str);
 word *get_word(int i);
-char *is_label(char *line)
+char *get_label(char *line);
 int is_directive(char *argument);
 char get_command(char *argument);
 
