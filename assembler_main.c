@@ -92,7 +92,7 @@ int assembler (FILE *file_path){
             }
             /* search the operation name (mov, add) int the table */
             command = get_command(get_next_token(), operation_table);
-
+            L = command.words_num;
             /*
              * word = get_first_word();
              * command_array[IC] = word;
