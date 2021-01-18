@@ -89,77 +89,93 @@ char *is_label(char *line){
     }
 }
 
-int is_directive(char *line, int i, int *directive_type){/*enum element is int??? */
+int is_directive(char *argument){
     /* checks for label. if there is label set the flag is_label to true, else to false
-     * returns enum attribute {code, data, external, entry} or -1*/
-    char directive;
-    /* ignores the spaces */
-    while(line[i] == ' ' || line[i] == '\t'){
-        i++
+     * returns enum attribute {code, string, data, external, entry} or -1*/
+    char *directive;
+    int i = 1;
+    /*checks wether the argument is a directive*/
+    if (argument[0] != '.'){
+        return -1; 
     }
-    /*checks wether the next "word" is a directive*/
-    if (line[i] != '.'){
-        directive_type = -1; 
-        return i;
-    }
-    else{
-        /*in case there is a directive, finds what it is*/
-        i++;
-        while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
-            if (line[i] < 97 || line[i] > 122){/*directive only include small letters*/
+
+    else{/*in case there is a directive, finds what it is*/
+        while(argument[i] != '\0'){
+            if (argument[i] < 97 || argument[i] > 122 || i > MAX_DIRECTIVE+2){/*directive only include small letters*/
                 printf("ERROR: directive is not valid");/*exit the program??*/
-                directive_type = -1;
-                return i;
+                return -1;
             }
             else{
-                strcat(directive, line[i]);
+                strcat(directive, argument[i]);
                 }
-                
+                i++;
             }
+
             switch (directive){
             case 'string':
-                directive_type = string;
-                break;
+                return string;
             case 'data':
-                directive_type = data;
-                break;
-            
+                return data;
             case 'extern':
-                directive_type = external;
-                break;
-            
+                return external;
             case 'entry':
-                directive_type = entry;
-                break;
+                return entry;
             
             default:
-                directive_type = -1;
-                break;
+                return -1;
             }
-
-            return i;
-
         }
-
-
     }
-}
 
-char get_command(char *line, int i, int *command_type){
+char get_command(char *argument){
     /* ignores spaces and returns the next command */
-    char command;
-    while(line[i] == ' ' || line[i] == '\t'){
-        i++
-    }
-    while(line[i] != ' ' && line[i] != '\t' line[i] != '\0'){
-            if (line[i] < 97 || line[i] > 122){/*commands only include small letters*/
+    char *command;
+    int i = 1;
+    while(argument[i] != '\0'){
+            if (argument[i] < 97 || argument[i] > 122 || i>MAX_COMMAND+1){/*commands only include small letters*/
                 printf("ERROR: command is not valid");/*exit the program??*/
-                command_type = -1;
-                return i;
+                return -1;
             }
             else{
-                command += line[i];
+                strcat(command, argument[i]);
             }
+            i++;
+    }
+
+            switch (directive){
+                case 'mov':
+                    return mov;
+                case 'cmp':
+                    return cmp;
+                case 'add':
+                    return add;
+                case 'sub':
+                    return sub;
+                case 'lea':
+                    return lea;
+                case 'not':
+                    return not;
+                case 'ine':
+                    return ine;
+                case 'dec':
+                    return dec;
+                case 'jmp':
+                    return jmp;
+                case 'bne':
+                    return bne;
+                case 'jsr':
+                    return jsr;
+                case 'red':
+                    return red;
+                case 'prn':
+                    return prn;
+                case 'rts':
+                    return rts;
+                case 'stop':
+                    return stop;
+                
+                default:
+                    return -1;
     }
 }
 
