@@ -231,7 +231,7 @@ int get_opcode_by_name(char *name, struct OperationItem hash_table[]){
 SymbolNode *get_symbol_root(){
     /* init a new symbols linked list */
     SymbolNode *root;
-    root.attributes = NULL; /* add capacity for 2 later */
+    root.attributes = -1; /* add capacity for 2 later */
     root.value = *NULL;
     root.symbol = NULL;
     root->next = NULL;
@@ -243,8 +243,8 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode 
     /* add symbol node to an existing linked list */
     SymbolNode *node;
     node.attributes[0] = attributes; /* add capacity for 2 later */
-    node.value = value;
-    node.symbol = symbol;
+    node.value = *value;
+    strcpy(node->symbol, symbol)
     prev->next = node;
     return root;
 }

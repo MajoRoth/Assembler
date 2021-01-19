@@ -4,7 +4,8 @@ int assembler (FILE *file_path){
     /* declaring data types */
     TableRow command_memory[MAX_TABLE];
     TableRow directive_memory[MAX_TABLE];
-    OperationItem operation_table[OPT_SIZE] = get_operation_table();
+    /* OperationItem operation_table[OPT_SIZE] = get_operation_table(); */
+    OperationItem *operation_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
     SymbolNode *root = get_symbol_root();
 
     int IC = 100;
@@ -23,6 +24,8 @@ int assembler (FILE *file_path){
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
     int attributes[2];
+
+    operation_table = get_operation_table();
 
     while (strcmp(line, "\0") != 0){
         /* (line = get_line(file_path)) != '\0' */

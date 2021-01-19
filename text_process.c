@@ -148,7 +148,7 @@ OperationItem get_command(char *argument, OperationItem table[]){
         }
     }
 
-    return NULL;
+    return table[16]; /* represents null */
     /*
     switch (directive){
         case 'mov':
