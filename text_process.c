@@ -1,15 +1,14 @@
-//
-// Created by Amit Roth on 11/01/2021.
-//
+
 #include "assembler.h"
 char *get_line(FILE *file_name){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
     char line[MAX_LINE];
-    int i=0
+    int i=0;
+    char c;
     while ((c=getc(file_name)) != '\n'){
-        if (c == '\0') return '\0'
+        if (c == '\0') return '\0';
         line[i] = c;
-        i++
+        i++;
     }
 
     return line;
@@ -58,8 +57,8 @@ void drop_marks(char *str) {
 
 
 word *get_word(int i) {
-    word w;
-    w.bits = i;
+    word *w;
+    w->bits = i;
     return w;
 
 }
@@ -75,7 +74,7 @@ char *get_label(char *line){
                 return label; /* need to be check if label already exists in symbol table */
             }
             else{
-                printf("ERROR: label {} does not start with a letter", label);/*exit program? */
+                printf("ERROR: label %s does not start with a letter", label);/*exit program? */
                 return label;
             }
         }
@@ -83,7 +82,7 @@ char *get_label(char *line){
             /* checks wether c in A-Z or a-z  or 0-9*/
             label[i] = line[i];
         }
-        else if{
+        else {
             return "\0";
         }
     }
@@ -101,12 +100,12 @@ int is_directive(char *argument){
 
     else{/*in case there is a directive, finds what it is*/
         while(argument[i] != '\0'){
-            if (argument[i] < 97 || argument[i] > 122 || i > MAX_DIRECTIVE+2){/*directive only include small letters*/
+            if (argument[i] < 97 || argument[i] > 122 || i > (MAX_DIRECTIVE+2)){/*directive only include small letters*/
                 printf("ERROR: directive is not valid");/*exit the program??*/
                 return -1;
             }
             else{
-                strcat(directive, argument[i]);
+                strcat(directive, &argument[i]);
                 }
                 i++;
             }
@@ -128,22 +127,22 @@ int is_directive(char *argument){
         }
     }
 
-OperationItem get_command(char *argument, OperationItem table[16]){
+OperationItem get_command(char *argument, OperationItem table[]){
     /* ignores spaces and returns the next command */
     char *command;
     int i = 1;
     while(argument[i] != '\0'){
-            if (argument[i] < 97 || argument[i] > 122 || i>MAX_COMMAND+1){/*commands only include small letters*/
+            if (argument[i] < 97 || argument[i] > 122 || i>( MAX_COMMAND+1 )){/*commands only include small letters*/
                 printf("ERROR: command is not valid");/*exit the program??*/
-                return -1;
+                return table[16]; /* represents null */
             }
             else{
-                strcat(command, argument[i]);
+                strcat(command, &argument[i]);
             }
             i++;
     }
 
-    for (i=0, i< 16; i++){
+    for (i=0; i< 16; i++){
         if (strcmp(table[i].name, command) ==0){
             return table[i];
         }
@@ -185,8 +184,8 @@ OperationItem get_command(char *argument, OperationItem table[16]){
 
         default:
             return -1;
-            */
     }
+     */
 }
 
 

@@ -9,10 +9,11 @@
 #include <ctype.h>
 
 #define MAX_TABLE 4096
-#define MAX_LINE 80;
-#define MAX_LABEL 31;
-#define MAX_DIRECTIVE 6;
-#define MAX_COMMAND 4;
+#define MAX_LINE 80
+#define MAX_LABEL 31
+#define MAX_DIRECTIVE 6
+#define MAX_COMMAND 4
+#define OPT_SIZE 17
 
 typedef struct word{
     unsigned int bits:12;
@@ -28,8 +29,8 @@ typedef struct OperationItem{
     int opcode;
     int funct;
     int words_num; /* L */
-    int legal_source[4];
-    int legal_dest[4];
+    int legal_source[3];
+    int legal_dest[3];
 } OperationItem;
 
 typedef struct SymbolNode{
@@ -61,6 +62,6 @@ void drop_marks(char *str);
 word *get_word(int i);
 char *get_label(char *line);
 int is_directive(char *argument);
-char get_command(char *argument);
+OperationItem get_command(char *argument, OperationItem table[OPT_SIZE]);
 
 
