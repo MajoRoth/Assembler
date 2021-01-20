@@ -11,8 +11,6 @@
 #define MAX_TABLE 4096
 #define MAX_LINE 80
 #define MAX_LABEL 31
-#define MAX_DIRECTIVE 6
-#define MAX_COMMAND 4
 #define OPT_SIZE 17
 
 typedef struct word{

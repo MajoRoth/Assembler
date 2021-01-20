@@ -89,105 +89,32 @@ char *get_label(char *line){
 }
 
 int is_directive(char *argument){
-    /* checks for label. if there is label set the flag is_label to true, else to false
+    /* checks for label.
      * returns enum attribute {code, string, data, external, entry} or -1*/
-    char *directive;
-    int i = 1;
-    /*checks wether the argument is a directive*/
-    if (argument[0] != '.'){
-        return -1; 
+    if (!strcmp(argument, '.string')){
+        return string;
     }
-
-    else{/*in case there is a directive, finds what it is*/
-        while(argument[i] != '\0'){
-            if (argument[i] < 97 || argument[i] > 122 || i > (MAX_DIRECTIVE+2)){/*directive only include small letters*/
-                printf("ERROR: directive is not valid");/*exit the program??*/
-                return -1;
-            }
-            else{
-                strcat(directive, &argument[i]);
-                }
-                i++;
-            }
-
-            /* IDO CHANGE IT UNTIL NEXT MEETING TO IF ELSE, WITH STRCMP */
-            switch (directive){
-            case 'string':
-                return string;
-            case 'data':
-                return data;
-            case 'extern':
-                return external;
-            case 'entry':
-                return entry;
-            
-            default:
-                return -1;
-            }
-        }
+    else if (!strcmp(argument, '.data')){
+        return data;
     }
+    else if (!strcmp(argument, '.extern')){
+        return external;
+    }
+    else if (!strcmp(argument, '.entry')){
+        return entry;
+    }
+    else{
+        return -1;
+    }    
+}
 
 OperationItem get_command(char *argument, OperationItem table[]){
     /* ignores spaces and returns the next command */
-    char *command;
-    int i = 1;
-    while(argument[i] != '\0'){
-            if (argument[i] < 97 || argument[i] > 122 || i>( MAX_COMMAND+1 )){/*commands only include small letters*/
-                printf("ERROR: command is not valid");/*exit the program??*/
-                return table[16]; /* represents null */
-            }
-            else{
-                strcat(command, &argument[i]);
-            }
-            i++;
-    }
-
+    int i;
     for (i=0; i< 16; i++){
-        if (strcmp(table[i].name, command) ==0){
+        if (!strcmp(table[i].name, argument)){
             return table[i];
         }
     }
-
-    return table[16]; /* represents null */
-    /*
-    switch (directive){
-        case 'mov':
-            return mov;
-        case 'cmp':
-            return cmp;
-        case 'add':
-            return add;
-        case 'sub':
-            return sub;
-        case 'lea':
-            return lea;
-        case 'not':
-            return not;
-        case 'ine':
-            return ine;
-        case 'dec':
-            return dec;
-        case 'jmp':
-            return jmp;
-        case 'bne':
-            return bne;
-        case 'jsr':
-            return jsr;
-        case 'red':
-            return red;
-        case 'prn':
-            return prn;
-        case 'rts':
-            return rts;
-        case 'stop':
-            return stop;
-
-        default:
-            return -1;
-    }
-     */
+    return hash_table[16];
 }
-
-
-
-
