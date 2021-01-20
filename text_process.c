@@ -2,11 +2,11 @@
 #include "assembler.h"
 char *get_line(FILE *file_name){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
-    char line[MAX_LINE];
+    char *line = (char *)malloc(MAX_LINE * sizeof (char));
     int i=0;
     char c;
     while ((c=getc(file_name)) != '\n'){
-        if (c == '\0') return '\0';
+        if (c == '\0') return "\0";
         line[i] = c;
         i++;
     }
@@ -57,7 +57,7 @@ void drop_marks(char *str) {
 
 
 word *get_word(int i) {
-    word *w;
+    word *w = (word *)malloc(sizeof(word));
     w->bits = i;
     return w;
 
@@ -68,6 +68,7 @@ char *get_label(char *line){
      * returns the index which the line resumes*/
     int i;
     char *label;
+    label = " ";
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* checks wether c in A-Z or a-z */
@@ -86,21 +87,22 @@ char *get_label(char *line){
             return "\0";
         }
     }
+    return "\0";
 }
 
 int is_directive(char *argument){
     /* checks for label.
      * returns enum attribute {code, string, data, external, entry} or -1*/
-    if (!strcmp(argument, '.string')){
+    if (!strcmp(argument, ".string")){
         return string;
     }
-    else if (!strcmp(argument, '.data')){
+    else if (!strcmp(argument, ".data")){
         return data;
     }
-    else if (!strcmp(argument, '.extern')){
+    else if (!strcmp(argument, ".extern")){
         return external;
     }
-    else if (!strcmp(argument, '.entry')){
+    else if (!strcmp(argument, ".entry")){
         return entry;
     }
     else{
@@ -116,5 +118,6 @@ OperationItem get_command(char *argument, OperationItem table[]){
             return table[i];
         }
     }
-    return hash_table[16];
+    return table[16];
 }
+

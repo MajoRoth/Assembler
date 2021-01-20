@@ -4,7 +4,7 @@
 
 OperationItem *get_operation_table(){
     OperationItem mov, cmp, add, sub, lea, clr, not, inc, dec, jmp, bne, jsr, red, prn, rts, stop, null;
-    OperationItem hash_table[OPT_SIZE];
+        OperationItem *hash_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
     /* initial all of the items and add them to the table */
     /* -1 represents None */
     mov.name = "mov";
@@ -230,10 +230,10 @@ int get_opcode_by_name(char *name, struct OperationItem hash_table[]){
 
 SymbolNode *get_symbol_root(){
     /* init a new symbols linked list */
-    SymbolNode *root;
-    root.attributes = -1; /* add capacity for 2 later */
-    root.value = *NULL;
-    root.symbol = NULL;
+    SymbolNode *root = (SymbolNode *)malloc(sizeof(SymbolNode));
+    root->attributes[0] = -1; /* add capacity for 2 later */
+    root->value = -1;
+    root->symbol = "\0";
     root->next = NULL;
 
     return root;
@@ -241,49 +241,18 @@ SymbolNode *get_symbol_root(){
 
 SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode *prev){
     /* add symbol node to an existing linked list */
-    SymbolNode *node;
-    node.attributes[0] = attributes; /* add capacity for 2 later */
-    node.value = *value;
-    strcpy(node->symbol, symbol)
+    SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
+    node->attributes[0] = attributes; /* add capacity for 2 later */
+    node->value = value;
+    strcpy(node->symbol, symbol);
     prev->next = node;
-    return root;
+    return node;
 }
 
 SymbolNode *get_last_node(SymbolNode *root){
-    SymbolNode *last_node = *root;
+    SymbolNode *last_node = root;
     while (last_node->next != NULL){
         last_node = last_node->next;
     }
     return last_node;
 }
-
-/* data table */
-SymbolNode *get_symbol_root(){
-    /* init a new symbols linked list */
-    SymbolNode root;
-    root.attributes = NULL; /* add capacity for 2 later */
-    root.value = *NULL;
-    root.symbol = NULL;
-    root.next = NULL;
-
-    return root;
-}
-
-SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode *prev){
-    /* add symbol node to an existing linked list */
-    SymbolNode node;
-    node.attributes = attributes; /* add capacity for 2 later */
-    node.value = value;
-    node.symbol = symbol;
-    prev->next = node;
-    return root;
-}
-
-SymbolNode *get_last_node(SymbolNode *root){
-    SymbolNode *last_node = *root;
-    while (last_node->next != NULL){
-        last_node = last_node->next;
-    }
-    return last_node;
-}
-

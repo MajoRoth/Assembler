@@ -2,8 +2,8 @@
 
 int assembler (FILE *file_path){
     /* declaring data types */
-    TableRow command_memory[MAX_TABLE];
-    TableRow directive_memory[MAX_TABLE];
+    /*TableRow *command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));*/
+    TableRow *directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     /* OperationItem operation_table[OPT_SIZE] = get_operation_table(); */
     OperationItem *operation_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
     SymbolNode *root = get_symbol_root();
@@ -18,12 +18,11 @@ int assembler (FILE *file_path){
     OperationItem command;
 
     char *temp_s;
-    char temp_c;
+    /*char temp_c; commented to silence unused warning. uncomment when needed */
     int temp_i;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
-    int attributes[2];
 
     operation_table = get_operation_table();
 
@@ -92,6 +91,8 @@ int assembler (FILE *file_path){
             }
             /* search the operation name (mov, add) int the table */
             command = get_command(get_next_token(), operation_table);
+            /*command_memory[IC] = get_first_word()  IDO - WRITE THIS FUNCTION */
+            /* command_memory has been comented to silence a warning. uncoment when needed */
             L = command.words_num;
             /*
              * word = get_first_word();
@@ -122,6 +123,6 @@ int assembler (FILE *file_path){
     }
 
 
-
+    return 1;
 }
 
