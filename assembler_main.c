@@ -2,7 +2,7 @@
 
 int assembler (FILE *file_path){
     /* declaring data types */
-    /*TableRow *command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));*/
+    TableRow *command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     TableRow *directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     /* OperationItem operation_table[OPT_SIZE] = get_operation_table(); */
     OperationItem *operation_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
@@ -18,8 +18,11 @@ int assembler (FILE *file_path){
     OperationItem command;
 
     char *temp_s;
-    /*char temp_c; commented to silence unused warning. uncomment when needed */
+    char *temp_s2;
+    /* char temp_c; commented to silence unused warning. uncomment when needed */
     int temp_i;
+    int source;
+    int label;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
@@ -91,19 +94,62 @@ int assembler (FILE *file_path){
             }
             /* search the operation name (mov, add) int the table */
             command = get_command(get_next_token(), operation_table);
-            /*command_memory[IC] = get_first_word()  IDO - WRITE THIS FUNCTION */
-            /* command_memory has been comented to silence a warning. uncoment when needed */
             L = command.words_num;
-            /*
-             * word = get_first_word();
-             * command_array[IC] = word;
-             * IC++
-             * word = get_next()
-             * command_array[IC] = word;
-             * IC++
-             */
+            if (L == 2){
+                argument = get_next_token();
+                if (is_comma(argument)){
+                    temp_s = get_first_operand(argument);
+                    temp_s2 = get_second_operand();
+                }
+                else{
+                    temp_s = get_next_token();
+                    if (is_comma(temp_s)){
+                        drop_comma(temp_s);
+                        temp_s2 = get_next_token();
+                    }
+                    else{
+                        temp_s2 = get_next_token();
+                        if(*temp_s2 == ',' && *(temp_s2+1) == '\0'){
+                            temp_s2 = get_next_token();
+                        }
+                        else if (is_comma(temp_s2)){
+                            drop_comma(temp_s2);
+                        }
+                        else{
+                            /* print error - no comma */
+                        }
+                    }
+                }
+                source = operand_address_method(temp_s);
+                dest = operand_address_method(temp_s2);
+                command_memory[IC] = get_first_word(command, source, dest);
+                /* add the words depends on the address method */
 
-            /* generate the code and add it to the ram */
+                /* AMIT */
+
+
+            }
+            else if (L == 1){
+                temp_s = get_next_token();
+                dest = operand_address_method(temp_s2);
+                command_memory[IC] = get_first_word(command, 0, dest);
+                /* add the words depends on the address method */
+                /*command_memory[IC+1] = */
+
+                /* AMIT */
+            }
+            else{
+                command_memory[IC] = get_first_word(command, 0, 0);
+            }
+
+
+
+
+
+
+
+
+
             IC += L;
         }
 

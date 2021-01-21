@@ -124,8 +124,8 @@ OperationItem get_command(char *argument, OperationItem table[]){
 int is_comma(char *argument){
     /*checks wether there is a comma in argument*/
     int i = 0;
-    while(srrcmp(argument[i], '\0'){
-        if (!strcmp(argument[i], ','){
+    while(argument[i] != '\0'){
+        if (argument[i] == ','){
             return 1;
         }
         i++;
@@ -149,35 +149,22 @@ char *get_second_operand() {
      * call this function only if you called get_first_operand() before!
     */
     char *token;
-    token = strtok(NULL, " ");
+    token = strtok(NULL, ",");
     return token;
 }
 
 int operand_address_method(char *argument){
     /*returns a number between 0-3 that represents the operand address number*/
-    if (!strcmp(argument[0], '#'){
+    if (argument[0] == '#'){
         return 0;
     }
-    else if (!strcmp(argument[0], '%'){
+    else if (argument[0] == '%'){
         return 2;
     }
-    else if ((!strcmp(argument[0], 'r') && (argument[1] >= 48 && argument[1] <= 55){ /*registers: r0-r7 */
+    else if (argument[0] == 'r') && (argument[1] >= 48 && argument[1] <= 55){ /*registers: r0-r7 */
         return 3;
     }
     else{
         return 1;
     }
-}
-
-word get_first_word(OperationItem command, int source, int dest){
-    word first_word;
-    first_word.bits += command.opcode;
-    first_word.bits << 4;
-    first_word.bits += command.funct;
-    first_word.bits << 4;
-    first_word.bits += dest;
-    first_word.bits << 2;
-    first_word.bits += source;
-
-    return first_word;
 }
