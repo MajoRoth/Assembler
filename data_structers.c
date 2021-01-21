@@ -6,10 +6,9 @@ OperationItem *get_operation_table(){
     OperationItem mov, cmp, add, sub, lea, clr, not, inc, dec, jmp, bne, jsr, red, prn, rts, stop, null;
         OperationItem *hash_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
     /* initial all of the items and add them to the table */
-    /* -1 represents None */
     mov.name = "mov";
     mov.opcode = 0;
-    mov.funct = -1;
+    mov.funct = 0;
     mov.words_num = 2;
     mov.legal_source[0] = 0;
     mov.legal_source[1] = 1;
@@ -22,7 +21,7 @@ OperationItem *get_operation_table(){
 
     cmp.name = "cmp";
     cmp.opcode = 1;
-    cmp.funct = -1;
+    cmp.funct = 0;
     cmp.words_num = 2;
     cmp.legal_source[0] = 0;
     cmp.legal_source[1] = 1;
@@ -58,7 +57,7 @@ OperationItem *get_operation_table(){
 
     lea.name = "lea";
     lea.opcode = 4;
-    lea.funct = -1;
+    lea.funct = 0;
     lea.words_num = 2;
     lea.legal_source[0] = 1;
     lea.legal_source[1] = -1;
@@ -154,7 +153,7 @@ OperationItem *get_operation_table(){
 
     red.name = "red";
     red.opcode = 12;
-    red.funct = -1;
+    red.funct = 0;
     red.words_num = 1;
     red.legal_source[0] = -1;
     red.legal_source[1] = -1;
@@ -166,7 +165,7 @@ OperationItem *get_operation_table(){
 
     prn.name = "prn";
     prn.opcode = 13;
-    prn.funct = -1;
+    prn.funct = 0;
     prn.words_num = 1;
     prn.legal_source[0] = -1;
     prn.legal_source[1] = -1;
@@ -178,7 +177,7 @@ OperationItem *get_operation_table(){
 
     rts.name = "rts";
     rts.opcode = 14;
-    rts.funct = -1;
+    rts.funct = 0;
     rts.words_num = 0;
     rts.legal_source[0] = -1;
     rts.legal_source[1] = -1;
@@ -190,7 +189,7 @@ OperationItem *get_operation_table(){
 
     stop.name = "stop";
     stop.opcode = 15;
-    stop.funct = -1;
+    stop.funct = 0;
     stop.words_num = 0;
     stop.legal_source[0] = -1;
     stop.legal_source[1] = -1;

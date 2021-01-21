@@ -121,3 +121,48 @@ OperationItem get_command(char *argument, OperationItem table[]){
     return table[16];
 }
 
+int is_comma(char *argument){
+    /*checks wether there is a comma in argument*/
+    int i = 0;
+    while(argument[i] != '\0'){
+        if argument[i] == ','{
+            return 1;
+        }
+        i++;
+    }
+    return 0;
+}
+
+/* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
+char *get_first_operand(char *argument) {
+    /*
+     * call this function the first time on evey new line - 
+     * then call the rest of the times get_second_operand()
+    */
+    char *operand;
+    operand = strtok(argument, ",");
+    return operand;
+}
+
+char *get_second_operand() {
+    /*
+     * call this function only if you called get_first_operand() before!
+    */
+    char *token;
+    token = strtok(NULL, " ");
+    return token;
+}
+
+/*ONE MORE FUNCTION NEEDED HERE - RETURN OPERANDS IN INT */
+
+word get_first_word(OperationItem command, int operand1, int operand2){
+    word first_word;
+    int i;
+    opcode = command.opcode;
+    funct = command.funct;
+    for(i=0; i<4; i++){
+        
+    }
+    first_word.bits
+
+}
