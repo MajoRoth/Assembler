@@ -155,14 +155,11 @@ char *get_second_operand() {
 
 /*ONE MORE FUNCTION NEEDED HERE - RETURN OPERANDS IN INT */
 
-word get_first_word(OperationItem command, int operand1, int operand2){
+word get_first_word(OperationItem command, int source, int dest){
     word first_word;
-    int i;
-    opcode = command.opcode;
-    funct = command.funct;
-    for(i=0; i<4; i++){
-        
-    }
-    first_word.bits
-
+    first_word.source_bits = source;
+    first_word.dest_bits = dest;
+    first_word.funct_bits = command.funct;
+    first_word.opcode_bits = command.opcode;
+    return first_word;
 }

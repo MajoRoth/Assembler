@@ -14,7 +14,10 @@
 #define OPT_SIZE 17
 
 typedef struct word{
-    unsigned int bits:12;
+    unsigned int source_bits:2;
+    unsigned int dest_bits:2;
+    unsigned int funct_bits:4;
+    unsigned int opcode_bits:4;
 } word;
 
 typedef struct TableRow{
