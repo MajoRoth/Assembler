@@ -71,7 +71,7 @@ char *get_label(char *line){
     label = " ";
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
-            if((65 <= line[0] && line[0] <= 90) ||(97 <= line[0] && line[0] <= 122)){ /* checks wether c in A-Z or a-z */
+            if(isalpha(line[0])){ /* checks wether c in A-Z or a-z */
                 return label; /* need to be check if label already exists in symbol table */
             }
             else{
@@ -79,7 +79,7 @@ char *get_label(char *line){
                 return label;
             }
         }
-        if ((48 <= line[i] && line[i] <= 57) || (65 <= line[i] && line[i] <= 90) || (97 <= line[i] && line[i] <= 122)){
+        if ((isdigit(line[i]) || isalpha(line[i])){
             /* checks wether c in A-Z or a-z  or 0-9*/
             label[i] = line[i];
         }
@@ -124,8 +124,8 @@ OperationItem get_command(char *argument, OperationItem table[]){
 int is_comma(char *argument){
     /*checks wether there is a comma in argument*/
     int i = 0;
-    while(argument[i] != '\0'){
-        if argument[i] == ','{
+    while(srrcmp(argument[i], '\0'){
+        if (!strcmp(argument[i], ','){
             return 1;
         }
         i++;
@@ -153,13 +153,31 @@ char *get_second_operand() {
     return token;
 }
 
-/*ONE MORE FUNCTION NEEDED HERE - RETURN OPERANDS IN INT */
+int operand_address_method(char *argument){
+    /*returns a number between 0-3 that represents the operand address number*/
+    if (!strcmp(argument[0], '#'){
+        return 0;
+    }
+    else if (!strcmp(argument[0], '%'){
+        return 2;
+    }
+    else if ((!strcmp(argument[0], 'r') && (argument[1] >= 48 && argument[1] <= 55){ /*registers: r0-r7 */
+        return 3;
+    }
+    else{
+        return 1;
+    }
+}
 
 word get_first_word(OperationItem command, int source, int dest){
     word first_word;
-    first_word.source_bits = source;
-    first_word.dest_bits = dest;
-    first_word.funct_bits = command.funct;
-    first_word.opcode_bits = command.opcode;
+    first_word.bits += command.opcode;
+    first_word.bits << 4;
+    first_word.bits += command.funct;
+    first_word.bits << 4;
+    first_word.bits += dest;
+    first_word.bits << 2;
+    first_word.bits += source;
+
     return first_word;
 }
