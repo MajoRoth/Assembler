@@ -17,12 +17,14 @@ int assembler (FILE *file_path){
     char *argument;
     OperationItem command;
 
-    char *temp_s;
+    /* temp vars - to make assignments */
+    char *temp_s1;
     char *temp_s2;
-    /* char temp_c; commented to silence unused warning. uncomment when needed */
+    char temp_c;
     int temp_i;
     int source;
     int label;
+    word *w1, *w2;
 
     int is_label = FALSE; /* flag weather the next line has a label */
     int is_direct = FALSE; /* flag weather the next line is a directive line */
@@ -56,22 +58,22 @@ int assembler (FILE *file_path){
                 /* evaluate for cases - if string add each char in different word and finish with \0
                 * if str just put the numbers until there is no more numbers */
                 if (directive == data){
-                    while ((temp_s=get_next_token()) != NULL){
-                        drop_comma(temp_s);
-                        if (atoi(temp_s) == 0 && !isdigit(*temp_s)) {
+                    while ((temp_s1=get_next_token()) != NULL){
+                        drop_comma(temp_s1);
+                        if (atoi(temp_s1) == 0 && !isdigit(*temp_s1)) {
                             /* PRINT ERROR MESSAGE ?? */
                             continue;
                         }
-                        temp_i = atoi(temp_s);
+                        temp_i = atoi(temp_s1);
                         directive_memory[DC].w = *get_word(temp_i);
                         DC++;
                     }
                 }
                 else {
-                    temp_s = get_next_token();
-                    drop_marks(temp_s);
-                    for (temp_i = 0;  temp_s[temp_i] != '\0' ; temp_i++) {
-                        directive_memory[DC].w = *get_word(temp_s[temp_i]);
+                    temp_s1 = get_next_token();
+                    drop_marks(temp_s1);
+                    for (temp_i = 0;  temp_s1[temp_i] != '\0' ; temp_i++) {
+                        directive_memory[DC].w = *get_word(temp_s1[temp_i]);
                         DC++;
                     }
                     directive_memory[DC].w = *get_word('\0');
@@ -98,13 +100,13 @@ int assembler (FILE *file_path){
             if (L == 2){
                 argument = get_next_token();
                 if (is_comma(argument)){
-                    temp_s = get_first_operand(argument);
+                    temp_s1 = get_first_operand(argument);
                     temp_s2 = get_second_operand();
                 }
                 else{
-                    temp_s = get_next_token();
-                    if (is_comma(temp_s)){
-                        drop_comma(temp_s);
+                    temp_s1 = get_next_token();
+                    if (is_comma(temp_s1)){
+                        drop_comma(temp_s1);
                         temp_s2 = get_next_token();
                     }
                     else{
@@ -120,26 +122,70 @@ int assembler (FILE *file_path){
                         }
                     }
                 }
-                source = operand_address_method(temp_s);
+                source = operand_address_method(temp_s1);
                 dest = operand_address_method(temp_s2);
-                command_memory[IC] = get_first_word(command, source, dest);
+                command_memory[IC++] = get_first_word(command, source, dest);
                 /* add the words depends on the address method */
-
-                /* AMIT */
-
-
+                switch (source) {
+                    case 0:
+                        w1 = get_word_immediate(temp_s1);
+                        break;
+                    case 1:
+                        w1 = get_word_direct(temp_s1);
+                        break;
+                    case 2:
+                        w1 = get_word_relative(temp_s1);
+                        break;
+                    case 3:
+                        w1 = get_word_register(temp_s1);
+                        break;
+                    default:
+                        /* ERROR */
+                }
+                command_memory[IC++] = w1;
+                switch (dest) {
+                    case 0:
+                        w2 = get_word_immediate(temp_s1);
+                        break;
+                    case 1:
+                        w2 = get_word_direct(temp_s1);
+                        break;
+                    case 2:
+                        w2 = get_word_relative(temp_s1);
+                        break;
+                    case 3:
+                        w2 = get_word_register(temp_s1);
+                        break;
+                    default:
+                        /* ERROR */
+                }
+                command_memory[IC++] = w2;
             }
             else if (L == 1){
-                temp_s = get_next_token();
+                temp_s1 = get_next_token();
                 dest = operand_address_method(temp_s2);
                 command_memory[IC] = get_first_word(command, 0, dest);
                 /* add the words depends on the address method */
-                /*command_memory[IC+1] = */
-
-                /* AMIT */
+                switch (dest) {
+                    case 0:
+                        w1 = get_word_immediate(temp_s1);
+                        break;
+                    case 1:
+                        w1 = get_word_direct(temp_s1);
+                        break;
+                    case 2:
+                        w1 = get_word_relative(temp_s1);
+                        break;
+                    case 3:
+                        w1 = get_word_register(temp_s1);
+                        break;
+                    default:
+                        /* ERROR */
+                }
+                command_memory[IC++] = w1;
             }
             else{
-                command_memory[IC] = get_first_word(command, 0, 0);
+                command_memory[IC++] = get_first_word(command, 0, 0);
             }
 
 
@@ -149,12 +195,9 @@ int assembler (FILE *file_path){
 
 
 
-
-            IC += L;
         }
 
         /* reset the variabels */
-        L=0;
 
         strcpy(line, get_line(file_path));
 

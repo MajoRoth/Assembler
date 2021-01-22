@@ -61,10 +61,16 @@ word *get_word(int i);
 char *get_label(char *line);
 int is_directive(char *argument);
 OperationItem get_command(char *argument, OperationItem table[OPT_SIZE]);
-word *get_first_word(OperationItem *command, int source, int dest);
 int is_comma(char *argument);
 char *get_first_operand(char *argument);
 char *get_second_operand();
 int operand_address_method(char *argument);
+
+/* word process */
+word *get_first_word(OperationItem *command, int source, int dest);
+word *get_word_immediate(char *argument);
+word *get_word_direct(char *argument);
+word *get_word_relative(char *argument);
+word *get_word_register(char *argument);
 
 
