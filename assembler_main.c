@@ -4,12 +4,13 @@ int assembler (FILE *file_path){
     /* declaring data types */
     TableRow *command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     TableRow *directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
-    /* OperationItem operation_table[OPT_SIZE] = get_operation_table(); */
+    OperationItem operation_table[OPT_SIZE] = get_operation_table();
     OperationItem *operation_table = (OperationItem *)malloc(OPT_SIZE * sizeof(OperationItem));
     SymbolNode *root = get_symbol_root();
 
     int IC = 100;
     int DC = 0;
+    int ICF, DFC;
     int L = 0;
     char line[80];
     char *label;
@@ -187,29 +188,17 @@ int assembler (FILE *file_path){
             else{
                 command_memory[IC++] = get_first_word(command, 0, 0);
             }
-
-
-
-
-
-
-
-
         }
 
         /* reset the variabels */
 
         strcpy(line, get_line(file_path));
 
-
-
-
-
-
-
-
-
     }
+    ICF = IC;
+    DCF = DC;
+
+    add_icf(root, ICF);
 
 
     return 1;

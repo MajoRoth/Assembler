@@ -255,3 +255,5 @@ SymbolNode *get_last_node(SymbolNode *root){
     }
     return last_node;
 }
+
+add_icf(SymbolNode *root, int ICF);/* AMIT */
