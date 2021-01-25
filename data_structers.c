@@ -256,4 +256,21 @@ SymbolNode *get_last_node(SymbolNode *root){
     return last_node;
 }
 
-add_icf(SymbolNode *root, int ICF);/* AMIT */
+int is_symbol_node_data(SymbolNode *node){
+    /* checks if a node has "code" attribute */
+    if (node->attributes[0] == data) return 1;
+    return 0;
+}
+
+
+void add_icf(SymbolNode *root, int ICF){
+    SymbolNode *node = root;
+    while (last_node->next != NULL){
+        if (is_symbol_node_data(node)){
+            node->value += ICF;
+        }
+        node = node->next;
+    }
+}
+
+
