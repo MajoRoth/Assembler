@@ -1,4 +1,4 @@
-#include "assembler.h"
+#include "assembler_main.h"
 
 int assembler (FILE *file_path){
     /* declaring data types */

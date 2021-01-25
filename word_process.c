@@ -1,4 +1,4 @@
-#include "assembler.h"
+#include "word_process.h"
 
 word *get_first_word(OperationItem *command, int source, int dest){
     word *first_word;

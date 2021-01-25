@@ -1,4 +1,4 @@
-#include "assembler.h"
+#include "debug_tools.h"
 
 void print_word(word w){
     int i;

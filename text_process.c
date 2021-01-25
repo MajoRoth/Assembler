@@ -1,5 +1,7 @@
+#include "text_process.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-#include "assembler.h"
 char *get_line(FILE *file_name){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
     char *line = (char *)malloc(MAX_LINE * sizeof (char));
