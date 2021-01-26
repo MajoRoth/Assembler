@@ -1,7 +1,6 @@
 #ifndef ASSEMBLER_TEXT_PROCESS_H
 #define ASSEMBLER_TEXT_PROCESS_H
 
-
 char *get_line();
 
 char *get_first_token(char *line);

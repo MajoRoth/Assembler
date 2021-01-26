@@ -1,6 +1,7 @@
 #include "text_process.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 char *get_line(FILE *file_name){
     /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
@@ -69,11 +70,11 @@ char *get_label(char *line){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
-    char *label;
+    char *label = (char *);
     label = " ";
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
-            if(isalpha(line[0])){ /* checks wether c in A-Z or a-z */
+            if(isalpha(line[0])){ /* checks if c in A-Z or a-z */
                 return label; /* need to be check if label already exists in symbol table */
             }
             else{
@@ -82,7 +83,7 @@ char *get_label(char *line){
             }
         }
         if ((isdigit(line[i]) || isalpha(line[i])){
-            /* checks wether c in A-Z or a-z  or 0-9*/
+            /* checks if c in A-Z or a-z  or 0-9*/
             label[i] = line[i];
         }
         else {

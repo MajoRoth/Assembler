@@ -1,29 +1,20 @@
 #ifndef ASSEMBLER_ASSEMBLER_H
 #define ASSEMBLER_ASSEMBLER_H
 
-#define MAX_TABLE 4096
-#define MAX_LINE 80
-#define MAX_LABEL 31
-#define OPT_SIZE 17
-
 typedef struct word{
     unsigned int bits:12;
 } word;
-
 typedef struct TableRow{
     word w;
     int ARE;
 } TableRow;
-
 typedef struct OperationItem{
     char *name;
     int opcode;
     int funct;
     int words_num; /* L */
-    int legal_source[3];
-    int legal_dest[3];
+    int operands[2];/* operands[0] is for the source and operands[1] is for the dest
 } OperationItem;
-
 typedef struct SymbolNode{
     struct SymbolNode *next;
     char *symbol;
@@ -34,5 +25,16 @@ typedef struct SymbolNode{
 enum attribute {code, data, external, entry, string};
 enum ARE {A, R, E};
 enum boolean {FALSE, TRUE};
+
+void open_file(char *file_path, FILE *file);
+
+TableRow *command_memory;
+TableRow *directive_memory;
+OperationItem operation_table;
+OperationItem *operation_table;
+SymbolNode *root;
+
+int IC, DC;
+
 
 #endif
