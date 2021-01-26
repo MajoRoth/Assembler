@@ -36,9 +36,18 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
-word *get_word_direct(char *argument){
+word *get_word_direct(char *argument,SymbolNode *root, int DCF){
     /* note that argument is a string - you need to process it IDO*/
-
+    int i;
+    word *label_word = (word *)malloc(sizeof(word));
+    for (i=0; i<DCF; i++){/*search in the symbols table*/
+        if(!strcmp(argument, root->symbol)){/*arg can only appear once in the table*/
+            label_word += root->value;
+        }
+        root = root->next;
+    /*REMEMBER - need to check if arg in the table: if label_word == 0 */
+    }
+    return label_word;
 }
 
 word *get_word_relative(char *argument){
