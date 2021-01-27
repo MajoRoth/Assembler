@@ -1,39 +1,36 @@
 #include "text_process.h"
+#include "assembler_main.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
 
-char *get_line(FILE *file_name){
-    /* takes the next line from the file and returns it. if there is no more lines return '\0'*/
-    char *line = (char *)malloc(MAX_LINE * sizeof (char));
+int *get_line(FILE *file_name, char *line){
+    /* takes the next line from the file and copy it to the flag line.
+     return 1 is sucseeded and 0 otherwise*/
     int i=0;
     char c;
     while ((c=getc(file_name)) != '\n'){
-        if (c == '\0') return "\0";
         line[i] = c;
         i++;
     }
-
-    return line;
+    return 1;;
 }
 
-char *get_first_token(char *line) {
+int *get_first_token(char *line, char *token) {
     /*
      * call this function the first time on evey new line - then call the rest of the times get_next_token()
      * line - the output from get_line()
     */
-    char *token;
     token = strtok(line, " ");
-    return token;
+    return 1;
 }
 
-char *get_next_token() {
+char *get_next_token(char *token) {
     /*
      * call this function only if you called get_first_token() before!
     */
-    char *token;
     token = strtok(NULL, " ");
-    return token;
+    return 1;
 }
 
 void drop_comma(char *str) {
@@ -66,20 +63,19 @@ word *get_word(int i) {
 
 }
 
-char *get_label(char *line){
+int *get_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
-    char *label = (char *);
     label = " ";
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if(isalpha(line[0])){ /* checks if c in A-Z or a-z */
-                return label; /* need to be check if label already exists in symbol table */
+                return 1; /* need to be check if label already exists in symbol table */
             }
             else{
                 printf("ERROR: label %s does not start with a letter", label);/*exit program? */
-                return label;
+                return 0;
             }
         }
         if ((isdigit(line[i]) || isalpha(line[i])){
@@ -87,10 +83,10 @@ char *get_label(char *line){
             label[i] = line[i];
         }
         else {
-            return "\0";
+            return 0;
         }
     }
-    return "\0";
+    return 0;
 }
 
 int is_directive(char *argument){
@@ -113,15 +109,15 @@ int is_directive(char *argument){
     }    
 }
 
-OperationItem get_command(char *argument, OperationItem table[]){
+OperationItem get_command(char *argument){
     /* ignores spaces and returns the next command */
     int i;
     for (i=0; i< 16; i++){
-        if (!strcmp(table[i].name, argument)){
-            return table[i];
+        if (!strcmp(operation_able[i].name, argument)){
+            return operation_able[i];
         }
     }
-    return table[16];
+    return operation_able[16];
 }
 
 int is_comma(char *argument){
@@ -137,23 +133,21 @@ int is_comma(char *argument){
 }
 
 /* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
-char *get_first_operand(char *argument) {
+int *get_first_operand(char *argument, char *operand) {
     /*
      * call this function the first time on evey new line - 
      * then call the rest of the times get_second_operand()
     */
-    char *operand;
     operand = strtok(argument, ",");
-    return operand;
+    return 1;
 }
 
-char *get_second_operand() {
+char *get_second_operand(char *operand) {
     /*
      * call this function only if you called get_first_operand() before!
     */
-    char *token;
-    token = strtok(NULL, ",");
-    return token;
+    operand = strtok(NULL, ",");
+    return 1;
 }
 
 int operand_address_method(char *argument){
