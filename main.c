@@ -6,8 +6,10 @@ int main(int argc, char *argv[]) {
      * and send each one to assembler_main.c
      */
     int i;
-    for (i=0; i++; i<argc){
+    for (i=0; i<argc; i++){
         assembler(argv[i]);
     }
     return 0;
 }
+
+

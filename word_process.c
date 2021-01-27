@@ -1,7 +1,11 @@
 #include "word_process.h"
+#include "text_process.h"
+#include <stdlib.h>
+#include <string.h>
 
 word *get_first_word(OperationItem *command, int source, int dest){
-    word *first_word;
+    word *first_word = (word *)malloc(sizeof(word));
+    first_word->bits = 0;
     first_word->bits += command->opcode;
     first_word->bits = first_word->bits << 4;
     first_word->bits += command->funct;
@@ -9,7 +13,6 @@ word *get_first_word(OperationItem *command, int source, int dest){
     first_word->bits += dest;
     first_word->bits = first_word->bits << 2;
     first_word->bits += source;
-
     return first_word;
 }
 
@@ -36,8 +39,7 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
-word *get_word_direct(char *argument,SymbolNode *root, int DCF){
-    /* note that argument is a string - you need to process it IDO*/
+word *get_word_direct(char *argument, SymbolNode *root, int DCF){
     int i;
     word *label_word = (word *)malloc(sizeof(word));
     for (i=0; i<DCF; i++){/*search in the symbols table*/
@@ -56,7 +58,7 @@ word *get_word_relative(char *argument){
 
     /* not ready yet */
 
-    return word;
+    return relative_word;
 }
 
 word *get_word_register(char *argument){
@@ -68,3 +70,4 @@ word *get_word_register(char *argument){
     register_word->bits = register_word->bits << shift;
     return register_word;
 }
+

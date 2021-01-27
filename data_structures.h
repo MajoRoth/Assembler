@@ -19,7 +19,7 @@ SymbolNode *get_last_node();
 
 int is_symbol_node_code(SymbolNode *node);
 
-void add_icf(SymbolNode *root, int ICF);
+void add_ic(SymbolNode *root, int ICF);
 
 void initialize_data_structures();
 

@@ -1,5 +1,6 @@
 #ifndef ASSEMBLER_WORD_PROCESS_H
 #define ASSEMBLER_WORD_PROCESS_H
+#include "assembler_main.h"
 
 word *get_first_word(OperationItem *command, int source, int dest);
 

@@ -62,7 +62,7 @@ int is_symbol_node_data(SymbolNode *node){
 }
 
 
-void add_icf(SymbolNode *root, int ICF){
+void add_ic(SymbolNode *root, int ICF){
     SymbolNode *node = root;
     while (last_node->next != NULL){
         if (is_symbol_node_data(node)){

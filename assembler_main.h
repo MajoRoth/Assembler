@@ -1,5 +1,6 @@
 #ifndef ASSEMBLER_ASSEMBLER_H
 #define ASSEMBLER_ASSEMBLER_H
+#include <stdio.h>
 
 typedef struct word{
     unsigned int bits:12;
@@ -13,7 +14,7 @@ typedef struct OperationItem{
     int opcode;
     int funct;
     int words_num; /* L */
-    int operands[2];/* operands[0] is for the source and operands[1] is for the dest
+    int operands[2];/* operands[0] is for the source and operands[1] is for the dest */
 } OperationItem;
 typedef struct SymbolNode{
     struct SymbolNode *next;
@@ -26,11 +27,11 @@ enum attribute {code, data, external, entry, string};
 enum ARE {A, R, E};
 enum boolean {FALSE, TRUE};
 
+int assembler (char *file_path);
 void open_file(char *file_path, FILE *file);
 
 TableRow *command_memory;
 TableRow *directive_memory;
-OperationItem operation_table;
 OperationItem *operation_table;
 SymbolNode *root;
 
