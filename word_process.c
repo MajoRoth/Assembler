@@ -24,7 +24,7 @@ word *get_word_immediate(char *argument){
     }
     
     if(argument[1] == '-'){ /*in case operand is negative*/
-        strcpy(operand, &argument[2])
+        strcpy(operand, &argument[2]);
         int_operand =-1 * atoi(operand);
     }
     else{
@@ -32,7 +32,7 @@ word *get_word_immediate(char *argument){
         int_operand = atoi(operand);
     }
     
-    immediate_word->bits += int_operand
+    immediate_word->bits += int_operand;
     return immediate_word;
 }
 

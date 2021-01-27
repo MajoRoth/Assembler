@@ -171,3 +171,12 @@ int operand_address_method(char *argument){
         return 1;
     }
 }
+
+FILE open_file(char *filename){
+    FILE *file = fopen(filename,"r");
+    if(!file){
+        printf("file name is not valid");
+        exit(0);
+    }
+    return file;
+}
