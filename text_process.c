@@ -26,7 +26,7 @@ int get_first_token(char *line, char *token) {
     return 1;
 }
 
-char *get_next_token(char *token) {
+int *get_next_token(char *token) {
     /*
      * call this function only if you called get_first_token() before!
     */
@@ -143,7 +143,7 @@ int get_first_operand(char *argument, char *operand) {
     return 1;
 }
 
-char *get_second_operand(char *operand) {
+int get_second_operand(char *operand) {
     /*
      * call this function only if you called get_first_operand() before!
     */
