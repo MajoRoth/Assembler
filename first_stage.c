@@ -3,7 +3,9 @@
 #include "data_structures.h"
 #include "text_process.h"
 #include "word_process.h"
+#include "constants.h"
 #include <stdio.h>
+#include <stdlib>
 #include <ctype.h>
 
 
@@ -36,7 +38,7 @@ int first_stage(FILE *file){
     enum boolean IS_LABEL = FALSE, ERROR = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
     int L;
-    OperationItem command;
+    OperationItem *command;
 
     while (!feof(file))
     {
@@ -63,7 +65,7 @@ int first_stage(FILE *file){
             }
             else if (IS_LABEL == TRUE && directive_type == string ){
                 add_symbol_node(label, DC, data, get_last_node(root));
-                directive_string_line()
+                directive_string_line();
             }
             else if (directive_type == external){
                 add_symbol_node(label, 0, external, get_last_node(root));
@@ -77,7 +79,7 @@ int first_stage(FILE *file){
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
             get_next_token(argument);
-            get_command(argument, command);
+            get_command(argument);
             switch (L) {
                 case 2:
                     add_instruction_words_2();
@@ -95,7 +97,7 @@ int first_stage(FILE *file){
     if (ERROR == FALSE)
         return 1;
     else
-        return 0
+        return 0;
 
 }
 

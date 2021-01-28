@@ -3,7 +3,7 @@
 
 enum {
     NONE = 16, IMMEDIATE = 8, DIRECT = 4,
-    RELATIVE = 2, DIRECT_RED = 1, ILLEGAL_TYPE = 0
+    RELATIVE = 2, DIRECT_REG = 1, ILLEGAL_TYPE = 0
 };
 
 int get_funct_by_name(char *name, struct OperationItem hash_table[]);
@@ -24,4 +24,4 @@ void initialize_data_structures();
 
 void free_data_structures();
 
-#endif //ASSEMBLER_DATA_STRUCTURES_H
+#endif 
