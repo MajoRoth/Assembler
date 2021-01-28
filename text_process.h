@@ -1,6 +1,9 @@
 #ifndef ASSEMBLER_TEXT_PROCESS_H
 #define ASSEMBLER_TEXT_PROCESS_H
 
+#include <stdio.h>
+#include "assembler_main.h"
+
 
 int *get_line(FILE *file_name, char *line);
 

@@ -19,7 +19,7 @@ word *get_first_word(OperationItem *command, int source, int dest){
 
 word *get_word_immediate(char *argument){
     /* returns word that represents the immediate operand*/
-    char *operand;
+    char *operand ="";
     word *immediate_word = (word *)malloc(sizeof(word));
     int int_operand;
     if(is_comma(argument)){

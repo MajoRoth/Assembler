@@ -1,10 +1,11 @@
 #include "text_process.h"
 #include "assembler_main.h"
+#include "constants.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
 
-int *get_line(FILE *file_name, char *line){
+int get_line(FILE *file_name, char *line){
     /* takes the next line from the file and copy it to the flag line.
      return 1 is sucseeded and 0 otherwise*/
     int i=0;
@@ -16,7 +17,7 @@ int *get_line(FILE *file_name, char *line){
     return 1;;
 }
 
-int *get_first_token(char *line, char *token) {
+int get_first_token(char *line, char *token) {
     /*
      * call this function the first time on evey new line - then call the rest of the times get_next_token()
      * line - the output from get_line()
@@ -63,7 +64,7 @@ word *get_word(int i) {
 
 }
 
-int *get_label(char *line, char *label){
+int get_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
@@ -78,7 +79,7 @@ int *get_label(char *line, char *label){
                 return 0;
             }
         }
-        if ((isdigit(line[i]) || isalpha(line[i])){
+        if (isdigit(line[i]) || isalpha(line[i])){
             /* checks if c in A-Z or a-z  or 0-9*/
             label[i] = line[i];
         }
@@ -133,7 +134,7 @@ int is_comma(char *argument){
 }
 
 /* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
-int *get_first_operand(char *argument, char *operand) {
+int get_first_operand(char *argument, char *operand) {
     /*
      * call this function the first time on evey new line - 
      * then call the rest of the times get_second_operand()
@@ -158,7 +159,7 @@ int operand_address_method(char *argument){
     else if (argument[0] == '%'){
         return 2;
     }
-    else if (argument[0] == 'r') && (argument[1] >= 48 && argument[1] <= 55){ /*registers: r0-r7 */
+    else if ((argument[0] == 'r') && (argument[1] >= 48 && argument[1] <= 55)){ /*registers: r0-r7 */
         return 3;
     }
     else{
