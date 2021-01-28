@@ -3,6 +3,7 @@
 #include "constants.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 
 int get_line(FILE *file_name, char *line){
@@ -26,7 +27,7 @@ int get_first_token(char *line, char *token) {
     return 1;
 }
 
-int *get_next_token(char *token) {
+int get_next_token(char *token) {
     /*
      * call this function only if you called get_first_token() before!
     */
@@ -118,7 +119,7 @@ OperationItem get_command(char *argument){
             return operation_table[i];
         }
     }
-    return operation_able[16];
+    return operation_table[16];
 }
 
 int is_comma(char *argument){
