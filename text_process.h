@@ -9,7 +9,7 @@ int get_line(FILE *file_name, char *line);
 
 int get_first_token(char *line, char *token);
 
-char *get_next_token(char *token);
+int get_next_token(char *token);
 
 void drop_comma(char *str);
 
@@ -27,7 +27,7 @@ int is_comma(char *argument);
 
 int get_first_operand(char *argument, char *operand);
 
-char *get_second_operand(char *operand);
+int get_second_operand(char *operand);
 
 int operand_address_method(char *argument);
 

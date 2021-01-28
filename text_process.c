@@ -114,8 +114,8 @@ OperationItem get_command(char *argument){
     /* ignores spaces and returns the next command */
     int i;
     for (i=0; i< 16; i++){
-        if (!strcmp(operation_able[i].name, argument)){
-            return operation_able[i];
+        if (!strcmp(operation_table[i].name, argument)){
+            return operation_table[i];
         }
     }
     return operation_able[16];
