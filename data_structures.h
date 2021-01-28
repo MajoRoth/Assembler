@@ -5,7 +5,6 @@ enum {
     NONE = 16, IMMEDIATE = 8, DIRECT = 4,
     RELATIVE = 2, DIRECT_RED = 1, ILLEGAL_TYPE = 0
 };
-OperationItem *get_operation_table();
 
 int get_funct_by_name(char *name, struct OperationItem hash_table[]);
 
@@ -17,7 +16,7 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *
 
 SymbolNode *get_last_node();
 
-int is_symbol_node_code(SymbolNode *node);
+int is_symbol_node_data(SymbolNode *node);
 
 void add_ic(SymbolNode *root, int ICF);
 

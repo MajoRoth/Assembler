@@ -23,7 +23,7 @@ void print_table_row(TableRow t){
 void print_table_symbol(SymbolNode *root){
     /* print all nodes until node->next == null */
     SymbolNode *node = root;
-    while(node->next != null){
+    while(node->next != NULL){
         printf("%s\t%d\t%d", node->symbol, node->value, node->attributes[0]);
         if(!(node->attributes[1])){/*checks wether there is second attribute*/
             printf(",%d",node->attributes[1]);
