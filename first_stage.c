@@ -5,7 +5,7 @@
 #include "word_process.h"
 #include "constants.h"
 #include <stdio.h>
-#include <stdlib>
+#include <stdlib.h>
 #include <ctype.h>
 
 
@@ -213,7 +213,7 @@ void add_instruction_word_1(){
             w1 = get_word_immediate(temp_s1);
             break;
         case 1:
-            w1 = get_word_direct(temp_s1);
+            w1 = get_word_direct(temp_s1, root, );
             break;
         case 2:
             w1 = get_word_relative(temp_s1);
@@ -222,6 +222,7 @@ void add_instruction_word_1(){
             w1 = get_word_register(temp_s1);
             break;
         default:
+            printf("ERROR");
             /* ERROR */
     }
     command_memory[IC++] = w1;
