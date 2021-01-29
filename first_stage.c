@@ -172,10 +172,10 @@ void add_instruction_words_2(OperationItem *command){
             w1 = get_word_immediate(temp1);
             break;
         case 1:
-            w1 = get_word_direct(temp1);
+            w1 = 0; /* done at second stage */
             break;
         case 2:
-            w1 = get_word_relative(temp1);
+            w1 = 0; /* done at second stage */
             break;
         case 3:
             w1 = get_word_register(temp1);
@@ -189,10 +189,10 @@ void add_instruction_words_2(OperationItem *command){
             w2 = get_word_immediate(temp2);
             break;
         case 1:
-            w2 = get_word_direct(temp2);
+            w2 = 0; /* done at second stage */
             break;
         case 2:
-            w2 = get_word_relative(temp2);
+            w2 = 0; /* done at second stage */
             break;
         case 3:
             w2 = get_word_register(temp2);
@@ -219,10 +219,10 @@ void add_instruction_word_1(OperationItem *command){
             w1 = get_word_immediate(s1);
             break;
         case 1:
-            w1 = get_word_direct(s1, root);
+            w1 = 0; /* done at second stage */
             break;
         case 2:
-            w1 = get_word_relative(s1);
+            w1 = 0; /* done at second stage */
             break;
         case 3:
             w1 = get_word_register(s1);

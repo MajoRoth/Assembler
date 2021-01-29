@@ -17,7 +17,7 @@ first_stage.o: first_stage.c first_stage.h
 	gcc -c -Wall -ansi -pedantic first_stage.c -o first_stage.o
 
 data_structures.o: data_structures.c data_structures.h
-	gcc -c -Wall -ansi -pedantic assembler_main.c -o assembler_main.o
+	gcc -c -Wall -ansi -pedantic assembler_main.c -o data_structures.o
 
 assembler_main.o: assembler_main.c assembler_main.h
-	gcc -c -Wall -ansi -pedantic data_structures.c -o data_structures.o
+	gcc -c -Wall -ansi -pedantic data_structures.c -o assembler_main.o

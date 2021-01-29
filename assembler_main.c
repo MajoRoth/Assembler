@@ -27,7 +27,7 @@ int assembler (char *file_path){
  * @return 1 - if the file opened and 0 - if an error occurred.
  */
 int open_file(char *file_path, FILE *file){
-    file = fopen(filename,"r");
+    file = fopen(file_path,"r");
     if(!file){
         printf("file name is not valid");
         return 0;
