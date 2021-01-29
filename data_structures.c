@@ -1,5 +1,6 @@
 #include "data_structures.h"
 #include "assembler_main.h"
+#include "constants.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -64,7 +65,7 @@ int is_symbol_node_data(SymbolNode *node){
 
 void add_ic(SymbolNode *root, int ICF){
     SymbolNode *node = root;
-    while (last_node->next != NULL){
+    while (node->next != NULL){
         if (is_symbol_node_data(node)){
             node->value += ICF;
         }
@@ -86,7 +87,7 @@ void initialize_data_structures(){
  *  free all of the program's allocated memory
  */
 void free_data_structures(){
-    SymbolNode *node = root, next_node;
+    SymbolNode *node = root, next_node = root->next;
     free(command_memory);
     free(directive_memory);
     free(root);
@@ -94,6 +95,6 @@ void free_data_structures(){
     while (node->next != NULL){
         next_node = node->next;
         free(node);
-        node = node->next;
+        node = next_node;
     }
 }
