@@ -1,6 +1,6 @@
 #ifndef ASSEMBLER_DATA_STRUCTURES_H
 #define ASSEMBLER_DATA_STRUCTURES_H
-
+#include "assembler_main.h"
 enum {
     NONE = 16, IMMEDIATE = 8, DIRECT = 4,
     RELATIVE = 2, DIRECT_REG = 1, ILLEGAL_TYPE = 0
