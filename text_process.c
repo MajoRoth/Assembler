@@ -18,20 +18,20 @@ int get_line(FILE *file_name, char *line){
     return 1;;
 }
 
-int get_first_token(char *line, char *token) {
+int get_first_token(char *line, char *argument){
     /*
      * call this function the first time on evey new line - then call the rest of the times get_next_token()
      * line - the output from get_line()
     */
-    token = strtok(line, " ");
+    argument = strtok(line, " ");
     return 1;
 }
 
-int get_next_token(char *token) {
+int get_next_token(char *argument) {
     /*
      * call this function only if you called get_first_token() before!
     */
-    token = strtok(NULL, " ");
+    argument = strtok(NULL, " ");
     return 1;
 }
 
@@ -111,15 +111,16 @@ int is_directive(char *argument){
     }    
 }
 
-OperationItem get_command(char *argument){
+void get_command(char *argument, OperationItem *p, OperationItem *table){
     /* ignores spaces and returns the next command */
     int i;
     for (i=0; i< 16; i++){
         if (!strcmp(operation_table[i].name, argument)){
-            return operation_table[i];
+            p = table+i;
+            return;
         }
     }
-    return operation_table[16];
+    p = table+16;
 }
 
 int is_comma(char *argument){
@@ -166,4 +167,14 @@ int operand_address_method(char *argument){
     else{
         return 1;
     }
+}
+
+int is_comment_line(char *line){
+    /* NOT READY YET */
+    return 1;
+}
+
+int is_empty_line(char *line){
+    /* NOT READY YET. */
+    return 1;
 }

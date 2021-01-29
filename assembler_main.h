@@ -6,7 +6,7 @@ typedef struct word{
     unsigned int bits:12;
 } word;
 typedef struct TableRow{
-    word w;
+    word *w;
     int ARE;
 } TableRow;
 typedef struct OperationItem{
