@@ -87,7 +87,8 @@ void initialize_data_structures(){
  *  free all of the program's allocated memory
  */
 void free_data_structures(){
-    SymbolNode *node = root, next_node = root->next;
+    SymbolNode *node = root, *next_node;
+    next_node = root->next;
     free(command_memory);
     free(directive_memory);
     free(root);
