@@ -6,9 +6,9 @@ enum {
     RELATIVE = 2, DIRECT_REG = 1, ILLEGAL_TYPE = 0
 };
 
-int get_funct_by_name(char *name, struct OperationItem hash_table[]);
+int get_funct_by_name(char *name, OperationItem *hash_table);
 
-int get_opcode_by_data(char *name, struct OperationItem hash_table[]);
+int get_opcode_by_data(char *name, OperationItem *hash_table);
 
 SymbolNode *get_symbol_root();
 

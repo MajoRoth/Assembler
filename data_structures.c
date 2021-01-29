@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-int get_funct_by_name(char *name, struct OperationItem hash_table[]){
+int get_funct_by_name(char *name, OperationItem *hash_table){
     int i;
     for (i=0; i < 16; i++) {
         if (!strcmp(hash_table[i].name, name)){
@@ -14,7 +14,7 @@ int get_funct_by_name(char *name, struct OperationItem hash_table[]){
     return  -1;
 }
 
-int get_opcode_by_name(char *name, struct OperationItem hash_table[]){
+int get_opcode_by_name(char *name, OperationItem *hash_table){
     int i;
     for (i=0; i < 16; i++) {
         if (!strcmp(hash_table[i].name, name)){
