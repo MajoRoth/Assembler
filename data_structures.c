@@ -64,7 +64,8 @@ int is_symbol_node_data(SymbolNode *node){
 
 
 void add_ic(SymbolNode *root, int ICF){
-    SymbolNode *node = root;
+    SymbolNode *node;
+    node = root;
     while (node->next != NULL){
         if (is_symbol_node_data(node)){
             node->value += ICF;

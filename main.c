@@ -12,8 +12,7 @@ int main(int argc, char *argv[]) {
         printf("specify at least 1 file\n");
         return 0;
     }
-    assembler("asembly_exm.as");
-    
+
     for (i=1; i<argc; i++){
         printf("%s\n", argv[i]);
         assembler(argv[i]);

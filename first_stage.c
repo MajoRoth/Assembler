@@ -140,7 +140,7 @@ void directive_string_line(){
 void add_instruction_words_2(OperationItem *command){
     char argument[MAX_ARGUMENT];
     char temp1[MAX_ARGUMENT], temp2[MAX_ARGUMENT];
-    word *w1, *w2;
+    word *w1 = 0, *w2 = 0;
     int source, dest;
     get_next_token(argument);
     if (is_comma(argument)){
@@ -181,7 +181,7 @@ void add_instruction_words_2(OperationItem *command){
             w1 = get_word_register(temp1);
             break;
         default:
-            /* ERROR */;
+            w1 = 0; /* ERROR */
     }
     command_memory[IC++].w = w1;
     switch (dest) {
@@ -198,7 +198,7 @@ void add_instruction_words_2(OperationItem *command){
             w2 = get_word_register(temp2);
             break;
         default:
-            /* ERROR */;
+            w2 = 0; /* ERROR */
     }
     command_memory[IC++].w = w2;
 }
@@ -207,9 +207,9 @@ void add_instruction_words_2(OperationItem *command){
  * adds to IC the a word for 1 word instruction
  */
 void add_instruction_word_1(OperationItem *command){
-    char *s1;
+    char *s1 = "";
     int dest;
-    word *w1;
+    word *w1 = 0;
     get_next_token(s1);
     dest = operand_address_method(s1);
     command_memory[IC].w = get_first_word(command, 0, dest);
