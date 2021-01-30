@@ -6,7 +6,9 @@
 #include <stdio.h>
 
 int assembler (char *file_path){
+    printf("entered assembler_main.c\n");
     FILE *file = NULL;
+    
 
     if (open_file(file_path, file)){
         initialize_data_structures();

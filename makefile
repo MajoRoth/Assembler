@@ -1,7 +1,7 @@
 run: main.o word_process.o text_process.o second_stage.o first_stage.o data_structures.o assembler_main.o
 	gcc -g -Wall -ansi -pedantic main.o word_process.o text_process.o second_stage.o first_stage.o data_structures.o assembler_main.o -o assembler
 
-main.o: main.c
+main.o: main.c assembler_main.h
 	gcc -c -Wall -ansi -pedantic main.c -o main.o
 
 word_process.o: word_process.c word_process.h
@@ -19,5 +19,8 @@ first_stage.o: first_stage.c first_stage.h
 data_structures.o: data_structures.c data_structures.h
 	gcc -c -Wall -ansi -pedantic assembler_main.c -o data_structures.o
 
-assembler_main.o: assembler_main.c assembler_main.h
+assembler_main.o: assembler_main.c assembler_main.h 
 	gcc -c -Wall -ansi -pedantic data_structures.c -o assembler_main.o
+
+clean:
+	rm *.o *~

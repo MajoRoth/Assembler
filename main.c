@@ -6,7 +6,16 @@ int main(int argc, char *argv[]) {
      * and send each one to assembler_main.c
      */
     int i;
-    for (i=0; i<argc; i++){
+    printf("entered main.c\n");
+    if (argc==1)
+    {
+        printf("specify at least 1 file\n");
+        return 0;
+    }
+    assembler("asembly_exm.as");
+    
+    for (i=1; i<argc; i++){
+        printf("%s\n", argv[i]);
         assembler(argv[i]);
     }
     return 0;
