@@ -2,7 +2,6 @@
 #include "assembler_main.h"
 #include "data_structures.h"
 #include "text_process.h"
-#include "word_process.h"
 #include "constants.h"
 #include <stdio.h>
 #include <stdlib.h>
