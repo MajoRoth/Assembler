@@ -23,4 +23,4 @@ assembler_main.o: assembler_main.c assembler_main.h data_structures.h
 	gcc -c -Wall -ansi -pedantic assembler_main.c -o assembler_main.o
 
 clean:
-	rm edit main.o
+	-rm *.o
