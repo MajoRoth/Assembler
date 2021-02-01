@@ -2,8 +2,8 @@
 #define ASSEMBLER_TEXT_PROCESS_H
 
 #include <stdio.h>
+#include "constants.h"
 
-enum attribute {code, data, external, entry, string};
 
 int get_line(FILE *file_name, char *line);
 

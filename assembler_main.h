@@ -13,6 +13,10 @@ TableRow *directive_memory;
 OperationItem *operation_table;
 SymbolNode *root;
 
+void initialize_data_structures();
+
+void free_data_structures();
+
 int IC, DC;
 
 

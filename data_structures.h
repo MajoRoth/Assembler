@@ -39,15 +39,11 @@ SymbolNode *get_symbol_root();
 
 SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *prev);
 
-SymbolNode *get_last_node();
+SymbolNode *get_last_node(SymbolNode *root);
 
 int is_symbol_node_data(SymbolNode *node);
 
 void add_ic(SymbolNode *root, int ICF);
-
-void initialize_data_structures();
-
-void free_data_structures();
 
 /* WORD PROCESS */
 word *get_first_word(OperationItem *command, int source, int dest);

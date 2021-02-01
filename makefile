@@ -20,4 +20,4 @@ assembler_main.o: assembler_main.c assembler_main.h
 	gcc -c -Wall -ansi -pedantic assembler_main.c -o assembler_main.o
 
 clean:
-	-rm *.o
+	rm *.o

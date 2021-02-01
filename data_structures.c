@@ -1,5 +1,6 @@
 #include "data_structures.h"
 #include "constants.h"
+#include "text_process.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,7 +29,7 @@ void get_command(char *argument, OperationItem *p, OperationItem *table){
     /* ignores spaces and returns the next command */
     int i;
     for (i=0; i< 16; i++){
-        if (!strcmp(operation_table[i].name, argument)){
+        if (!strcmp(table[i].name, argument)){
             p = table+i;
             return;
         }
@@ -59,7 +60,7 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode 
     return node;
 }
 
-SymbolNode *get_last_node(){
+SymbolNode *get_last_node(SymbolNode *root){
     SymbolNode *last_node = root;
     while (last_node->next != NULL){
         last_node = last_node->next;
@@ -85,32 +86,6 @@ void add_ic(SymbolNode *root, int ICF){
     }
 }
 
-
-/*
- *  allocates memory and initialize the program data structures
- */
-void initialize_data_structures(){
-    command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
-    directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
-    root = get_symbol_root();
-}
-
-/*
- *  free all of the program's allocated memory
- */
-void free_data_structures(){
-    SymbolNode *node = root, *next_node;
-    next_node = root->next;
-    free(command_memory);
-    free(directive_memory);
-    free(root);
-    /* free the linked list */
-    while (node->next != NULL){
-        next_node = node->next;
-        free(node);
-        node = next_node;
-    }
-}
 
 /* word process */
 

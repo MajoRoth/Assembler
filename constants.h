@@ -7,4 +7,6 @@
 #define OPT_SIZE 17
 #define MAX_TABLE 4096
 
+enum attribute {code, data, external, entry, string};
+
 #endif

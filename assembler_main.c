@@ -1,7 +1,7 @@
 #include "assembler_main.h"
-#include "data_structures.h"
 #include "first_stage.h"
 #include "second_stage.h"
+#include "constants.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -37,3 +37,28 @@ int open_file(char *file_path, FILE *file){
     return 1;
 }
 
+/*
+ *  allocates memory and initialize the program data structures
+ */
+void initialize_data_structures(){
+    command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
+    directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
+    root = get_symbol_root();
+}
+
+/*
+ *  free all of the program's allocated memory
+ */
+void free_data_structures(){
+    SymbolNode *node = root, *next_node;
+    next_node = root->next;
+    free(command_memory);
+    free(directive_memory);
+    free(root);
+    /* free the linked list */
+    while (node->next != NULL){
+        next_node = node->next;
+        free(node);
+        node = next_node;
+    }
+}
