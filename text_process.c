@@ -1,5 +1,4 @@
 #include "text_process.h"
-#include "assembler_main.h"
 #include "constants.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,20 +17,20 @@ int get_line(FILE *file_name, char *line){
     return 1;;
 }
 
-int get_first_token(char *line, char *token) {
+int get_first_token(char *line, char *argument){
     /*
      * call this function the first time on evey new line - then call the rest of the times get_next_token()
      * line - the output from get_line()
     */
-    token = strtok(line, " ");
+    argument = strtok(line, " ");
     return 1;
 }
 
-int get_next_token(char *token) {
+int get_next_token(char *argument) {
     /*
      * call this function only if you called get_first_token() before!
     */
-    token = strtok(NULL, " ");
+    argument = strtok(NULL, " ");
     return 1;
 }
 
@@ -56,14 +55,6 @@ void drop_marks(char *str) {
     *dst = '\0';
 }
 
-
-
-word *get_word(int i) {
-    word *w = (word *)malloc(sizeof(word));
-    w->bits = i;
-    return w;
-
-}
 
 int get_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
@@ -111,17 +102,6 @@ int is_directive(char *argument){
     }    
 }
 
-OperationItem get_command(char *argument){
-    /* ignores spaces and returns the next command */
-    int i;
-    for (i=0; i< 16; i++){
-        if (!strcmp(operation_table[i].name, argument)){
-            return operation_table[i];
-        }
-    }
-    return operation_table[16];
-}
-
 int is_comma(char *argument){
     /*checks wether there is a comma in argument*/
     int i = 0;
@@ -132,24 +112,6 @@ int is_comma(char *argument){
         i++;
     }
     return 0;
-}
-
-/* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
-int get_first_operand(char *argument, char *operand) {
-    /*
-     * call this function the first time on evey new line - 
-     * then call the rest of the times get_second_operand()
-    */
-    operand = strtok(argument, ",");
-    return 1;
-}
-
-int get_second_operand(char *operand) {
-    /*
-     * call this function only if you called get_first_operand() before!
-    */
-    operand = strtok(NULL, ",");
-    return 1;
 }
 
 int operand_address_method(char *argument){
@@ -166,4 +128,32 @@ int operand_address_method(char *argument){
     else{
         return 1;
     }
+}
+
+/* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
+int get_first_operand(char *argument, char *operand) {
+    /*
+     * call this function the first time on evey new line -
+     * then call the rest of the times get_second_operand()
+    */
+    operand = strtok(argument, ",");
+    return 1;
+}
+
+int get_second_operand(char *operand) {
+    /*
+     * call this function only if you called get_first_operand() before!
+    */
+    operand = strtok(NULL, ",");
+    return 1;
+}
+
+int is_comment_line(char *line){
+    /* NOT READY YET */
+    return 1;
+}
+
+int is_empty_line(char *line){
+    /* NOT READY YET. */
+    return 1;
 }

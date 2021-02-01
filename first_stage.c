@@ -2,7 +2,6 @@
 #include "assembler_main.h"
 #include "data_structures.h"
 #include "text_process.h"
-#include "word_process.h"
 #include "constants.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,23 +11,23 @@
 /* ----- SECOND IMPLEMENTATION ----- */
 
 OperationItem hash_table [] ={
-        {"mov",  0,  0, {IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
-        {"cmp",  1,  0, {IMMEDIATE + DIRECT + DIRECT_REG, IMMEDIATE + DIRECT + DIRECT_REG}},
-        {"add",  2,  1, {IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
-        {"sub",  2,  2, {IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
-        {"lea",  4,  0, {DIRECT,                          DIRECT + DIRECT_REG}},
-        {"clr",  5,  1, {NONE,                            DIRECT + DIRECT_REG}},
-        {"not",  5,  2, {NONE,                            DIRECT + DIRECT_REG}},
-        {"inc",  5,  3, {NONE,                            DIRECT + DIRECT_REG}},
-        {"dec",  5,  4, {NONE,                            DIRECT + DIRECT_REG}},
-        {"jmp",  9,  1, {NONE,                            DIRECT + RELATIVE}},
-        {"bne",  9,  2, {NONE,                            DIRECT + RELATIVE}},
-        {"jsr",  9,  3, {NONE,                            DIRECT + RELATIVE}},
-        {"red",  12, 0, {NONE,                            DIRECT + DIRECT_REG}},
-        {"prn",  13, 0, {NONE,                            IMMEDIATE + DIRECT + DIRECT_REG}},
-        {"rts",  14, 0, {NONE,                            NONE}},
-        {"stop", 15, 0, {NONE,                            NONE}},
-        {"null",  0, 0, {NONE,                            NONE}}
+        {"mov",  0,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
+        {"cmp",  1,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, IMMEDIATE + DIRECT + DIRECT_REG}},
+        {"add",  2,  1, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
+        {"sub",  2,  2, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
+        {"lea",  4,  0, 2,{DIRECT,                          DIRECT + DIRECT_REG}},
+        {"clr",  5,  1, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"not",  5,  2, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"inc",  5,  3, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"dec",  5,  4, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"jmp",  9,  1, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"bne",  9,  2, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"jsr",  9,  3, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"red",  12, 0, 0,{NONE,                            DIRECT + DIRECT_REG}},
+        {"prn",  13, 0, 0,{NONE,                            IMMEDIATE + DIRECT + DIRECT_REG}},
+        {"rts",  14, 0, 0,{NONE,                            NONE}},
+        {"stop", 15, 0, 0,{NONE,                            NONE}},
+        {"null",  0, 0, 0,{NONE,                            NONE}}
 };
 
 int first_stage(FILE *file){
@@ -37,8 +36,8 @@ int first_stage(FILE *file){
     char label[MAX_LABEL];
     enum boolean IS_LABEL = FALSE, ERROR = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
-    int L;
-    OperationItem *command;
+    int L=0;
+    OperationItem *command = &hash_table[16]; /*NULL*/
 
     while (!feof(file))
     {
@@ -75,20 +74,21 @@ int first_stage(FILE *file){
             }
         }
         else{
-            if (IS_LABEL == TRUE){
+            if (IS_LABEL == TRUE) {
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
             get_next_token(argument);
-            get_command(argument);
+            get_command(argument, command, hash_table);
+            L = command->words_num;
             switch (L) {
                 case 2:
-                    add_instruction_words_2();
+                    add_instruction_words_2(command);
                     break;
                 case 1:
-                    add_instruction_word_1();
+                    add_instruction_word_1(command);
                     break;
                 case 0:
-                    command_memory[IC++] = get_first_word(command, 0, 0);
+                    command_memory[IC++].w = get_first_word(command, 0, 0);
                     break;
             }
         }
@@ -115,7 +115,7 @@ void directive_data_line(){
             continue;
         }
         num = atoi(arg);
-        directive_memory[DC++].w = *get_word(num);
+        directive_memory[DC++].w = get_word(num);
     }
 }
 
@@ -128,17 +128,19 @@ void directive_string_line(){
     get_next_token(arg);
     drop_marks(arg);
     for (i=0; arg[i] != '\0'; i++){
-        directive_memory[DC++].w = *get_word(arg[i]);
+        directive_memory[DC++].w = get_word(arg[i]);
     }
-    directive_memory[DC++].w = *get_word('\0');
+    directive_memory[DC++].w = get_word('\0');
 }
 
 /*
  * adds to IC the words for 2 words instruction
  */
-void add_instruction_words_2(){
+void add_instruction_words_2(OperationItem *command){
     char argument[MAX_ARGUMENT];
     char temp1[MAX_ARGUMENT], temp2[MAX_ARGUMENT];
+    word *w1 = 0, *w2 = 0;
+    int source, dest;
     get_next_token(argument);
     if (is_comma(argument)){
         get_first_operand(argument, temp1);
@@ -153,7 +155,7 @@ void add_instruction_words_2(){
             get_next_token(temp2);
             if (*temp2 == ',' && *(temp2 + 1) == '\0') {
                 get_next_token(temp2);
-            } else if (is_comma(temp_s2)) {
+            } else if (is_comma(temp2)) {
                 drop_comma(temp2);
             } else {
                 /* print error - no comma */
@@ -162,69 +164,73 @@ void add_instruction_words_2(){
     }
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
-    command_memory[IC++] = get_first_word(command, source, dest);
+    command_memory[IC++].w = get_first_word(command, source, dest);
 
     switch (source) {
         case 0:
             w1 = get_word_immediate(temp1);
             break;
         case 1:
-            w1 = get_word_direct(temp1);
+            w1 = 0; /* done at second stage */
             break;
         case 2:
-            w1 = get_word_relative(temp1);
+            w1 = 0; /* done at second stage */
             break;
         case 3:
             w1 = get_word_register(temp1);
             break;
         default:
-            /* ERROR */
+            w1 = 0; /* ERROR */
     }
-    command_memory[IC++] = w1;
+    command_memory[IC++].w = w1;
     switch (dest) {
         case 0:
             w2 = get_word_immediate(temp2);
             break;
         case 1:
-            w2 = get_word_direct(temp2);
+            w2 = 0; /* done at second stage */
             break;
         case 2:
-            w2 = get_word_relative(temp2);
+            w2 = 0; /* done at second stage */
             break;
         case 3:
             w2 = get_word_register(temp2);
             break;
         default:
-            /* ERROR */
+            w2 = 0; /* ERROR */
     }
-    command_memory[IC++] = w2;
+    command_memory[IC++].w = w2;
 }
 
 /*
  * adds to IC the a word for 1 word instruction
  */
-void add_instruction_word_1(){
-    temp_s1 = get_next_token();
-    dest = operand_address_method(temp_s2);
-    command_memory[IC] = get_first_word(command, 0, dest);
+void add_instruction_word_1(OperationItem *command){
+    char *s1 = "";
+    int dest;
+    word *w1 = 0;
+    get_next_token(s1);
+    dest = operand_address_method(s1);
+    command_memory[IC].w = get_first_word(command, 0, dest);
     /* add the words depends on the address method */
     switch (dest) {
         case 0:
-            w1 = get_word_immediate(temp_s1);
+            w1 = get_word_immediate(s1);
             break;
         case 1:
-            w1 = get_word_direct(temp_s1);
+            w1 = 0; /* done at second stage */
             break;
         case 2:
-            w1 = get_word_relative(temp_s1);
+            w1 = 0; /* done at second stage */
             break;
         case 3:
-            w1 = get_word_register(temp_s1);
+            w1 = get_word_register(s1);
             break;
         default:
+            printf("ERROR");
             /* ERROR */
     }
-    command_memory[IC++] = w1;
+    command_memory[IC++].w = w1;
 }
 
 

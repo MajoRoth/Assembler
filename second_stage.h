@@ -3,6 +3,6 @@
 
 #include <stdio.h>
 
-int second_stage(FILE file);
+int second_stage(FILE *file);
 
 #endif
