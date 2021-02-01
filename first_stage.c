@@ -5,7 +5,7 @@
 #include "word_process.h"
 #include "constants.h"
 #include <stdio.h>
-#include <stdlib>
+#include <stdlib.h>
 #include <ctype.h>
 
 
