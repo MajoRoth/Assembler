@@ -42,7 +42,7 @@ void get_command(char *argument, OperationItem *p, OperationItem *table){
 SymbolNode *get_symbol_root(){
     /* init a new symbols linked list */
     SymbolNode *root = (SymbolNode *)malloc(sizeof(SymbolNode));
-    root->attributes[0] = -1; /* add capacity for 2 later */
+    root->attribute = -1; /* add capacity for 2 later */
     root->value = -1;
     root->symbol = "\0";
     root->next = NULL;
@@ -50,10 +50,10 @@ SymbolNode *get_symbol_root(){
     return root;
 }
 
-SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode *prev){
+SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *prev){
     /* add symbol node to an existing linked list */
     SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
-    node->attributes[0] = attributes; /* add capacity for 2 later */
+    node->attribute = attribute;
     node->value = value;
     node->symbol = (char *)malloc(MAX_LABEL);
     strcpy(node->symbol, symbol);
@@ -72,7 +72,7 @@ SymbolNode *get_last_node(SymbolNode *root){
 
 int is_symbol_node_data(SymbolNode *node){
     /* checks if a node has "code" attribute */
-    if (node->attributes[0] == data) return 1;
+    if (node->attribute == data) return 1;
     return 0;
 }
 

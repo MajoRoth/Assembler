@@ -18,7 +18,7 @@ typedef struct SymbolNode{
     struct SymbolNode *next;
     char *symbol;
     int value;
-    int attributes[2]; /* one line can have 2 symbols. for example data and extern */
+    int attribute; /* one line can have 2 symbols. for example data and extern */
 } SymbolNode;
 
 typedef struct OperationItem{

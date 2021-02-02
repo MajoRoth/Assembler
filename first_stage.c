@@ -83,10 +83,7 @@ int first_stage(FILE *file){
         }
         else{
             if (IS_LABEL == TRUE) {
-                printf("trying to add symbol %s\n", label);
                 add_symbol_node(label, IC, code, get_last_node(root));
-                print_table_symbol(root);
-
             }
             get_next_token(argument);
             get_command(argument, command, hash_table);
@@ -104,6 +101,9 @@ int first_stage(FILE *file){
             }
         }
         free_temp(line, argument, label);
+        IS_LABEL = FALSE;
+        IS_DIRECT = FALSE;
+        print_table_symbol(root);
     }
     add_ic(root, IC);
     if (ERROR == FALSE)

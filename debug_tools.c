@@ -14,9 +14,9 @@ void print_word(word *w){
     printf("\n");
 }
 
-void print_table_row(TableRow t){
-    print_word(t.w);
-    printf("\t%d\n", t.ARE);
+void print_table_row(TableRow *t){
+    print_word(t->w);
+    printf("\t%d\n", t->ARE);
 }
 
 
@@ -25,11 +25,8 @@ void print_table_symbol(SymbolNode *root){
     SymbolNode *node = root;
     printf("printing symbol table\n");
     while(node->next != NULL){
-        printf("%s\t%d\t%d", node->symbol, node->value, node->attributes[0]);
-        if(!(node->attributes[1])){/*checks wether there is second attribute*/
-            printf(",%d",node->attributes[1]);
-        }
-        printf("\n");
         node = node->next;
+        printf("%s\t%d\t%d", node->symbol, node->value, node->attribute);
+        printf("\n");
     } 
 }

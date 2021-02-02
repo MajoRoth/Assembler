@@ -11,7 +11,7 @@ int get_line(FILE *file_name, char *line){
     int i=0;
     char c;
     printf("entered get line \n");
-    while ((c=getc(file_name)) != '\n'){
+    while ((c=getc(file_name)) != '\n' && c != -1){
         line[i] = c;
         i++;
     }
