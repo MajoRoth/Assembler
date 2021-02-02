@@ -55,7 +55,9 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attributes, SymbolNode 
     SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
     node->attributes[0] = attributes; /* add capacity for 2 later */
     node->value = value;
+    node->symbol = (char *)malloc(MAX_LABEL);
     strcpy(node->symbol, symbol);
+    printf("entered symbol node\n");
     prev->next = node;
     return node;
 }

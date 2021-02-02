@@ -3,8 +3,10 @@
 #include "data_structures.h"
 #include "text_process.h"
 #include "constants.h"
+#include "debug_tools.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 
 
@@ -39,10 +41,14 @@ int first_stage(FILE *file){
     int L=0;
     OperationItem *command = &hash_table[16]; /*NULL*/
 
+    printf("entered first stage\n");
+    printf("%d\n", feof(file));
     while (!feof(file))
     {
+        printf("entered loop\n");
         /* main loop of stage 1 */
         get_line(file, line);
+        printf("current line: %s\n", line);
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
             if (get_label(line, label)==1){
@@ -56,6 +62,8 @@ int first_stage(FILE *file){
                 IS_DIRECT = TRUE;
             }
         }
+
+        printf("finished first round of first stage\n");
 
         if (IS_DIRECT == TRUE){
             if (IS_LABEL == TRUE && directive_type == data ){
@@ -75,7 +83,10 @@ int first_stage(FILE *file){
         }
         else{
             if (IS_LABEL == TRUE) {
+                printf("trying to add symbol %s\n", label);
                 add_symbol_node(label, IC, code, get_last_node(root));
+                print_table_symbol(root);
+
             }
             get_next_token(argument);
             get_command(argument, command, hash_table);
@@ -92,6 +103,7 @@ int first_stage(FILE *file){
                     break;
             }
         }
+        free_temp(line, argument, label);
     }
     add_ic(root, IC);
     if (ERROR == FALSE)
@@ -231,6 +243,12 @@ void add_instruction_word_1(OperationItem *command){
             /* ERROR */
     }
     command_memory[IC++].w = w1;
+}
+
+void free_temp(char *line, char *argument, char *label){
+    memset(line, 0, MAX_LINE);
+    memset(argument, 0, MAX_ARGUMENT);
+    memset(label, 0, MAX_LABEL);
 }
 
 

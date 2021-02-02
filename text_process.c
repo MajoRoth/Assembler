@@ -10,11 +10,13 @@ int get_line(FILE *file_name, char *line){
      return 1 is sucseeded and 0 otherwise*/
     int i=0;
     char c;
+    printf("entered get line \n");
     while ((c=getc(file_name)) != '\n'){
         line[i] = c;
         i++;
     }
-    return 1;;
+    line[i] = '\0';
+    return 1;
 }
 
 int get_first_token(char *line, char *argument){
@@ -22,7 +24,9 @@ int get_first_token(char *line, char *argument){
      * call this function the first time on evey new line - then call the rest of the times get_next_token()
      * line - the output from get_line()
     */
-    argument = strtok(line, " ");
+    char *temp;
+    temp = strtok(line, " ");
+    strcpy(argument, temp);
     return 1;
 }
 
@@ -30,7 +34,9 @@ int get_next_token(char *argument) {
     /*
      * call this function only if you called get_first_token() before!
     */
-    argument = strtok(NULL, " ");
+    char *temp;
+    temp = strtok(NULL, " ");
+    strcpy(argument, temp);
     return 1;
 }
 
@@ -60,10 +66,11 @@ int get_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
-    label = " ";
+    printf("entered get label\n");
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if(isalpha(line[0])){ /* checks if c in A-Z or a-z */
+                label[i] = '\0';
                 return 1; /* need to be check if label already exists in symbol table */
             }
             else{
@@ -150,10 +157,10 @@ int get_second_operand(char *operand) {
 
 int is_comment_line(char *line){
     /* NOT READY YET */
-    return 1;
+    return 0;
 }
 
 int is_empty_line(char *line){
     /* NOT READY YET. */
-    return 1;
+    return 0;
 }

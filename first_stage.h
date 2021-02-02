@@ -10,4 +10,5 @@ void directive_data_line();
 void directive_string_line();
 void add_instruction_words_2(OperationItem *command);
 void add_instruction_word_1(OperationItem *command);
+void free_temp(char *line, char *argument, char *label);
 #endif

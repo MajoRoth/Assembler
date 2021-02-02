@@ -9,7 +9,7 @@ int assembler (char *file_path){
     FILE *file = NULL;
     printf("entered assembler_main.c\n");
 
-    if (open_file(file_path, file)){
+    if (open_file(file_path, &file)){
         initialize_data_structures();
         IC = 100;
         DC = 0;
@@ -28,12 +28,13 @@ int assembler (char *file_path){
  * checks for correctness of the file name and tries to open the file
  * @return 1 - if the file opened and 0 - if an error occurred.
  */
-int open_file(char *file_path, FILE *file){
-    file = fopen(file_path,"r");
-    if(!file){
+int open_file(char *file_path, FILE **file){
+    *file = fopen(file_path,"r");
+    if(!*file){
         printf("file name is not valid\n");
         return 0;
     }
+    printf("%s opened sucessfully\n", file_path);
     return 1;
 }
 

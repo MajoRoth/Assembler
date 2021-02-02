@@ -1,15 +1,15 @@
 #include "debug_tools.h"
 
-void print_word(word w){
+void print_word(word *w){
     int i;
     for(i=0; i<12; i++){
-        if (w.bits & 2048){
+        if (w->bits & 2048){
             printf("1");
         }
         else{
             printf("0");
         }
-        w.bits <<=1;
+        w->bits <<=1;
     }
     printf("\n");
 }
@@ -23,6 +23,7 @@ void print_table_row(TableRow t){
 void print_table_symbol(SymbolNode *root){
     /* print all nodes until node->next == null */
     SymbolNode *node = root;
+    printf("printing symbol table\n");
     while(node->next != NULL){
         printf("%s\t%d\t%d", node->symbol, node->value, node->attributes[0]);
         if(!(node->attributes[1])){/*checks wether there is second attribute*/
