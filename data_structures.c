@@ -1,6 +1,7 @@
 #include "data_structures.h"
 #include "constants.h"
 #include "text_process.h"
+#include "debug_tools.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,16 +26,18 @@ int get_opcode_by_name(char *name, OperationItem *hash_table){
     return -1;
 }
 
-void get_command(char *argument, OperationItem *p, OperationItem *table){
+void get_command(char *argument, OperationItem **p, OperationItem *table){
     /* ignores spaces and returns the next command */
     int i;
+    printf("get command %s\n", argument);
     for (i=0; i< 16; i++){
         if (!strcmp(table[i].name, argument)){
-            p = table+i;
+            *p = table+i;
+            printf(" --- %s ---\n", (*p)->name);
             return;
         }
     }
-    p = table+16;
+    *p = table+16;
 }
 
 /* initialize symbols table - linked list */
@@ -97,10 +100,10 @@ word *get_first_word(OperationItem *command, int source, int dest){
     first_word->bits += command->opcode;
     first_word->bits = first_word->bits << 4;
     first_word->bits += command->funct;
-    first_word->bits = first_word->bits << 4;
-    first_word->bits += dest;
     first_word->bits = first_word->bits << 2;
     first_word->bits += source;
+    first_word->bits = first_word->bits << 2;
+    first_word->bits += dest;
     return first_word;
 }
 
@@ -162,6 +165,6 @@ word *get_word_register(char *argument){
 word *get_word(int i) {
     word *w = (word *)malloc(sizeof(word));
     w->bits = i;
+    printf("inside get word\n");
     return w;
-
 }

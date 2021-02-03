@@ -15,16 +15,16 @@
 OperationItem hash_table [] ={
         {"mov",  0,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
         {"cmp",  1,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, IMMEDIATE + DIRECT + DIRECT_REG}},
-        {"add",  2,  1, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
-        {"sub",  2,  2, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
+        {"add",  2,  10, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
+        {"sub",  2,  11, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
         {"lea",  4,  0, 2,{DIRECT,                          DIRECT + DIRECT_REG}},
-        {"clr",  5,  1, 1,{NONE,                            DIRECT + DIRECT_REG}},
-        {"not",  5,  2, 1,{NONE,                            DIRECT + DIRECT_REG}},
-        {"inc",  5,  3, 1,{NONE,                            DIRECT + DIRECT_REG}},
-        {"dec",  5,  4, 1,{NONE,                            DIRECT + DIRECT_REG}},
-        {"jmp",  9,  1, 1,{NONE,                            DIRECT + RELATIVE}},
-        {"bne",  9,  2, 1,{NONE,                            DIRECT + RELATIVE}},
-        {"jsr",  9,  3, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"clr",  5,  10, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"not",  5,  11, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"inc",  5,  12, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"dec",  5,  13, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"jmp",  9,  10, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"bne",  9,  11, 1,{NONE,                            DIRECT + RELATIVE}},
+        {"jsr",  9,  12, 1,{NONE,                            DIRECT + RELATIVE}},
         {"red",  12, 0, 0,{NONE,                            DIRECT + DIRECT_REG}},
         {"prn",  13, 0, 0,{NONE,                            IMMEDIATE + DIRECT + DIRECT_REG}},
         {"rts",  14, 0, 0,{NONE,                            NONE}},
@@ -39,13 +39,11 @@ int first_stage(FILE *file){
     enum boolean IS_LABEL = FALSE, ERROR = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
     int L=0;
+    enum boolean skip = FALSE;
     OperationItem *command = &hash_table[16]; /*NULL*/
 
-    printf("entered first stage\n");
-    printf("%d\n", feof(file));
     while (!feof(file))
     {
-        printf("entered loop\n");
         /* main loop of stage 1 */
         get_line(file, line);
         printf("current line: %s\n", line);
@@ -62,10 +60,12 @@ int first_stage(FILE *file){
                 IS_DIRECT = TRUE;
             }
         }
+        else{
+            skip = TRUE;
+        }
 
-        printf("finished first round of first stage\n");
 
-        if (IS_DIRECT == TRUE){
+        if (IS_DIRECT == TRUE && skip == FALSE){
             if (IS_LABEL == TRUE && directive_type == data ){
                 add_symbol_node(label, DC, data, get_last_node(root));
                 directive_data_line();
@@ -81,12 +81,11 @@ int first_stage(FILE *file){
                 /* intern line - ignore */
             }
         }
-        else{
+        else if (skip == FALSE){
             if (IS_LABEL == TRUE) {
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
-            get_next_token(argument);
-            get_command(argument, command, hash_table);
+            get_command(argument, &command, hash_table);
             L = command->words_num;
             switch (L) {
                 case 2:
@@ -103,8 +102,9 @@ int first_stage(FILE *file){
         free_temp(line, argument, label);
         IS_LABEL = FALSE;
         IS_DIRECT = FALSE;
-        print_table_symbol(root);
+        skip = FALSE;
     }
+    print_table_symbol(root);
     add_ic(root, IC);
     if (ERROR == FALSE)
         return 1;
@@ -150,13 +150,16 @@ void directive_string_line(){
  */
 void add_instruction_words_2(OperationItem *command){
     char argument[MAX_ARGUMENT];
-    char temp1[MAX_ARGUMENT], temp2[MAX_ARGUMENT];
+    char *temp1 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
+    char *temp2 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     word *w1 = 0, *w2 = 0;
     int source, dest;
     get_next_token(argument);
+    /* AMIT - FIX UNTILL NEXT MEETING, NEED TO WORK AT ALL WAYS WITH COMMAS AND SPACES */
     if (is_comma(argument)){
         get_first_operand(argument, temp1);
         get_second_operand(temp2);
+        printf("TEMP - %s\n", temp1);
     }
     else {
         get_next_token(temp1);
@@ -176,8 +179,10 @@ void add_instruction_words_2(OperationItem *command){
     }
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
+    /* YOU HAVE DEST, SOURCE AND COMMAND */
+    /* check function ( dest, source, command, error)*/
     command_memory[IC++].w = get_first_word(command, source, dest);
-
+    print_word(command_memory[IC-1].w);
     switch (source) {
         case 0:
             w1 = get_word_immediate(temp1);
@@ -212,8 +217,7 @@ void add_instruction_words_2(OperationItem *command){
             w2 = 0; /* ERROR */
     }
     command_memory[IC++].w = w2;
-print_word(command_memory[IC++].w);
-
+    printf("words 2 \n");
 }
 
 /*

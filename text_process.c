@@ -1,5 +1,4 @@
 #include "text_process.h"
-#include "constants.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,7 +9,6 @@ int get_line(FILE *file_name, char *line){
      return 1 is sucseeded and 0 otherwise*/
     int i=0;
     char c;
-    printf("entered get line \n");
     while ((c=getc(file_name)) != '\n' && c != -1){
         line[i] = c;
         i++;
@@ -66,7 +64,6 @@ int get_label(char *line, char *label){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
-    printf("entered get label\n");
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
             if(isalpha(line[0])){ /* checks if c in A-Z or a-z */
@@ -123,6 +120,7 @@ int is_comma(char *argument){
 
 int operand_address_method(char *argument){
     /*returns a number between 0-3 that represents the operand address number*/
+    printf("%s\n", argument);
     if (argument[0] == '#'){
         return 0;
     }
@@ -143,7 +141,9 @@ int get_first_operand(char *argument, char *operand) {
      * call this function the first time on evey new line -
      * then call the rest of the times get_second_operand()
     */
-    operand = strtok(argument, ",");
+    char *temp;
+    temp = strtok(argument, ",");
+    strcpy(operand, temp);
     return 1;
 }
 
@@ -151,31 +151,32 @@ int get_second_operand(char *operand) {
     /*
      * call this function only if you called get_first_operand() before!
     */
-    operand = strtok(NULL, ",");
+    char *temp;
+    temp = strtok(NULL, ",");
+    strcpy(operand, temp);
     return 1;
 }
 
 
 int is_comment_line(char *line){
-    /*if (!strcmp(line[0], ';')){
+    if (line[0] == ';'){
+        printf("%s\n", line);
         return 1;
 	}
     else{
         return 0;
-    }*/
-return 0;
     }
+}
 
     
 
 int is_empty_line(char *line){
-    /*int i = 0;
-    while(strcnp(line[i] ,'\n'){
-        if(!(strcnp(line[i],' ') || strcnp(line[i],'\t'))){
+    int i = 0;
+    while(line[i] != '\0' && line[i] != '\n'){
+        if(line[i] != ' ' && line[i] != '\t'){
             return 0;
         }
     }
-    return 1;*/
-return 0;
+    return 1;
 }
 

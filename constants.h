@@ -8,5 +8,7 @@
 #define MAX_TABLE 4096
 
 enum attribute {code, data, external, entry, string};
+enum boolean {FALSE, TRUE};
+
 
 #endif

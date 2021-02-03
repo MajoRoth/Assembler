@@ -33,7 +33,7 @@ int get_funct_by_name(char *name, OperationItem *hash_table);
 
 int get_opcode_by_data(char *name, OperationItem *hash_table);
 
-void get_command(char *argument, OperationItem *p, OperationItem *table);
+void get_command(char *argument, OperationItem **p, OperationItem *table);
 
 SymbolNode *get_symbol_root();
 
