@@ -4,6 +4,7 @@
 #include "text_process.h"
 #include "constants.h"
 #include "debug_tools.h"
+#include "error_handlers.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,12 +32,13 @@ OperationItem hash_table [] ={
         {"stop", 15, 0, 0,{NONE,                            NONE}},
         {"null",  0, 0, 0,{NONE,                            NONE}}
 };
+enum boolean IS_ERROR = FALSE;
 
 int first_stage(FILE *file){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
     char label[MAX_LABEL];
-    enum boolean IS_LABEL = FALSE, ERROR = FALSE, IS_DIRECT = FALSE;
+    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
     int L=0;
     enum boolean skip = FALSE;
@@ -46,7 +48,7 @@ int first_stage(FILE *file){
     {
         /* main loop of stage 1 */
         get_line(file, line);
-        printf("current line: %s\n", line);
+        printf("[%d] - current line: %s\n", IC, line);
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
             if (get_label(line, label)==1){
@@ -106,10 +108,10 @@ int first_stage(FILE *file){
     }
     print_table_symbol(root);
     add_ic(root, IC);
-    if (ERROR == FALSE)
-        return 1;
-    else
+    if (IS_ERROR == TRUE)
         return 0;
+    else
+        return 1;
 
 }
 
@@ -153,30 +155,34 @@ void add_instruction_words_2(OperationItem *command){
     char *temp1 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     char *temp2 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     word *w1 = 0, *w2 = 0;
-    int source, dest;
+    int source, dest; 
     get_next_token(argument);
     /* AMIT - FIX UNTILL NEXT MEETING, NEED TO WORK AT ALL WAYS WITH COMMAS AND SPACES */
     if (is_comma(argument)){
-        get_first_operand(argument, temp1);
-        get_second_operand(temp2);
-        printf("TEMP - %s\n", temp1);
-    }
-    else {
-        get_next_token(temp1);
-        if (is_comma(temp1)) {
-            drop_comma(temp1);
-            get_next_token(temp2);
-        } else {
-            get_next_token(temp2);
-            if (*temp2 == ',' && *(temp2 + 1) == '\0') {
-                get_next_token(temp2);
-            } else if (is_comma(temp2)) {
-                drop_comma(temp2);
-            } else {
-                /* print error - no comma */
-            }
+        if(!get_next_token(temp2)){
+            get_first_operand(argument, temp1);
+            get_second_operand(temp2);
+        }
+        else{
+            drop_comma(argument);
+            strcpy(temp1, argument);
         }
     }
+    else {
+        strcpy(temp1, argument);
+        get_next_token(temp2);
+        if(temp2[0] == ',' && temp2[1] == '\0'){
+            get_next_token(temp2);
+        }
+        else if(is_comma(temp2)){
+            drop_comma(temp2);
+        }
+        else{
+            COMMA_ERROR(&IS_ERROR, 0);
+        }
+
+    }
+    printf("TEMP1 - %s \t TEMP2 - %s\n", temp1, temp2);
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
     /* YOU HAVE DEST, SOURCE AND COMMAND */
@@ -217,23 +223,22 @@ void add_instruction_words_2(OperationItem *command){
             w2 = 0; /* ERROR */
     }
     command_memory[IC++].w = w2;
-    printf("words 2 \n");
 }
 
 /*
  * adds to IC the a word for 1 word instruction
  */
 void add_instruction_word_1(OperationItem *command){
-    char *s1 = "";
+    char argument[MAX_ARGUMENT];
     int dest;
     word *w1 = 0;
-    get_next_token(s1);
-    dest = operand_address_method(s1);
+    get_next_token(argument);
+    dest = operand_address_method(argument);
     command_memory[IC].w = get_first_word(command, 0, dest);
     /* add the words depends on the address method */
     switch (dest) {
         case 0:
-            w1 = get_word_immediate(s1);
+            w1 = get_word_immediate(argument);
             break;
         case 1:
             w1 = 0; /* done at second stage */
@@ -242,7 +247,7 @@ void add_instruction_word_1(OperationItem *command){
             w1 = 0; /* done at second stage */
             break;
         case 3:
-            w1 = get_word_register(s1);
+            w1 = get_word_register(argument);
             break;
         default:
             printf("ERROR");

@@ -1,4 +1,4 @@
 #include "constants.h"
-void COMMA_EROR(enum boolean *flag, int line);
+void COMMA_ERROR(enum boolean *flag, int line);
 
-void NAME_EROR(enum boolean *flag, int line);
+void NAME_ERROR(enum boolean *flag, int line);

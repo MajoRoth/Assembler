@@ -29,11 +29,9 @@ int get_opcode_by_name(char *name, OperationItem *hash_table){
 void get_command(char *argument, OperationItem **p, OperationItem *table){
     /* ignores spaces and returns the next command */
     int i;
-    printf("get command %s\n", argument);
     for (i=0; i< 16; i++){
         if (!strcmp(table[i].name, argument)){
             *p = table+i;
-            printf(" --- %s ---\n", (*p)->name);
             return;
         }
     }
@@ -60,7 +58,6 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *
     node->value = value;
     node->symbol = (char *)malloc(MAX_LABEL);
     strcpy(node->symbol, symbol);
-    printf("entered symbol node\n");
     prev->next = node;
     return node;
 }

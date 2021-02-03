@@ -34,6 +34,9 @@ int get_next_token(char *argument) {
     */
     char *temp;
     temp = strtok(NULL, " ");
+    if (temp == NULL){
+        return 0;
+    }
     strcpy(argument, temp);
     return 1;
 }
