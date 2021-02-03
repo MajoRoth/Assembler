@@ -212,6 +212,8 @@ void add_instruction_words_2(OperationItem *command){
             w2 = 0; /* ERROR */
     }
     command_memory[IC++].w = w2;
+print_word(command_memory[IC++].w);
+
 }
 
 /*

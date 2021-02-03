@@ -28,7 +28,7 @@ int get_first_operand(char *argument, char *operand);
 
 int get_second_operand(char *operand);
 
-/* 2 functions bellow need to be writen. only declared */
+
 int is_comment_line(char *line);
 
 int is_empty_line(char *line);

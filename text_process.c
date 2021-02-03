@@ -155,24 +155,27 @@ int get_second_operand(char *operand) {
     return 1;
 }
 
+
 int is_comment_line(char *line){
-    /*returns 1 if the line is a comment line, 0 otherwise */
-    if (!strcmp(line[0], ';')){/*checks whether the first character in the line is ';' */
+    /*if (!strcmp(line[0], ';')){
         return 1;
+	}
     else{
         return 0;
+    }*/
+return 0;
     }
-    }
+
     
-}
 
 int is_empty_line(char *line){
-    /*returns 1 if the line is an empty line, 0 otherwise */
-    int i = 0;
+    /*int i = 0;
     while(strcnp(line[i] ,'\n'){
-        if(!(strcnp(line[i],' ') || strcnp(line[i],'\t'))){/*checks whether there are characters in the line other than spaces */
+        if(!(strcnp(line[i],' ') || strcnp(line[i],'\t'))){
             return 0;
         }
     }
-    return 1;
+    return 1;*/
+return 0;
 }
+
