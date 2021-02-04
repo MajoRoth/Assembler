@@ -5,7 +5,7 @@
 
 void print_word(word *w);
 
-void print_table_row(TableRow *t);
+void print_table_row(int i, int h);
 
 void print_table_symbol(SymbolNode *);
 
