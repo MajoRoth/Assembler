@@ -8,7 +8,7 @@ bne END
 
 inc r4
 ;comment
-;cmp val1,#-6 IDO - UNCOMENT WHEN YOU FIXED get_word_imediate()
+cmp val1,#-6 IDO - UNCOMENT WHEN YOU FIXED get_word_imediate()
 bne %END
 dec K
 jmp %LOOP
