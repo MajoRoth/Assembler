@@ -18,8 +18,8 @@ void print_word(word *w){
 
 void print_table_row(int i, int j){
     for(; i<j; i++){
-    print_word(command_memory[i]->w);
-    printf("\t%d\n", command_memory[i]->ARE);
+    print_word(command_memory[i].w);
+    printf("\t%d\n", command_memory[i].ARE);
     } 
 }
 
