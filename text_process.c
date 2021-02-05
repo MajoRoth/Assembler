@@ -123,7 +123,6 @@ int is_comma(char *argument){
 
 int operand_address_method(char *argument){
     /*returns a number between 0-3 that represents the operand address number*/
-    printf("%s\n", argument);
     if (argument[0] == '#'){
         return 0;
     }
@@ -163,7 +162,6 @@ int get_second_operand(char *operand) {
 
 int is_comment_line(char *line){
     if (line[0] == ';'){
-        printf("%s\n", line);
         return 1;
 	}
     else{

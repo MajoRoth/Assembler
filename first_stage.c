@@ -26,8 +26,8 @@ OperationItem hash_table [] ={
         {"jmp",  9,  10, 1,{NONE,                            DIRECT + RELATIVE}},
         {"bne",  9,  11, 1,{NONE,                            DIRECT + RELATIVE}},
         {"jsr",  9,  12, 1,{NONE,                            DIRECT + RELATIVE}},
-        {"red",  12, 0, 0,{NONE,                            DIRECT + DIRECT_REG}},
-        {"prn",  13, 0, 0,{NONE,                            IMMEDIATE + DIRECT + DIRECT_REG}},
+        {"red",  12, 0, 1,{NONE,                            DIRECT + DIRECT_REG}},
+        {"prn",  13, 0, 1,{NONE,                            IMMEDIATE + DIRECT + DIRECT_REG}},
         {"rts",  14, 0, 0,{NONE,                            NONE}},
         {"stop", 15, 0, 0,{NONE,                            NONE}},
         {"null",  0, 0, 0,{NONE,                            NONE}}
@@ -77,6 +77,7 @@ int first_stage(FILE *file){
                 directive_string_line();
             }
             else if (directive_type == external){
+                get_next_token(label);
                 add_symbol_node(label, 0, external, get_last_node(root));
             }
             else{
@@ -89,6 +90,7 @@ int first_stage(FILE *file){
             }
             get_command(argument, &command, hash_table);
             L = command->words_num;
+            printf("L: %d name: %s", L, command->name);
             switch (L) {
                 case 2:
                     add_instruction_words_2(command);
@@ -106,13 +108,12 @@ int first_stage(FILE *file){
         IS_DIRECT = FALSE;
         skip = FALSE;
     }
-    print_table_symbol(root);
     add_ic(root, IC);
+    print_table_symbol(root);
     if (IS_ERROR == TRUE)
         return 0;
     else
         return 1;
-
 }
 
 
@@ -182,12 +183,12 @@ void add_instruction_words_2(OperationItem *command){
         }
 
     }
-    printf("TEMP1 - %s \t TEMP2 - %s\n", temp1, temp2);
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
     /* YOU HAVE DEST, SOURCE AND COMMAND */
     /* check function ( dest, source, command, error)*/
     command_memory[IC++].w = get_first_word(command, source, dest);
+    printf("CM %d ", IC-1);
     print_word(command_memory[IC-1].w);
     switch (source) {
         case 0:
@@ -234,7 +235,9 @@ void add_instruction_word_1(OperationItem *command){
     word *w1 = 0;
     get_next_token(argument);
     dest = operand_address_method(argument);
-    command_memory[IC].w = get_first_word(command, 0, dest);
+    command_memory[IC++].w = get_first_word(command, 0, dest);
+    printf("CM %d ", IC-1);
+    print_word(command_memory[IC-1].w);
     /* add the words depends on the address method */
     switch (dest) {
         case 0:

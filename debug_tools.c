@@ -4,6 +4,7 @@
 void print_word(word *w){
     int i;
     int bits = w->bits;
+
     for(i=0; i<12; i++){
         if (bits & 2048){
             printf("1");
@@ -16,13 +17,20 @@ void print_word(word *w){
     printf("\n");
 }
 
-void print_table_row(int i, int j){
+void print_table_row_ic(int i, int j){
+    print_word(command_memory[105].w);
     for(; i<j; i++){
     print_word(command_memory[i].w);
     printf("\t%d\n", command_memory[i].ARE);
     } 
 }
 
+void print_table_row_dc(int i, int j){
+    for(; i<j; i++){
+    print_word(directive_memory[i].w);
+    printf("\t%d\n", directive_memory[i].ARE);
+    } 
+}
 
 void print_table_symbol(SymbolNode *root){
     /* print all nodes until node->next == null */

@@ -1,14 +1,18 @@
-MAIN: add r3,  LIST
+MAIN: add r3, LIST
 LOOP: prn #48
-lea STR,r6
+lea STR, r6
 inc r6
-mov r3,K
-sub r1,r4
+mov r3, K
+sub r1, r4
 bne END
-
-inc r4
-;comment
-cmp val1,#-6 IDO - UNCOMENT WHEN YOU FIXED get_word_imediate()
+cmp val1, #-6
 bne %END
 dec K
 jmp %LOOP
+END: stop
+STR: .string “abcd”
+LIST: .data 6, -9
+.data -100
+.entry K
+K: .data 31
+.extern val1

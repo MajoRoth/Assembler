@@ -101,13 +101,15 @@ word *get_first_word(OperationItem *command, int source, int dest){
     first_word->bits += source;
     first_word->bits = first_word->bits << 2;
     first_word->bits += dest;
+    printf("first word %s source: %d, dest: %d, word: ", command->name, source, dest);
+    print_word(first_word);
     return first_word;
 }
 
 
 word *get_word_immediate(char *argument){
     /* returns word that represents the immediate operand*/
-    char *operand ="";
+    char *operand = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     word *immediate_word = (word *)malloc(sizeof(word));
     int int_operand;
     if(is_comma(argument)){
@@ -162,6 +164,5 @@ word *get_word_register(char *argument){
 word *get_word(int i) {
     word *w = (word *)malloc(sizeof(word));
     w->bits = i;
-    printf("inside get word\n");
     return w;
 }
