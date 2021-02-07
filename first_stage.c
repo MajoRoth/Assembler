@@ -186,7 +186,7 @@ void add_instruction_words_2(OperationItem *command){
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
     /* YOU HAVE DEST, SOURCE AND COMMAND */
-    /* check function ( dest, source, command, error)*/
+    /* CHECK_OPERANDS(IS_ERROR, line_number, source, dest, command)*/
     command_memory[IC++].w = get_first_word(command, source, dest);
     printf("CM %d ", IC-1);
     print_word(command_memory[IC-1].w);
