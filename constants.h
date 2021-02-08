@@ -7,7 +7,7 @@
 #define OPT_SIZE 17
 #define MAX_TABLE 4096
 
-enum attribute {code, data, external, entry, string};
+enum attribute {code = 16, data = 8, external = 4, entry = 2, string = 1};
 enum boolean {FALSE, TRUE};
 
 

@@ -76,6 +76,19 @@ int is_symbol_node_data(SymbolNode *node){
     return 0;
 }
 
+int add_entry_to_symbol(char *label){
+    SymbolNode *node = root;
+    while (node->next != NULL){
+        node = node->next;
+        if (strcmp(node->symbol, label) == 0)
+        {
+            node->attribute += entry;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 void add_ic(SymbolNode *root, int ICF){
     SymbolNode *node;

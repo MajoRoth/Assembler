@@ -3,6 +3,9 @@
         "text_process.h": "c",
         "data_structures.h": "c",
         "assembler_main.h": "c",
-        "first_stage.h": "c"
+        "first_stage.h": "c",
+        "ctype.h": "c",
+        "error_handlers.h": "c",
+        "constants.h": "c"
     }
 }

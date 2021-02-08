@@ -1,11 +1,14 @@
-#include "constants.h"
-#include "data_structures.h"
-void COMMA_ERROR(enum boolean *flag, int line);
+#ifndef ASSEMBLER_SECOND_STAGE_H
+#define ASSEMBLER_SECOND_STAGE_H
 
-void NAME_ERROR(enum boolean *flag, int line);
+void COMMA_ERROR(int *flag, int line);
 
-void CHECK_OPERANDS(enum boolean *flag, int line, char *source ,char *dest, OperationItem *command);
+void NAME_ERROR(int *flag, int line);
 
-void DOUBLE_DECLARATION_ERROR(enum boolean *flag, int line, SymbolNode *root, char *label);
+/*void CHECK_OPERANDS(int *flag, int line, char *source ,char *dest, OperationItem *command);*/
 
-void REGISTER_NAME_ERROR(enum boolean *flag, int line, char *argument)
+/*void DOUBLE_DECLARATION_ERROR(int, int line, SymbolNode *root, char *label);*/
+
+void REGISTER_NAME_ERROR(int *flag, int line, char *argument);
+
+#endif

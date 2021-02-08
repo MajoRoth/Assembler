@@ -43,6 +43,8 @@ SymbolNode *get_last_node(SymbolNode *root);
 
 int is_symbol_node_data(SymbolNode *node);
 
+int add_entry_to_symbol(char *label);
+
 void add_ic(SymbolNode *root, int ICF);
 
 /* WORD PROCESS */
