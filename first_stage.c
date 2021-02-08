@@ -108,8 +108,6 @@ int first_stage(FILE *file){
         IS_DIRECT = FALSE;
         skip = FALSE;
     }
-    add_ic(root, IC);
-    print_table_symbol(root);
     if (IS_ERROR == TRUE)
         return 0;
     else
@@ -187,7 +185,9 @@ void add_instruction_words_2(OperationItem *command){
     dest = operand_address_method(temp2);
     /* YOU HAVE DEST, SOURCE AND COMMAND */
     /* CHECK_OPERANDS(IS_ERROR, line_number, source, dest, command)*/
-    command_memory[IC++].w = get_first_word(command, source, dest);
+    command_memory[IC].w = get_first_word(command, source, dest);
+    command_memory[IC++].ARE = A;
+
     printf("CM %d ", IC-1);
     print_word(command_memory[IC-1].w);
     switch (source) {
@@ -206,7 +206,8 @@ void add_instruction_words_2(OperationItem *command){
         default:
             w1 = 0; /* ERROR */
     }
-    command_memory[IC++].w = w1;
+    command_memory[IC].w = w1;
+    command_memory[IC++].ARE = A;
     switch (dest) {
         case 0:
             w2 = get_word_immediate(temp2);
@@ -223,7 +224,8 @@ void add_instruction_words_2(OperationItem *command){
         default:
             w2 = 0; /* ERROR */
     }
-    command_memory[IC++].w = w2;
+    command_memory[IC].w = w2;
+    command_memory[IC++].ARE = A;
 }
 
 /*
@@ -235,7 +237,8 @@ void add_instruction_word_1(OperationItem *command){
     word *w1 = 0;
     get_next_token(argument);
     dest = operand_address_method(argument);
-    command_memory[IC++].w = get_first_word(command, 0, dest);
+    command_memory[IC].w = get_first_word(command, 0, dest);
+    command_memory[IC++].ARE = A;
     printf("CM %d ", IC-1);
     print_word(command_memory[IC-1].w);
     /* add the words depends on the address method */
@@ -256,7 +259,8 @@ void add_instruction_word_1(OperationItem *command){
             printf("ERROR");
             /* ERROR */
     }
-    command_memory[IC++].w = w1;
+    command_memory[IC].w = w1;
+    command_memory[IC++].ARE = A;
 }
 
 void free_temp(char *line, char *argument, char *label){
@@ -266,185 +270,5 @@ void free_temp(char *line, char *argument, char *label){
 }
 
 
+/* ERRORS */
 
-/*int assembler (FILE *file){
-    char line[80];
-    char *label;
-    char *temp_s1;
-    char *temp_s2;
-    char temp_c;
-    int temp_i;
-    int source;
-    int label;
-    word *w1, *w2;
-
-    int ICF, DFC;
-    int L = 0;
-    int directive=data;
-    char *argument;
-    OperationItem command;
-    int is_label = FALSE;
-    int is_direct = FALSE;
-
-    while (strcmp(line, "\0") != 0){
-         (line = get_line(file_path)) != '\0'
-        argument = get_first_token(line);
-        label = get_label(argument);
-        if (strcmp(label, "\0") != 0){
-            is_label = TRUE;
-            argument = get_next_token();
-            if ((directive = is_directive(argument)) != -1){
-                is_direct = TRUE;
-            }
-        }
-        else if ((directive = is_directive(argument)) != -1){
-            is_direct = TRUE;
-        }
-
-
-        if (is_direct==TRUE){
-
-            if (is_label==TRUE && (directive==data || directive==string)){
-                add_symbol_node(label, DC, data, get_last_node(root));
-
-                if (directive == data){
-                    while ((temp_s1=get_next_token()) != NULL){
-                        drop_comma(temp_s1);
-                        if (atoi(temp_s1) == 0 && !isdigit(*temp_s1)) {
-
-                            continue;
-                        }
-                        temp_i = atoi(temp_s1);
-                        directive_memory[DC].w = *get_word(temp_i);
-                        DC++;
-                    }
-                }
-                else {
-                    temp_s1 = get_next_token();
-                    drop_marks(temp_s1);
-                    for (temp_i = 0;  temp_s1[temp_i] != '\0' ; temp_i++) {
-                        directive_memory[DC].w = *get_word(temp_s1[temp_i]);
-                        DC++;
-                    }
-                    directive_memory[DC].w = *get_word('\0');
-                    DC++;
-                }
-            }
-            else if (directive==external){
-                add_symbol_node(label, 0, external, get_last_node(root));
-            }
-            else {
-            }
-
-        }
-        else{
-
-            if (is_label==TRUE){
-
-                add_symbol_node(label, IC, code, get_last_node(root));
-            }
-
-            command = get_command(get_next_token(), operation_table);
-            L = command.words_num;
-            if (L == 2){
-                argument = get_next_token();
-                if (is_comma(argument)){
-                    temp_s1 = get_first_operand(argument);
-                    temp_s2 = get_second_operand();
-                }
-                else{
-                    temp_s1 = get_next_token();
-                    if (is_comma(temp_s1)){
-                        drop_comma(temp_s1);
-                        temp_s2 = get_next_token();
-                    }
-                    else{
-                        temp_s2 = get_next_token();
-                        if(*temp_s2 == ',' && *(temp_s2+1) == '\0'){
-                            temp_s2 = get_next_token();
-                        }
-                        else if (is_comma(temp_s2)){
-                            drop_comma(temp_s2);
-                        }
-                        else{
-
-                        }
-                    }
-                }
-                source = operand_address_method(temp_s1);
-                dest = operand_address_method(temp_s2);
-                command_memory[IC++] = get_first_word(command, source, dest);
-
-                switch (source) {
-                    case 0:
-                        w1 = get_word_immediate(temp_s1);
-                        break;
-                    case 1:
-                        w1 = get_word_direct(temp_s1);
-                        break;
-                    case 2:
-                        w1 = get_word_relative(temp_s1);
-                        break;
-                    case 3:
-                        w1 = get_word_register(temp_s1);
-                        break;
-                    default:
-
-                }
-                command_memory[IC++] = w1;
-                switch (dest) {
-                    case 0:
-                        w2 = get_word_immediate(temp_s1);
-                        break;
-                    case 1:
-                        w2 = get_word_direct(temp_s1);
-                        break;
-                    case 2:
-                        w2 = get_word_relative(temp_s1);
-                        break;
-                    case 3:
-                        w2 = get_word_register(temp_s1);
-                        break;
-                    default:
-
-                }
-                command_memory[IC++] = w2;
-            }
-            else if (L == 1){
-                temp_s1 = get_next_token();
-                dest = operand_address_method(temp_s2);
-                command_memory[IC] = get_first_word(command, 0, dest);
-                switch (dest) {
-                    case 0:
-                        w1 = get_word_immediate(temp_s1);
-                        break;
-                    case 1:
-                        w1 = get_word_direct(temp_s1);
-                        break;
-                    case 2:
-                        w1 = get_word_relative(temp_s1);
-                        break;
-                    case 3:
-                        w1 = get_word_register(temp_s1);
-                        break;
-                    default:
-                }
-                command_memory[IC++] = w1;
-            }
-            else{
-                command_memory[IC++] = get_first_word(command, 0, 0);
-            }
-        }
-
-
-        strcpy(line, get_line(file_path));
-
-    }
-    ICF = IC;
-    DCF = DC;
-
-    add_ic(root, ICF);
-
-    return 1;
-}
-*/

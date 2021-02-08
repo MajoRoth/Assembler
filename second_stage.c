@@ -10,9 +10,11 @@ int second_stage(FILE *file){
     char argument[MAX_ARGUMENT];
     char label[MAX_LABEL];
     int directive_type = data;
-    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE;
+    int ic_pointer;
+    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
 
     printf("SECOND STAGE STARTED\n");
+    ic_pointer = 100;
     while (!feof(file))
     {
         get_line(file, line);
@@ -41,8 +43,14 @@ int second_stage(FILE *file){
         }
         else if (directive_type == data || directive_type == string || directive_type == external)
         {
-            continue;
+            CONTINUE = TRUE;
         }
+
+        if(CONTINUE == FALSE){
+            
+        }
+
+        /* AMIT - 6 */
         
         
     }

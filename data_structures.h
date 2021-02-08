@@ -43,6 +43,8 @@ SymbolNode *get_last_node(SymbolNode *root);
 
 int is_symbol_node_data(SymbolNode *node);
 
+int is_symbol_in_table(char *label);
+
 int add_entry_to_symbol(char *label);
 
 void add_ic(SymbolNode *root, int ICF);
@@ -59,6 +61,10 @@ word *get_word_relative(char *argument);
 word *get_word_register(char *argument);
 
 word *get_word(int i);
+
+int get_dest(word *w);
+
+int get_source(word *w);
 
 
 #endif 

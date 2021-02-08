@@ -2,7 +2,6 @@
 #define ASSEMBLER_ASSEMBLER_H
 #include <stdio.h>
 #include "data_structures.h"
-enum ARE {A, R, E};
 int assembler (char *file_path);
 int open_file(char *file_path, FILE **file);
 
@@ -14,6 +13,9 @@ SymbolNode *root;
 void initialize_data_structures();
 
 void free_data_structures();
+
+void merge_ic_dc();
+
 
 int IC, DC;
 

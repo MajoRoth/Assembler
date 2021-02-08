@@ -9,6 +9,7 @@
 
 enum attribute {code = 16, data = 8, external = 4, entry = 2, string = 1};
 enum boolean {FALSE, TRUE};
+enum are {A,R,E};
 
 
 #endif

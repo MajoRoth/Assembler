@@ -76,6 +76,10 @@ int is_symbol_node_data(SymbolNode *node){
     return 0;
 }
 
+int is_symbol_in_table(char *label){
+    /* IDO */
+}
+
 int add_entry_to_symbol(char *label){
     SymbolNode *node = root;
     while (node->next != NULL){
@@ -178,4 +182,12 @@ word *get_word(int i) {
     word *w = (word *)malloc(sizeof(word));
     w->bits = i;
     return w;
+}
+
+int get_dest(word *w){
+    return w->bits & 3;
+}
+
+int get_source(word *w){
+    return w->bits & 12;
 }

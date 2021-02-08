@@ -16,6 +16,9 @@ int assembler (char *file_path){
 
         if (first_stage(file)){
             printf("STAGE 1 HAS BEEN DONE !!! \n");
+            add_ic(root, IC);
+            print_table_symbol(root);
+            merge_ic_dc();
             /* first stage finished - no errors */
             fseek(file, 0, SEEK_SET);
             second_stage(file);
@@ -62,4 +65,12 @@ void free_data_structures(){
         free(node);
         node = next_node;
     }
+}
+
+void merge_ic_dc(){
+    int i;
+    for (i=0; i<DC; i++){
+        command_memory[IC+i] = directive_memory[i];
+    }
+    free(directive_memory);
 }
