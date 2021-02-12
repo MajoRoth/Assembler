@@ -10,7 +10,7 @@ int second_stage(FILE *file){
     char argument[MAX_ARGUMENT];
     char label[MAX_LABEL];
     int directive_type = data;
-    int ic_pointer;
+    int ic_pointer, i;
     enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
 
     printf("SECOND STAGE STARTED\n");
@@ -51,6 +51,14 @@ int second_stage(FILE *file){
         }
 
         /* AMIT - 6 */
+        if ((i = get_source(command_memory[ic_pointer].w)) == 1 || i == 2){
+            
+        }
+        if ((i = get_dest(command_memory[ic_pointer].w)) == 1 || i == 2){
+            
+        }
+
+        
         
         
     }
