@@ -108,6 +108,7 @@ int first_stage(FILE *file){
         IS_DIRECT = FALSE;
         skip = FALSE;
     }
+
     if (IS_ERROR == TRUE)
         return 0;
     else
@@ -262,7 +263,6 @@ void add_instruction_word_1(OperationItem *command){
     command_memory[IC].w = w1;
     command_memory[IC++].ARE = A;
 }
-/*print_table_row_ic(FIRST_IC_ROW, IC)*/
 
 void free_temp(char *line, char *argument, char *label){
     memset(line, 0, MAX_LINE);

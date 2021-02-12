@@ -29,6 +29,11 @@ typedef struct OperationItem{
     int operands[2];/* operands[0] is for the source and operands[1] is for the dest */
 } OperationItem;
 
+typedef struct OperationL{
+    char *name;
+    int words_num; /* L */
+} OperationL;
+
 int get_funct_by_name(char *name, OperationItem *hash_table);
 
 int get_opcode_by_data(char *name, OperationItem *hash_table);
