@@ -159,17 +159,19 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
-word *get_word_direct(char *argument, SymbolNode *root, int DCF){
-    int i;
-    word *label_word = (word *)malloc(sizeof(word));
-    for (i=0; i<DCF; i++){/*search in the symbols table*/
+word *get_word_direct(char *argument, SymbolNode *root){
+    SymbolNode *node = root;
+    word *direct_word = (word *)malloc(sizeof(word));
+    while (node->next != NULL){/*search in the symbols table*/
         if(!strcmp(argument, root->symbol)){/*arg can only appear once in the table*/
-            label_word += root->value;
+            direct_word->bits = node->value;
+            return direct_word;
         }
-        root = root->next;
+        node = node->next;
         /*REMEMBER - need to check if arg in the table: if label_word == 0 */
     }
-    return label_word;
+    /* call an error - label not in symbol list */
+    return direct_word;
 }
 
 word *get_word_relative(char *argument){

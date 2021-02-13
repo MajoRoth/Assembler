@@ -89,13 +89,19 @@ int second_stage(FILE *file){
                 source_adress =  operand_address_method(argument);
                 if(source_adress == 1){
                     strcpy(source_label, argument);
-                }       
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
+                }   
+                ic_pointer++;    
                 /*check the second operand*/
                 get_next_token(argument);
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
                 }
+                ic_pointer++;
                 break;
             
             case 1:
@@ -104,10 +110,15 @@ int second_stage(FILE *file){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
                 }
+                ic_pointer++;
                 break;
 
             case 0:
