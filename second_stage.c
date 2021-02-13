@@ -3,6 +3,7 @@
 #include "text_process.h"
 #include "data_structures.h"
 #include "assembler_main.h"
+#include <stdlib>
 
 OperationL L_table [] ={
         {"mov", 2},
@@ -29,10 +30,14 @@ int second_stage(FILE *file){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
     char label[MAX_LABEL];
+    char source_label[MAX_LABEL];
+    char dest_label[MAX_LABEL];
+    int source_adress;
+    int dest_adress;
     int directive_type = data;
     int ic_pointer, L, i;
     enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
-    OperationItem *command;
+    OperationL *command;
 
     printf("SECOND STAGE STARTED\n");
     ic_pointer = 100;
@@ -69,29 +74,45 @@ int second_stage(FILE *file){
         }
 
         if(CONTINUE == FALSE){
-            /* Amit - implement get_command for OperationL typdef */
-            /*get_command(argument, &command, hash_table);*/
+            get_command_L(argument, &command, L_table)
             L = command->words_num;
 
             switch (L)
+            /* AMIT - source_adress, dest_adress CONTAIN 1 FOR DIRECT OR 2 FOR RELATIVE, UNINITIALIZED ELSE.
+            IF THERE IS LABEL IN THE OPERANDS - source_label, dest_label CONTAIN IT, UNINITIALIZED ELSE. */
             {
             case 2:
-                /* we know that DIRECT is optional (1) search in dest or source */
-                
-                /* I need to know if there is direct or relative - and if so, i need to get the label string */
-                /* for example return - in this line dest: DIRECT and label " ":*/ 
+                /*we know that DIRECT is optional (1) search in dest or source */
+                /*check the first operand*/
+                get_next_token(argument);
+                source_adress =  operand_address_method(argument);
+                if(source_adress == 1){
+                    strcpy(source_label, argument);
+                }       
+                /*check the second operand*/
+                get_next_token(argument);
+                dest_adress =  operand_address_method(argument);
+                if(dest_adress == 1){
+                    strcpy(dest_label, argument);
+                }
                 break;
             
             case 1:
-                /* we know that DIRECT and RELATIVE (1,2) is optional search in source */
+                /* we know that DIRECT and RELATIVE (1,2) is optional search in dest */
+                get_next_token(argument);
+                dest_adress =  operand_address_method(argument);
+                if(dest_adress == 1){
+                    strcpy(dest_label, argument);
+                }
+                if(dest_adress == 2){ /*we dont need the - % */
+                    strcpy(dest_label, &argument[1]);
+                }
                 break;
 
             case 0:
                 break;
             }
             
-            
-
         }
 
         /* AMIT - 6 */
@@ -110,3 +131,4 @@ int second_stage(FILE *file){
     print_table_symbol(root);
     return 1;
 }
+

@@ -37,6 +37,19 @@ void get_command(char *argument, OperationItem **p, OperationItem *table){
     }
     *p = table+16;
 }
+ /*same func except the params - MAYBE CHANGE IT LATER*/
+void get_command_L(char *argument, OperationL **p, OperationL *table){
+    /* ignores spaces and returns the next command for L_table */
+    int i;
+    for (i=0; i< 16; i++){
+        if (!strcmp(table[i].name, argument)){
+            *p = table+i;
+            return;
+        }
+    }
+    *p = table+16;
+}
+
 
 /* initialize symbols table - linked list */
 
