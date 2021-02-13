@@ -115,7 +115,7 @@ int second_stage(FILE *file){
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
-                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer].w = get_word_relative(source_label);
                     command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 ic_pointer++;
