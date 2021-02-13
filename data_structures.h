@@ -40,7 +40,7 @@ int get_opcode_by_data(char *name, OperationItem *hash_table);
 
 void get_command(char *argument, OperationItem **p, OperationItem *table);
 
-void get_command_L(char *argument, OperationL **p, OperationL *table)
+void get_command_L(char *argument, OperationL **p, OperationL *table);
 
 SymbolNode *get_symbol_root();
 

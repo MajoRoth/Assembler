@@ -3,7 +3,8 @@
 #include "text_process.h"
 #include "data_structures.h"
 #include "assembler_main.h"
-#include <stdlib>
+#include <stdlib.h>
+#include <string.h>
 
 OperationL L_table [] ={
         {"mov", 2},
@@ -74,7 +75,7 @@ int second_stage(FILE *file){
         }
 
         if(CONTINUE == FALSE){
-            get_command_L(argument, &command, L_table)
+            get_command_L(argument, &command, L_table);
             L = command->words_num;
 
             switch (L)
