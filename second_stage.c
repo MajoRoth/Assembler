@@ -71,17 +71,38 @@ int second_stage(FILE *file){
         }
         else if (directive_type == data || directive_type == string || directive_type == external)
         {
+            if (directive_type == string){
+                get_next_token(argument);
+                drop_marks(argument);
+                for (i=0; argument[i] != '\0'; i++);
+                ic_pointer += i;
+                i=0;
+            }
+            else if (directive_type == data){
+                i=1;
+                while (get_next_token(argument)){
+                    i++;
+                    drop_comma(argument);
+                    if (atoi(argument) == 0 && !isdigit(*argument)){
+                        /* not a number */
+                        continue;
+                    }
+                    ic_pointer += i;
+                    i=0;
+                }
+            }
+            
             CONTINUE = TRUE;
         }
 
         if(CONTINUE == FALSE){
             get_command_L(argument, &command, L_table);
             L = command->words_num;
-
-            switch (L)
+            ic_pointer++;
+            printf("%d\n",L);
+            switch (L){
             /* AMIT - source_adress, dest_adress CONTAIN 1 FOR DIRECT OR 2 FOR RELATIVE, UNINITIALIZED ELSE.
             IF THERE IS LABEL IN THE OPERANDS - source_label, dest_label CONTAIN IT, UNINITIALIZED ELSE. */
-            {
             case 2:
                 /*we know that DIRECT is optional (1) search in dest or source */
                 /*check the first operand*/
@@ -106,7 +127,9 @@ int second_stage(FILE *file){
             
             case 1:
                 /* we know that DIRECT and RELATIVE (1,2) is optional search in dest */
+                printf("---", argument);
                 get_next_token(argument);
+                printf("%s", argument);
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
@@ -124,23 +147,12 @@ int second_stage(FILE *file){
             case 0:
                 break;
             }
-            
         }
 
-        /* AMIT - 6 */
-
-        if ((i = get_source(command_memory[ic_pointer].w)) == 1 || i == 2){
-            
-        }
-        if ((i = get_dest(command_memory[ic_pointer].w)) == 1 || i == 2){
-            
-        }
-
-        
-        
-        
+        /* AMIT - 6 */        
     }
     print_table_symbol(root);
+    /*print_table_row_ic(100, IC+DC-1);*/
     return 1;
 }
 
