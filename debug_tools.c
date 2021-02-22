@@ -14,13 +14,13 @@ void print_word(word *w){
         }
         bits <<=1;
     }
-    printf("\n");
 }
 
 void print_table_row_ic(int i, int j){
+    printf("\nprinting ic\n");
     for(; i<j; i++){
         print_word(command_memory[i].w);
-        printf("\t%c\n", command_memory[i].ARE);
+        printf("\t%d\n", command_memory[i].ARE);
     } 
 }
 

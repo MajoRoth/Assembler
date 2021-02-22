@@ -69,6 +69,7 @@ int second_stage(FILE *file){
                 /* print error */
             }
         }
+        /*
         else if (directive_type == data || directive_type == string || directive_type == external)
         {
             if (directive_type == string){
@@ -84,7 +85,7 @@ int second_stage(FILE *file){
                     i++;
                     drop_comma(argument);
                     if (atoi(argument) == 0 && !isdigit(*argument)){
-                        /* not a number */
+                    
                         continue;
                     }
                     ic_pointer += i;
@@ -94,12 +95,13 @@ int second_stage(FILE *file){
             
             CONTINUE = TRUE;
         }
+        */
 
-        if(CONTINUE == FALSE){
+        else if(IS_DIRECT == FALSE){
             get_command_L(argument, &command, L_table);
             L = command->words_num;
             ic_pointer++;
-            printf("%d\n",L);
+
             switch (L){
             /* AMIT - source_adress, dest_adress CONTAIN 1 FOR DIRECT OR 2 FOR RELATIVE, UNINITIALIZED ELSE.
             IF THERE IS LABEL IN THE OPERANDS - source_label, dest_label CONTAIN IT, UNINITIALIZED ELSE. */
@@ -107,6 +109,7 @@ int second_stage(FILE *file){
                 /*we know that DIRECT is optional (1) search in dest or source */
                 /*check the first operand*/
                 get_next_token(argument);
+                drop_comma(argument);
                 source_adress =  operand_address_method(argument);
                 if(source_adress == 1){
                     strcpy(source_label, argument);
@@ -119,27 +122,26 @@ int second_stage(FILE *file){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
-                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].w = get_word_direct(dest_label, root);
+                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
+
                 ic_pointer++;
                 break;
             
             case 1:
                 /* we know that DIRECT and RELATIVE (1,2) is optional search in dest */
-                printf("---", argument);
                 get_next_token(argument);
-                printf("%s", argument);
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
                     command_memory[ic_pointer].w = get_word_direct(source_label, root);
-                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
                     command_memory[ic_pointer].w = get_word_relative(source_label);
-                    command_memory[ic_pointer++].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 ic_pointer++;
                 break;
@@ -152,7 +154,7 @@ int second_stage(FILE *file){
         /* AMIT - 6 */        
     }
     print_table_symbol(root);
-    /*print_table_row_ic(100, IC+DC-1);*/
+    print_table_row_ic(100, IC+DC-1);
     return 1;
 }
 
