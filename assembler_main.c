@@ -33,6 +33,7 @@ int assembler (char *file_path){
  */
 int open_file(char *file_path, FILE **file){
     *file = fopen(file_path,"r");
+    /* add .as to file path  -  if akready have .as - throw an error*/
     if(!*file){
         printf("file name is not valid\n");
         return 0;
