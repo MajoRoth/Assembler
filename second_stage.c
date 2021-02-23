@@ -69,6 +69,12 @@ int second_stage(FILE *file){
                 /* print error */
             }
         }
+
+	if(directive_type == external){
+	    command_memory[ic_pointer].ARE = E;
+	    ic_pointer++;
+	}
+
         /*
         else if (directive_type == data || directive_type == string || directive_type == external)
         {
