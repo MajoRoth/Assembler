@@ -197,11 +197,51 @@ int create_files(char *file_name){
 }
 
 int create_entry(char *file_name){
+    FILE *file_ent;
+    char *file_name_ent;
+    SymbolNode *node = root;
+    char row[MAX_ARGUMENT];
+    char temp[MAX_ARGUMENT];
 
+    strcpy(file_name_ent, file_name);
+    strcat(file_name_ent, ".ent");
+    file_ent = fopen(file_name_ent, "w");
+
+    while(node->next != NULL){
+        node = node->next;/*CHECK WITH AMIT*/
+        if (node->attribute == entry){/*CHECK WITH AMIT*/
+            if(node->value <= 999){ /*row has 3 digits*/
+                row[0] = '0'
+            }
+            sprintf(temp, '%d', node->value);
+            strcat(row, temp);
+            fprintf(file_ent, "%s %s\n", node->symbol, row);
+        }
+    fclose(file_ent);
 }
 
 int create_external(char *file_name){
-    
+    FILE *file_ext;
+    char *file_name_ext;
+    SymbolNode *node = root;
+    char row[MAX_ARGUMENT];
+    char temp[MAX_ARGUMENT];
+
+    strcpy(file_name_ext, file_name);
+    strcat(file_name_ext, ".ext");
+    file_ext = fopen(file_name_ext, "w");
+
+    while(node->next != NULL){
+        node = node->next;
+        if (node->attribute == external){
+            if(node->value <= 999){ /*row has 3 digits*/
+                row[0] = '0'
+            }
+            sprintf(temp, '%d', node->value);
+            strcat(row, temp);
+            fprintf(file_ext, "%s %s\n", node->symbol, row);
+        }
+    fclose(file_ext);
 }
 
 char *word_to_hexa(word *w){
