@@ -147,7 +147,7 @@ int second_stage(FILE *file){
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
-                    command_memory[ic_pointer].w = get_word_relative(source_label);
+                    command_memory[ic_pointer].w = get_word_relative(source_label, ic_pointer, root);
                     command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 ic_pointer++;
@@ -208,8 +208,8 @@ int create_entry(char *file_name){
     file_ent = fopen(file_name_ent, "w");
 
     while(node->next != NULL){
-        node = node->next;/*CHECK WITH AMIT*/
-        if (node->attribute == entry){/*CHECK WITH AMIT*/
+        node = node->next;
+        if (node->attribute & 2){
             if(node->value <= 999){ /*row has 3 digits*/
                 row[0] = '0'
             }
@@ -233,7 +233,7 @@ int create_external(char *file_name){
 
     while(node->next != NULL){
         node = node->next;
-        if (node->attribute == external){
+        if (node->attribute & 4){
             if(node->value <= 999){ /*row has 3 digits*/
                 row[0] = '0'
             }

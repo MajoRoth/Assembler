@@ -93,6 +93,18 @@ int is_symbol_in_table(char *label){
     /* IDO */
 }
 
+int search_symbole_table(char *label, SymbolNode *root){
+    SymbolNode *node = root;
+    while(node->next != NULL){
+        node = node->next;
+        if (!strcmp(label,node->symbol)){
+            return node->value;
+        }
+    }
+    /*if search failed*/
+    return -1;
+}
+
 int add_entry_to_symbol(char *label){
     SymbolNode *node = root;
     while (node->next != NULL){
@@ -174,20 +186,18 @@ word *get_word_direct(char *argument, SymbolNode *root){
     return direct_word;
 }
 
-word *get_word_relative(char *argument){
-    /* note that argument is a string - you need to process it AMIT*/
+word *get_word_relative(char *argument, int ic){
     word *relative_word = (word *)malloc(sizeof(word));
-    /*
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, &argument[1]);
     label_row = search_symbole_table(label);
     if (label_row == -1){
-        
+        /*ERROR*/
     }
     relative_word->bits += (label_row - (ic+1));
-    */
     return relative_word;
+}
 }
 
 word *get_word_register(char *argument){
