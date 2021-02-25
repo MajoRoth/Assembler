@@ -5,6 +5,7 @@
 #include "assembler_main.h"
 #include <stdlib.h>
 #include <string.h>
+char *word_to_hexa(word *w);
 
 OperationL L_table [] ={
         {"mov", 2},
@@ -161,6 +162,8 @@ int second_stage(FILE *file){
     }
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC-1);
+    strcpy(dest_label, "asembly_exm");
+    create_files(dest_label);
     return 1;
 }
 
@@ -170,6 +173,27 @@ int create_files(char *file_name){
     /* if need to create .ext  - call create_external*/
 
     /* create .ob - AMIT*/
+    FILE *file_ob;
+    char *file_name_ob;
+    int counter;
+    TableRow *row;
+        printf("hey");
+
+    strcpy(file_name_ob, file_name);
+    strcat(file_name_ob, ".ob");
+
+    file_ob = fopen(file_name_ob, "w");
+    counter = 100;
+    /* write the first line with info */
+    while (counter<IC+DC)
+    {
+        row = &command_memory[counter];
+        fprintf(file_ob, "%d %x %c\n", counter, row->w->bits, row->ARE);
+        counter++;
+    }
+    fclose(file_ob);
+    
+    
 }
 
 int create_entry(char *file_name){
@@ -178,4 +202,10 @@ int create_entry(char *file_name){
 
 int create_external(char *file_name){
     
+}
+
+char *word_to_hexa(word *w){
+        char *hexa = (char *)malloc(sizeof(char)* 4);
+        sprintf(hexa, "%x", w->bits);
+        return hexa;
 }

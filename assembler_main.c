@@ -32,8 +32,10 @@ int assembler (char *file_path){
  * @return 1 - if the file opened and 0 - if an error occurred.
  */
 int open_file(char *file_path, FILE **file){
-    *file = fopen(file_path,"r");
-    /* add .as to file path  -  if akready have .as - throw an error*/
+    char file_path_as[MAX_LABEL];
+    strcpy(file_path_as, file_path);
+    strcat(file_path_as, ".as");
+    *file = fopen(file_path_as,"r");
     if(!*file){
         printf("file name is not valid\n");
         return 0;
