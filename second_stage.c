@@ -164,3 +164,18 @@ int second_stage(FILE *file){
     return 1;
 }
 
+int create_files(char *file_name){
+
+    /* if need to create .ent  - call create_entry*/
+    /* if need to create .ext  - call create_external*/
+
+    /* create .ob - AMIT*/
+}
+
+int create_entry(char *file_name){
+
+}
+
+int create_external(char *file_name){
+    
+}
