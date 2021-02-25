@@ -186,18 +186,17 @@ word *get_word_direct(char *argument, SymbolNode *root){
     return direct_word;
 }
 
-word *get_word_relative(char *argument, int ic){
+word *get_word_relative(char *argument, int ic, SymbolNode *root){
     word *relative_word = (word *)malloc(sizeof(word));
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, &argument[1]);
-    label_row = search_symbole_table(label);
+    label_row = search_symbole_table(label, root);
     if (label_row == -1){
         /*ERROR*/
     }
     relative_word->bits += (label_row - (ic+1));
     return relative_word;
-}
 }
 
 word *get_word_register(char *argument){

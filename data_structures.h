@@ -52,7 +52,7 @@ int is_symbol_node_data(SymbolNode *node);
 
 int is_symbol_in_table(char *label);
 
-int search_symbole_table(char *label, SymbolNode *root)
+int search_symbole_table(char *label, SymbolNode *root);
 
 int add_entry_to_symbol(char *label);
 

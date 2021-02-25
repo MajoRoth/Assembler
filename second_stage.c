@@ -211,12 +211,13 @@ int create_entry(char *file_name){
         node = node->next;
         if (node->attribute & 2){
             if(node->value <= 999){ /*row has 3 digits*/
-                row[0] = '0'
+                row[0] = '0';
             }
             sprintf(temp, '%d', node->value);
             strcat(row, temp);
             fprintf(file_ent, "%s %s\n", node->symbol, row);
         }
+    }
     fclose(file_ent);
 }
 
@@ -235,12 +236,13 @@ int create_external(char *file_name){
         node = node->next;
         if (node->attribute & 4){
             if(node->value <= 999){ /*row has 3 digits*/
-                row[0] = '0'
+                row[0] = '0';
             }
             sprintf(temp, '%d', node->value);
             strcat(row, temp);
             fprintf(file_ext, "%s %s\n", node->symbol, row);
         }
+    }
     fclose(file_ext);
 }
 
