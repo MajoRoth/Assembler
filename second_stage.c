@@ -27,6 +27,7 @@ OperationL L_table [] ={
         {"null", 0}
 };
 
+enum boolean IS_ENTRY = FALSE, IS_EXTERNAL = FALSE;
 
 int second_stage(FILE *file){
     char line[MAX_LINE];
@@ -39,7 +40,6 @@ int second_stage(FILE *file){
     int directive_type = data;
     int ic_pointer, L, i;
     enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
-    enum boolean IS_ENTRY = FALSE, IS_EXTERNAL = FALSE;
     OperationL *command;
 
     printf("SECOND STAGE STARTED\n");
@@ -76,7 +76,7 @@ int second_stage(FILE *file){
 	if(directive_type == external){
 	    command_memory[ic_pointer].ARE = E;
 	    ic_pointer++;
-        IS_EXTERNAL = TRUE
+        IS_EXTERNAL = TRUE;
 	}
 
         /*
