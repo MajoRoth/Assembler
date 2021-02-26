@@ -165,6 +165,7 @@ int second_stage(FILE *file){
     }
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC-1);
+    printf("hey1");
     strcpy(dest_label, "asembly_exm");
     create_files(dest_label);
     return 1;
