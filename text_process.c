@@ -52,14 +52,9 @@ void drop_comma(char *str) {
 }
 
 void drop_marks(char *str) {
-    /* NEED TO BE WRITEN - FUNCTION NOT READY */
-    char *src, *dst;
-    char del = '\"';
-    for (src = dst = str; *src != '\0'; src++) {
-        *dst = *src;
-        if (*dst != del) dst++;
-    }
-    *dst = '\0';
+    char *temp = (char *)malloc(sizeof(char)*MAX_ARGUMENT);
+    strcpy(str, &str[3]);
+    str[strlen(str)-3] = '\0';
 }
 
 

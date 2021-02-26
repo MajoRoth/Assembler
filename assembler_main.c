@@ -2,6 +2,7 @@
 #include "first_stage.h"
 #include "second_stage.h"
 #include "constants.h"
+#include "debug_tools.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -22,8 +23,10 @@ int assembler (char *file_path){
             /* first stage finished - no errors */
             fseek(file, 0, SEEK_SET);
             second_stage(file);
+            printf("asa\n");
         }
     }
+    printf("finished progran\n");
     return 1;
 }
 
@@ -74,6 +77,8 @@ void merge_ic_dc(){
     int i;
     for (i=0; i<DC; i++){
         command_memory[IC+i] = directive_memory[i];
+        print_word(directive_memory[i].w);
+        printf("\n");
     }
     free(directive_memory);
 }

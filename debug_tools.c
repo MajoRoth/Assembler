@@ -19,15 +19,18 @@ void print_word(word *w){
 void print_table_row_ic(int i, int j){
     printf("\nprinting ic\n");
     for(; i<j; i++){
+        printf("%d\t", i);
         print_word(command_memory[i].w);
         printf("\t%d\n", command_memory[i].ARE);
     } 
+    printf("finished\n");
 }
 
 void print_table_row_dc(int i, int j){
     for(; i<j; i++){
-    print_word(directive_memory[i].w);
-    printf("\t%d\n", directive_memory[i].ARE);
+        printf("%d\t", i);
+        print_word(directive_memory[i].w);
+        printf("\t%d\n", directive_memory[i].ARE);
     } 
 }
 

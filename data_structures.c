@@ -195,7 +195,8 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root){
     if (label_row == -1){
         /*ERROR*/
     }
-    relative_word->bits += (label_row - (ic+1));
+    /*relative_word->bits += (label_row - (ic+1));*/
+    relative_word->bits = 0;
     return relative_word;
 }
 

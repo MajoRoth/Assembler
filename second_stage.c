@@ -106,6 +106,7 @@ int second_stage(FILE *file){
             CONTINUE = TRUE;
         }
         */
+        
 
         else if(IS_DIRECT == FALSE){
             get_command_L(argument, &command, L_table);
@@ -164,15 +165,16 @@ int second_stage(FILE *file){
         /* AMIT - 6 */        
     }
     print_table_symbol(root);
-    print_table_row_ic(100, IC+DC-1);
-    printf("hey1");
+    print_table_row_ic(100, IC+DC);
+    printf("hey1\n");
+    /* we need to change later in order to get the nanme of the file */
     strcpy(dest_label, "asembly_exm");
     create_files(dest_label);
+    printf("finished st2\n");
     return 1;
 }
 
 int create_files(char *file_name){
-
     if(IS_ENTRY == TRUE){
         create_entry(file_name);
     }
@@ -196,20 +198,30 @@ int create_files(char *file_name){
     while (counter<IC+DC)
     {
         row = &command_memory[counter];
-        fprintf(file_ob, "%d %x %c\n", counter, row->w->bits, row->ARE);
+        fprintf(file_ob, "%d %03x ", counter, row->w->bits);
+        switch (row->ARE)
+        {
+        case 0:
+            fprintf(file_ob, "A\n");
+            break;
+        case 1:
+            fprintf(file_ob, "R\n");
+            break;
+        case 2:
+            fprintf(file_ob, "E\n");
+            break;
+        }
         counter++;
     }
     fclose(file_ob);
-    
-    
+    printf("printing ob\n");
 }
 
 int create_entry(char *file_name){
+    printf("printing entry\n");
     FILE *file_ent;
-    char *file_name_ent;
+    char *file_name_ent = (char *)malloc(sizeof(char)*MAX_LABEL);
     SymbolNode *node = root;
-    char row[MAX_ARGUMENT];
-    char temp[MAX_ARGUMENT];
 
     strcpy(file_name_ent, file_name);
     strcat(file_name_ent, ".ent");
@@ -218,23 +230,17 @@ int create_entry(char *file_name){
     while(node->next != NULL){
         node = node->next;
         if (node->attribute & 2){
-            if(node->value <= 999){ /*row has 3 digits*/
-                row[0] = '0';
-            }
-            sprintf(temp, '%d', node->value);
-            strcat(row, temp);
-            fprintf(file_ent, "%s %s\n", node->symbol, row);
+            fprintf(file_ent, "%s %04d\n", node->symbol, node->value);
         }
     }
     fclose(file_ent);
 }
 
 int create_external(char *file_name){
+    printf("printing external\n");
     FILE *file_ext;
-    char *file_name_ext;
+    char *file_name_ext = (char *)malloc(sizeof(char)*MAX_LABEL);
     SymbolNode *node = root;
-    char row[MAX_ARGUMENT];
-    char temp[MAX_ARGUMENT];
 
     strcpy(file_name_ext, file_name);
     strcat(file_name_ext, ".ext");
@@ -243,12 +249,7 @@ int create_external(char *file_name){
     while(node->next != NULL){
         node = node->next;
         if (node->attribute & 4){
-            if(node->value <= 999){ /*row has 3 digits*/
-                row[0] = '0';
-            }
-            sprintf(temp, '%d', node->value);
-            strcat(row, temp);
-            fprintf(file_ext, "%s %s\n", node->symbol, row);
+            fprintf(file_ext, "%s %04d\n", node->symbol, node->value);
         }
     }
     fclose(file_ext);

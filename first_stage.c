@@ -68,12 +68,16 @@ int first_stage(FILE *file){
 
 
         if (IS_DIRECT == TRUE && skip == FALSE){
-            if (IS_LABEL == TRUE && directive_type == data ){
-                add_symbol_node(label, DC, data, get_last_node(root));
+            if (directive_type == data ){
+                if(IS_LABEL == TRUE){
+                    add_symbol_node(label, DC, data, get_last_node(root));
+                }
                 directive_data_line();
             }
-            else if (IS_LABEL == TRUE && directive_type == string ){
-                add_symbol_node(label, DC, data, get_last_node(root));
+            else if (directive_type == string ){
+                if(IS_LABEL == TRUE){
+                    add_symbol_node(label, DC, data, get_last_node(root));
+                }
                 directive_string_line();
             }
             else if (directive_type == external){
@@ -137,14 +141,22 @@ void directive_data_line(){
  *  adds to directive_memory[] the following words of string expression
  */
 void directive_string_line(){
-    char arg[MAX_ARGUMENT];
+    char *arg = (char *)malloc(sizeof(char)*MAX_ARGUMENT);
     int i;
     get_next_token(arg);
+    printf("%s\n", arg);
     drop_marks(arg);
+    printf("%s\n", arg);
     for (i=0; arg[i] != '\0'; i++){
         directive_memory[DC++].w = get_word(arg[i]);
+        printf("---------->");
+        print_word(directive_memory[DC-1].w);
+        printf("\n");
     }
     directive_memory[DC++].w = get_word('\0');
+    printf("---------->");
+    print_word(directive_memory[DC-1].w);
+    printf("\n");
 }
 
 /*
