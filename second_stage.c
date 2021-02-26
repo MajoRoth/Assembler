@@ -39,6 +39,7 @@ int second_stage(FILE *file){
     int directive_type = data;
     int ic_pointer, L, i;
     enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
+    enum boolean IS_ENTRY = FALSE, IS_EXTERNAL = FALSE;
     OperationL *command;
 
     printf("SECOND STAGE STARTED\n");
@@ -69,11 +70,13 @@ int second_stage(FILE *file){
             if(add_entry_to_symbol(argument)==0){
                 /* print error */
             }
+            IS_ENTRY = TRUE;
         }
 
 	if(directive_type == external){
 	    command_memory[ic_pointer].ARE = E;
 	    ic_pointer++;
+        IS_EXTERNAL = TRUE
 	}
 
         /*
@@ -169,8 +172,12 @@ int second_stage(FILE *file){
 
 int create_files(char *file_name){
 
-    /* if need to create .ent  - call create_entry*/
-    /* if need to create .ext  - call create_external*/
+    if(IS_ENTRY == TRUE){
+        create_entry(file_name);
+    }
+    if(IS_EXTERNAL == TRUE){
+        create_external(file_name);
+    }
 
     /* create .ob - AMIT*/
     FILE *file_ob;
