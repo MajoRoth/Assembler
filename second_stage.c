@@ -166,11 +166,9 @@ int second_stage(FILE *file){
     }
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC);
-    printf("hey1\n");
     /* we need to change later in order to get the nanme of the file */
     strcpy(dest_label, "asembly_exm");
     create_files(dest_label);
-    printf("finished st2\n");
     return 1;
 }
 
@@ -184,10 +182,9 @@ int create_files(char *file_name){
 
     /* create .ob - AMIT*/
     FILE *file_ob;
-    char *file_name_ob;
+    char *file_name_ob = (char *)malloc(sizeof(char)*MAX_LABEL);;
     int counter;
     TableRow *row;
-        printf("hey");
 
     strcpy(file_name_ob, file_name);
     strcat(file_name_ob, ".ob");
@@ -214,11 +211,10 @@ int create_files(char *file_name){
         counter++;
     }
     fclose(file_ob);
-    printf("printing ob\n");
+    free(file_name_ob);
 }
 
 int create_entry(char *file_name){
-    printf("printing entry\n");
     FILE *file_ent;
     char *file_name_ent = (char *)malloc(sizeof(char)*MAX_LABEL);
     SymbolNode *node = root;
@@ -234,10 +230,10 @@ int create_entry(char *file_name){
         }
     }
     fclose(file_ent);
+    free(file_name_ent);
 }
 
 int create_external(char *file_name){
-    printf("printing external\n");
     FILE *file_ext;
     char *file_name_ext = (char *)malloc(sizeof(char)*MAX_LABEL);
     SymbolNode *node = root;
@@ -253,10 +249,5 @@ int create_external(char *file_name){
         }
     }
     fclose(file_ext);
-}
-
-char *word_to_hexa(word *w){
-        char *hexa = (char *)malloc(sizeof(char)* 4);
-        sprintf(hexa, "%x", w->bits);
-        return hexa;
+    free(file_name_ext);
 }

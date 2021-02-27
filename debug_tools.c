@@ -23,7 +23,6 @@ void print_table_row_ic(int i, int j){
         print_word(command_memory[i].w);
         printf("\t%d\n", command_memory[i].ARE);
     } 
-    printf("finished\n");
 }
 
 void print_table_row_dc(int i, int j){
