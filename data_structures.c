@@ -83,6 +83,33 @@ SymbolNode *get_last_node(SymbolNode *root){
     return last_node;
 }
 
+External_list_Node *get_external_list_root(){
+     /* init a new symbols linked list */
+    SymbolNode *root = (SymbolNode *)malloc(sizeof(SymbolNode));
+     root->value = -1;
+    root->symbol = "\0";
+    root->next = NULL;
+    return root;
+}
+
+External_list_Node *add_external_list_node(char *symbol, int value, SymbolNode *prev){
+    /* add symbol node to an existing linked list */
+    SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
+    node->value = value;
+    node->symbol = (char *)malloc(MAX_LABEL);
+    strcpy(node->symbol, symbol);
+    prev->next = node;
+    return node;
+}
+
+External_list_Node *get_last_external_list_node(External_list_Node *root){
+    External_list_Node *last_node = root;
+    while (last_node->next != NULL){
+        last_node = last_node->next;
+    }
+    return last_node;
+}
+
 int is_symbol_node_data(SymbolNode *node){
     /* checks if a node has "code" attribute */
     if (node->attribute == data) return 1;
@@ -195,9 +222,9 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root){
     if (label_row == -1){
         /*ERROR*/
     }
-    /*relative_word->bits += (label_row - (ic+1));*/
-    relative_word->bits = 0;
+    relative_word->bits += (label_row - (ic+1));
     return relative_word;
+}
 }
 
 word *get_word_register(char *argument){

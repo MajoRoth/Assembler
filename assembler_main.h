@@ -9,6 +9,7 @@ TableRow *command_memory;
 TableRow *directive_memory;
 OperationItem *operation_table;
 SymbolNode *root;
+External_list_Node *external_list_root;
 
 void initialize_data_structures();
 

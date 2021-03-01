@@ -53,6 +53,7 @@ void initialize_data_structures(){
     command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     directive_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
     root = get_symbol_root();
+    external_list_root = get_external_list_root();
 }
 
 /*
@@ -60,15 +61,22 @@ void initialize_data_structures(){
  */
 void free_data_structures(){
     SymbolNode *node = root, *next_node;
+    External_list_Node *node1 = External_list_Node, *next_node1;
     next_node = root->next;
     free(command_memory);
     free(directive_memory);
     free(root);
+    free(external_list_root);
     /* free the linked list */
     while (node->next != NULL){
         next_node = node->next;
         free(node);
         node = next_node;
+    }
+    while (node1->next != NULL){
+        next_node1 = node1->next;
+        free(node1);
+        node1 = next_node1
     }
 }
 

@@ -34,6 +34,12 @@ typedef struct OperationL{
     int words_num; /* L */
 } OperationL;
 
+typedef struct External_list_Node{
+    struct External_list_Node *next;
+    char *symbol;
+    int value;
+}External_list_Node;
+
 int get_funct_by_name(char *name, OperationItem *hash_table);
 
 int get_opcode_by_data(char *name, OperationItem *hash_table);
@@ -47,6 +53,12 @@ SymbolNode *get_symbol_root();
 SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *prev);
 
 SymbolNode *get_last_node(SymbolNode *root);
+
+External_list_Node *get_external_list_root();
+
+External_list_Node *add_external_list_node(char *symbol, int value, SymbolNode *prev);
+
+External_list_Node *get_last_external_list_node(External_list_Node *root);
 
 int is_symbol_node_data(SymbolNode *node);
 

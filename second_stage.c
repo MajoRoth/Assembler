@@ -74,6 +74,8 @@ int second_stage(FILE *file){
         }
 
 	if(directive_type == external){
+        get_next_token(argument);
+        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
 	    command_memory[ic_pointer].ARE = E;
 	    ic_pointer++;
         IS_EXTERNAL = TRUE;
@@ -236,7 +238,7 @@ int create_entry(char *file_name){
 int create_external(char *file_name){
     FILE *file_ext;
     char *file_name_ext = (char *)malloc(sizeof(char)*MAX_LABEL);
-    SymbolNode *node = root;
+    External_list_Node *node = external_list_root;
 
     strcpy(file_name_ext, file_name);
     strcat(file_name_ext, ".ext");
@@ -244,9 +246,7 @@ int create_external(char *file_name){
 
     while(node->next != NULL){
         node = node->next;
-        if (node->attribute & 4){
-            fprintf(file_ext, "%s %04d\n", node->symbol, node->value);
-        }
+        fprintf(file_ext, "%s %04d\n", node->symbol, node->value);
     }
     fclose(file_ext);
     free(file_name_ext);
