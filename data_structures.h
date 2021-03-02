@@ -56,13 +56,13 @@ SymbolNode *get_last_node(SymbolNode *root);
 
 External_list_Node *get_external_list_root();
 
-External_list_Node *add_external_list_node(char *symbol, int value, SymbolNode *prev);
+External_list_Node *add_external_list_node(char *symbol, int value, External_list_Node *prev);
 
 External_list_Node *get_last_external_list_node(External_list_Node *root);
 
 int is_symbol_node_data(SymbolNode *node);
 
-int is_symbol_in_table(char *label);
+void is_symbol_in_table(char *label);
 
 int search_symbole_table(char *label, SymbolNode *root);
 

@@ -85,16 +85,16 @@ SymbolNode *get_last_node(SymbolNode *root){
 
 External_list_Node *get_external_list_root(){
      /* init a new symbols linked list */
-    SymbolNode *root = (SymbolNode *)malloc(sizeof(SymbolNode));
+    External_list_Node *root = (External_list_Node *)malloc(sizeof(External_list_Node));
      root->value = -1;
     root->symbol = "\0";
     root->next = NULL;
     return root;
 }
 
-External_list_Node *add_external_list_node(char *symbol, int value, SymbolNode *prev){
+External_list_Node *add_external_list_node(char *symbol, int value, External_list_Node *prev){
     /* add symbol node to an existing linked list */
-    SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
+    External_list_Node *node = (External_list_Node *)malloc(sizeof(External_list_Node));
     node->value = value;
     node->symbol = (char *)malloc(MAX_LABEL);
     strcpy(node->symbol, symbol);
@@ -116,7 +116,7 @@ int is_symbol_node_data(SymbolNode *node){
     return 0;
 }
 
-int is_symbol_in_table(char *label){
+void is_symbol_in_table(char *label){
     /* IDO */
 }
 
@@ -224,7 +224,6 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root){
     }
     relative_word->bits += (label_row - (ic+1));
     return relative_word;
-}
 }
 
 word *get_word_register(char *argument){

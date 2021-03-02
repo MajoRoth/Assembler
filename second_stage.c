@@ -169,25 +169,27 @@ int second_stage(FILE *file){
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC);
     /* we need to change later in order to get the nanme of the file */
-    strcpy(dest_label, "asembly_exm");
+    printf("hey1");    
+strcpy(dest_label, "asembly_exm");
     create_files(dest_label);
     return 1;
 }
 
-int create_files(char *file_name){
-    if(IS_ENTRY == TRUE){
+void create_files(char *file_name){
+    FILE *file_ob;
+    char *file_name_ob = (char *)malloc(sizeof(char)*MAX_LABEL);;
+    int counter;
+    TableRow *row;
+
+if(IS_ENTRY == TRUE){
         create_entry(file_name);
     }
     if(IS_EXTERNAL == TRUE){
         create_external(file_name);
     }
 
-    /* create .ob - AMIT*/
-    FILE *file_ob;
-    char *file_name_ob = (char *)malloc(sizeof(char)*MAX_LABEL);;
-    int counter;
-    TableRow *row;
-
+    /* create .ob*/
+    
     strcpy(file_name_ob, file_name);
     strcat(file_name_ob, ".ob");
 
@@ -216,7 +218,7 @@ int create_files(char *file_name){
     free(file_name_ob);
 }
 
-int create_entry(char *file_name){
+void create_entry(char *file_name){
     FILE *file_ent;
     char *file_name_ent = (char *)malloc(sizeof(char)*MAX_LABEL);
     SymbolNode *node = root;
@@ -235,7 +237,7 @@ int create_entry(char *file_name){
     free(file_name_ent);
 }
 
-int create_external(char *file_name){
+void create_external(char *file_name){
     FILE *file_ext;
     char *file_name_ext = (char *)malloc(sizeof(char)*MAX_LABEL);
     External_list_Node *node = external_list_root;
