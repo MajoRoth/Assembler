@@ -5,6 +5,7 @@
 #include "debug_tools.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int assembler (char *file_path){
     FILE *file = NULL;

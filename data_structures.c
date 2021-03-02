@@ -117,7 +117,7 @@ int is_symbol_node_data(SymbolNode *node){
 }
 
 void is_symbol_in_table(char *label){
-    /* IDO */
+    /* IDO  */
 }
 
 int search_symbole_table(char *label, SymbolNode *root){

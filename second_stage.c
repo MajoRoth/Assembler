@@ -74,8 +74,9 @@ int second_stage(FILE *file){
         }
 
 	if(directive_type == external){
-        get_next_token(argument);
-        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
+        /*next row causes seg fault*/
+	/*get_next_token(argument);
+        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));*/
 	    command_memory[ic_pointer].ARE = E;
 	    ic_pointer++;
         IS_EXTERNAL = TRUE;
