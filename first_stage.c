@@ -71,21 +71,21 @@ int first_stage(FILE *file){
         if (IS_DIRECT == TRUE && skip == FALSE){
             if (directive_type == data ){
                 if(IS_LABEL == TRUE){
-                    CHECK_DOUBLE_DECLARATION(IS_ERROR, line_number, root, label);
+                    CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                     add_symbol_node(label, DC, data, get_last_node(root));
                 }
                 directive_data_line();
             }
             else if (directive_type == string ){
                 if(IS_LABEL == TRUE){
-                    CHECK_DOUBLE_DECLARATION(IS_ERROR, line_number, root, label);
+                    CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                     add_symbol_node(label, DC, data, get_last_node(root));
                 }
                 directive_string_line();
             }
             else if (directive_type == external){
                 get_next_token(label);
-                CHECK_DOUBLE_DECLARATION(IS_ERROR, line_number, root, label);
+                CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                 add_symbol_node(label, 0, external, get_last_node(root));
             }
             else{
@@ -94,7 +94,7 @@ int first_stage(FILE *file){
         }
         else if (skip == FALSE){
             if (IS_LABEL == TRUE) {
-                CHECK_DOUBLE_DECLARATION(IS_ERROR, line_number, root, label);
+                CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
             get_command(argument, &command, hash_table);
@@ -221,7 +221,7 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             w1 = 0; /* done at second stage */
             break;
         case 3:
-            CHECK_REGISTER_NAME(IS_ERROR, line_number, argument);
+            CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
             w1 = get_word_register(temp1);
             break;
         default:
@@ -240,7 +240,7 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             w2 = 0; /* done at second stage */
             break;
         case 3:
-            CHECK_REGISTER_NAME(IS_ERROR, line_number, argument);
+            CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
             w2 = get_word_register(temp2);
             break;
         default:
@@ -275,7 +275,7 @@ void add_instruction_word_1(OperationItem *command, int line_number){
             w1 = 0; /* done at second stage */
             break;
         case 3:
-            CHECK_REGISTER_NAME(IS_ERROR, line_number, argument);
+            CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
             w1 = get_word_register(argument);
             break;
         default:
@@ -301,7 +301,7 @@ void CHECK_DOUBLE_DECLARATION(enum boolean *flag, int line, SymbolNode *root, ch
     int b = 0;
     SymbolNode *node = root;
     while(node->next != NULL && b == 0){
-        if (!strcmy(node->symbol, label)){
+        if (!strcmp(node->symbol, label)){
             b=1;
             DOUBLE_DECLARATION_ERROR(flag, line);
         }
