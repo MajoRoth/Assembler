@@ -5,10 +5,10 @@ void COMMA_ERROR(int *flag, int line);
 
 void NAME_ERROR(int *flag, int line);
 
+void DOUBLE_DECLARATION_ERROR(int *flag, int line);
+
+void REGISTER_NAME_ERROR(int *flag, int line);
+
 /*void CHECK_OPERANDS(int *flag, int line, char *source ,char *dest, OperationItem *command);*/
-
-/*void DOUBLE_DECLARATION_ERROR(int, int line, SymbolNode *root, char *label);*/
-
-void REGISTER_NAME_ERROR(int *flag, int line, char *argument);
 
 #endif
