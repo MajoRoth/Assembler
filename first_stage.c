@@ -2,7 +2,6 @@
 #include "assembler_main.h"
 #include "data_structures.h"
 #include "text_process.h"
-#include "constants.h"
 #include "debug_tools.h"
 #include "error_handlers.h"
 #include <stdio.h>
@@ -221,7 +220,7 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             w1 = 0; /* done at second stage */
             break;
         case 3:
-            CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
+            CHECK_REGISTER_NAME(&IS_ERROR, line_number, temp1);
             w1 = get_word_register(temp1);
             break;
         default:
@@ -240,7 +239,7 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             w2 = 0; /* done at second stage */
             break;
         case 3:
-            CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
+            CHECK_REGISTER_NAME(&IS_ERROR, line_number, temp2);
             w2 = get_word_register(temp2);
             break;
         default:
@@ -312,6 +311,7 @@ void CHECK_DOUBLE_DECLARATION(enum boolean *flag, int line, SymbolNode *root, ch
 
 void CHECK_REGISTER_NAME(int *flag, int line, char *argument){
     if(argument[1] < 48 || argument[1] > 55){
+        printf("--------%c\n", argument[1]);
         REGISTER_NAME_ERROR(flag, line);
     }
 }

@@ -75,8 +75,9 @@ int second_stage(FILE *file){
 
 	if(directive_type == external){
         /*next row causes seg fault*/
-	/*get_next_token(argument);
-        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));*/
+	    get_next_token(argument);
+        printf("-----------%s\n", argument);
+        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
 	    command_memory[ic_pointer].ARE = E;
 	    ic_pointer++;
         IS_EXTERNAL = TRUE;
@@ -171,7 +172,7 @@ int second_stage(FILE *file){
     print_table_row_ic(100, IC+DC);
     /* we need to change later in order to get the nanme of the file */
     printf("hey1");    
-strcpy(dest_label, "asembly_exm");
+    strcpy(dest_label, "asembly_exm");
     create_files(dest_label);
     return 1;
 }
@@ -249,6 +250,7 @@ void create_external(char *file_name){
 
     while(node->next != NULL){
         node = node->next;
+        printf("--%s\n", node->symbol);
         fprintf(file_ext, "%s %04d\n", node->symbol, node->value);
     }
     fclose(file_ext);

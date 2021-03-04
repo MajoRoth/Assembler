@@ -97,6 +97,7 @@ External_list_Node *add_external_list_node(char *symbol, int value, External_lis
     External_list_Node *node = (External_list_Node *)malloc(sizeof(External_list_Node));
     node->value = value;
     node->symbol = (char *)malloc(MAX_LABEL);
+    node->next = NULL;
     strcpy(node->symbol, symbol);
     prev->next = node;
     return node;

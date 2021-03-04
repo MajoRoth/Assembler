@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "assembler_main.h"
+#include "constants.h"
 
 int first_stage(FILE *file);
 void directive_data_line();
