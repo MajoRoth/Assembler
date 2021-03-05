@@ -19,6 +19,11 @@ void DOUBLE_DECLARATION_ERROR(int *flag, int line){
     printf("error in line %d: LABEL CAN BE DECLARED ONLY ONCE\n", line);
 }
 
+void LABEL_LENGTH_ERROR(int *flag, int line){
+    *flag = TRUE;
+    printf("error in line %d: LABEL IS TOO LONG\n", line);
+}
+
 /*checks wether the register name is valid*/
 void REGISTER_NAME_ERROR(int *flag, int line){
         *flag = TRUE; 

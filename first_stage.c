@@ -36,7 +36,7 @@ enum boolean IS_ERROR = FALSE;
 int first_stage(FILE *file){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
-    char label[MAX_LABEL];
+    char label[MAX_LINE];
     enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
     int L=0;
@@ -53,6 +53,7 @@ int first_stage(FILE *file){
             get_first_token(line, argument);
             if (get_label(line, label)==1){
                 IS_LABEL = TRUE;
+                CHECK_LABEL_LENGTH(IS_ERROR, line_number, label);
                 get_next_token(argument);
                 if ((directive_type = is_directive(argument)) != -1){
                     IS_DIRECT = TRUE;
@@ -308,10 +309,14 @@ void CHECK_DOUBLE_DECLARATION(enum boolean *flag, int line, SymbolNode *root, ch
     }
 }
 
-
 void CHECK_REGISTER_NAME(int *flag, int line, char *argument){
     if(argument[1] < 48 || argument[1] > 55){
-        printf("--------%c\n", argument[1]);
         REGISTER_NAME_ERROR(flag, line);
+    }
+}
+
+void CHECK_LABEL_LENGTH(int *flag, int line, char *label){
+    if (strlen(label) > MAX_LABEL){
+        LABEL_LENGTH_ERROR(flag, line);
     }
 }
