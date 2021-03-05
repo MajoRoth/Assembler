@@ -3,6 +3,7 @@
 #include "text_process.h"
 #include "data_structures.h"
 #include "assembler_main.h"
+#include "debug_tools.h"
 #include <stdlib.h>
 #include <string.h>
 char *word_to_hexa(word *w);
@@ -38,8 +39,8 @@ int second_stage(FILE *file){
     int source_adress;
     int dest_adress;
     int directive_type = data;
-    int ic_pointer, L, i;
-    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE, CONTINUE = FALSE;
+    int ic_pointer, L;
+    enum boolean IS_DIRECT = FALSE; /*IS_LABEL = FALSE */
     OperationL *command;
 
     printf("SECOND STAGE STARTED\n");
@@ -53,7 +54,7 @@ int second_stage(FILE *file){
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
             if (get_label(line, label)==1){
-                IS_LABEL = TRUE;
+                /*IS_LABEL = TRUE; commented to silence unused warning */
                 get_next_token(argument);
                 if ((directive_type = is_directive(argument)) != -1){
                     IS_DIRECT = TRUE;
@@ -73,45 +74,13 @@ int second_stage(FILE *file){
             IS_ENTRY = TRUE;
         }
 
-	if(directive_type == external){
-        /*next row causes seg fault*/
-	    get_next_token(argument);
-        printf("-----------%s\n", argument);
-        add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
-	    command_memory[ic_pointer].ARE = E;
-	    ic_pointer++;
-        IS_EXTERNAL = TRUE;
-	}
-
-        /*
-        else if (directive_type == data || directive_type == string || directive_type == external)
-        {
-            if (directive_type == string){
-                get_next_token(argument);
-                drop_marks(argument);
-                for (i=0; argument[i] != '\0'; i++);
-                ic_pointer += i;
-                i=0;
-            }
-            else if (directive_type == data){
-                i=1;
-                while (get_next_token(argument)){
-                    i++;
-                    drop_comma(argument);
-                    if (atoi(argument) == 0 && !isdigit(*argument)){
-                    
-                        continue;
-                    }
-                    ic_pointer += i;
-                    i=0;
-                }
-            }
-            
-            CONTINUE = TRUE;
+        if(directive_type == external){
+            get_next_token(argument);
+            add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
+            command_memory[ic_pointer].ARE = E;
+            ic_pointer++;
+            IS_EXTERNAL = TRUE;
         }
-        */
-        
-
         else if(IS_DIRECT == FALSE){
             get_command_L(argument, &command, L_table);
             L = command->words_num;
@@ -179,9 +148,10 @@ int second_stage(FILE *file){
 
 void create_files(char *file_name){
     FILE *file_ob;
-    char *file_name_ob = (char *)malloc(sizeof(char)*MAX_LABEL);;
     int counter;
     TableRow *row;
+    char *file_name_ob = (char *)malloc(sizeof(char)*MAX_LABEL);;
+    
 
 if(IS_ENTRY == TRUE){
         create_entry(file_name);

@@ -31,7 +31,7 @@ OperationItem hash_table [] ={
         {"stop", 15, 0, 0,{NONE,                            NONE}},
         {"null",  0, 0, 0,{NONE,                            NONE}}
 };
-enum boolean IS_ERROR = FALSE;
+int IS_ERROR = FALSE;
 
 int first_stage(FILE *file){
     char line[MAX_LINE];
@@ -53,7 +53,7 @@ int first_stage(FILE *file){
             get_first_token(line, argument);
             if (get_label(line, label)==1){
                 IS_LABEL = TRUE;
-                CHECK_LABEL_LENGTH(IS_ERROR, line_number, label);
+                CHECK_LABEL_LENGTH(&IS_ERROR, line_number, label);
                 get_next_token(argument);
                 if ((directive_type = is_directive(argument)) != -1){
                     IS_DIRECT = TRUE;
@@ -297,7 +297,7 @@ void free_temp(char *line, char *argument, char *label){
 
 /*checks wether the label has already been declared
 call this funcyion before you add new label to symbol table*/
-void CHECK_DOUBLE_DECLARATION(enum boolean *flag, int line, SymbolNode *root, char *label){
+void CHECK_DOUBLE_DECLARATION(int *flag, int line, SymbolNode *root, char *label){
     int b = 0;
     SymbolNode *node = root;
     while(node->next != NULL && b == 0){

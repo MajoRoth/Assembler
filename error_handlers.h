@@ -1,6 +1,8 @@
 #ifndef ASSEMBLER_SECOND_STAGE_H
 #define ASSEMBLER_SECOND_STAGE_H
 
+#include "constants.h"
+
 void COMMA_ERROR(int *flag, int line);
 
 void NAME_ERROR(int *flag, int line);

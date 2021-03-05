@@ -1,6 +1,5 @@
 #include "error_handlers.h"
 #include "data_structures.h"
-#include "constants.h"
 #include <stdio.h>
 #include <stdlib.h>
 

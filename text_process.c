@@ -52,7 +52,6 @@ void drop_comma(char *str) {
 }
 
 void drop_marks(char *str) {
-    char *temp = (char *)malloc(sizeof(char)*MAX_ARGUMENT);
     strcpy(str, &str[3]);
     str[strlen(str)-3] = '\0';
 }
