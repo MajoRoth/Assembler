@@ -16,4 +16,5 @@ void free_temp(char *line, char *argument, char *label);
 void CHECK_DOUBLE_DECLARATION(int *flag, int line, SymbolNode *root, char *label);
 void CHECK_REGISTER_NAME(int *flag, int line, char *argument);
 void CHECK_LABEL_LENGTH(int *flag, int line, char *label);
+void CHECK_COMMAND(int *flag, int line, OperationItem *command);
 #endif

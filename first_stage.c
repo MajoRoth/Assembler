@@ -31,13 +31,13 @@ OperationItem hash_table [] ={
         {"stop", 15, 0, 0,{NONE,                            NONE}},
         {"null",  0, 0, 0,{NONE,                            NONE}}
 };
-int IS_ERROR = FALSE;
+int IS_ERROR = FALSE; /*error flag*/
 
 int first_stage(FILE *file){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
     char label[MAX_LINE];
-    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE;
+    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE; /*label and directive flag*/
     int directive_type = data;
     int L=0;
     int line_number = 1;
@@ -98,6 +98,7 @@ int first_stage(FILE *file){
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
             get_command(argument, &command, hash_table);
+            CHECK_COMMAND(&IS_ERROR, line_number, command);
             L = command->words_num;
             printf("L: %d name: %s", L, command->name);
             switch (L) {
@@ -113,6 +114,7 @@ int first_stage(FILE *file){
             }
         }
         free_temp(line, argument, label);
+        /*sets flags to FALSE*/
         IS_LABEL = FALSE;
         IS_DIRECT = FALSE;
         skip = FALSE;
@@ -283,10 +285,11 @@ void add_instruction_word_1(OperationItem *command, int line_number){
             /* ERROR */
     }
     command_memory[IC].w = w1;
-    command_memory[IC++].ARE = A;
+    command_memory[IC++].ARE = A; /*updates ARE value*/
 }
 
 void free_temp(char *line, char *argument, char *label){
+    /*free the allocated memory*/
     memset(line, 0, MAX_LINE);
     memset(argument, 0, MAX_ARGUMENT);
     memset(label, 0, MAX_LABEL);
@@ -318,5 +321,12 @@ void CHECK_REGISTER_NAME(int *flag, int line, char *argument){
 void CHECK_LABEL_LENGTH(int *flag, int line, char *label){
     if (strlen(label) > MAX_LABEL){
         LABEL_LENGTH_ERROR(flag, line);
+    }
+}
+
+void CHECK_COMMAND(int *flag, int line, OperationItem *command){
+    /*call after get command()*/
+    if (strcmp(command->name, "null")){
+        COMMAND_ERROR(flag, line);
     }
 }
