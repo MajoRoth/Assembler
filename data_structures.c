@@ -218,8 +218,10 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root){
     word *relative_word = (word *)malloc(sizeof(word));
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
-    strcpy(label, &argument[1]);
+    strcpy(label, argument);
+    printf(">>>>>>>>>>>>>>>>>>>>> %s\n", label);
     label_row = search_symbole_table(label, root);
+    printf("================> %d\n", label_row);
     if (label_row == -1){
         /*ERROR*/
     }
