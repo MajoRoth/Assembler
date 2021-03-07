@@ -28,7 +28,7 @@ OperationL L_table [] ={
         {"null", 0}
 };
 
-enum boolean IS_ENTRY = FALSE, IS_EXTERNAL = FALSE;
+int IS_ENTRY = FALSE, IS_EXTERNAL = FALSE, ERROR = FALSE;
 
 int second_stage(FILE *file){
     char line[MAX_LINE];
@@ -53,7 +53,7 @@ int second_stage(FILE *file){
 
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
-            if (get_label(line, label)==1){
+            if (get_label(line, label, &ERROR, UNKNOWN_LINE)==1){
                 /*IS_LABEL = TRUE; commented to silence unused warning */
                 get_next_token(argument);
                 if ((directive_type = is_directive(argument)) != -1){
@@ -97,7 +97,7 @@ int second_stage(FILE *file){
                 source_adress =  operand_address_method(argument);
                 if(source_adress == 1){
                     strcpy(source_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(source_label, root);
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root, &ERROR);
                     command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }   
                 ic_pointer++;    
@@ -106,7 +106,7 @@ int second_stage(FILE *file){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(dest_label, root);
+                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR);
                     command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
 
@@ -119,7 +119,7 @@ int second_stage(FILE *file){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(dest_label, root);
+                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR);
                     command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
                 }
                 if(dest_adress == 2){ /*we dont need the - % */

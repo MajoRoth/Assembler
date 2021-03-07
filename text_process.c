@@ -1,4 +1,5 @@
 #include "text_process.h"
+#include "error_handlers.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -57,7 +58,7 @@ void drop_marks(char *str) {
 }
 
 
-int get_label(char *line, char *label){
+int get_label(char *line, char *label, int *flag, int line_count){
     /* checks for label. if there is label set the flag is_label to true, else to false
      * returns the index which the line resumes*/
     int i;
@@ -68,7 +69,7 @@ int get_label(char *line, char *label){
                 return 1; /* need to be check if label already exists in symbol table */
             }
             else{
-                printf("ERROR: label %s does not start with a letter", label);/*exit program? */
+                ILLEGAL_LABEL_SYNTAX_ERROR(flag, line_count);
                 return 0;
             }
         }

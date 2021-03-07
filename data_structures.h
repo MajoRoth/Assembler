@@ -75,7 +75,7 @@ word *get_first_word(OperationItem *command, int source, int dest);
 
 word *get_word_immediate(char *argument);
 
-word *get_word_direct(char *argument, SymbolNode *root);
+word *get_word_direct(char *argument, SymbolNode *root, int *flag);
 
 word *get_word_relative(char *argument, int ic, SymbolNode *root);
 

@@ -1,5 +1,6 @@
 #include "error_handlers.h"
 #include "data_structures.h"
+#include "constants.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,10 +24,20 @@ void LABEL_LENGTH_ERROR(int *flag, int line){
     printf("error in line %d: LABEL IS TOO LONG\n", line);
 }
 
+void ILLEGAL_LABEL_SYNTAX_ERROR(int *flag, int line){
+    *flag = FALSE;
+    if (line == UNKNOWN_LINE){
+        printf("ILLEGAL LABEL SYNTAX\n");
+    }
+    else{
+        printf("error in line %d: ILLEGAL LABEL SYNTAX\n", line);
+    }
+}
+
 /*checks wether the register name is valid*/
 void REGISTER_NAME_ERROR(int *flag, int line){
-        *flag = TRUE; 
-        printf("error in line %d: ILLEGAL REGISTER NAME\n", line);
+    *flag = TRUE; 
+    printf("error in line %d: ILLEGAL REGISTER NAME\n", line);
     }
 
 
@@ -38,6 +49,10 @@ void REGISTER_NAME_ERROR(int *flag, int line){
 function not finished
 }*/
 
+void UNDEFINED_LABEL_ERROR(int *flag, char *label){
+    *flag = TRUE;
+    printf("UNDEFINED LABEL %s\n", label);
+}
 
 
 

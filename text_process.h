@@ -15,7 +15,7 @@ void drop_comma(char *str);
 
 void drop_marks(char *str);
 
-int get_label(char *line, char *label);
+int get_label(char *line, char *label, int *flag, int line_count);
 
 int is_directive(char *argument);
 

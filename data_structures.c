@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "text_process.h"
 #include "debug_tools.h"
+#include "error_handlers.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -200,7 +201,7 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
-word *get_word_direct(char *argument, SymbolNode *root){
+word *get_word_direct(char *argument, SymbolNode *root, int *flag){
     SymbolNode *node = root;
     word *direct_word = (word *)malloc(sizeof(word));
     while (node->next != NULL){/*search in the symbols table*/
@@ -211,7 +212,7 @@ word *get_word_direct(char *argument, SymbolNode *root){
         }
         /*REMEMBER - need to check if arg in the table: if label_word == 0 */
     }
-    /* call an error - label not in symbol list */
+    UNDEFINED_LABEL_ERROR(flag, argument);
     return direct_word;
 }
 

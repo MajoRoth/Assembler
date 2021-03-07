@@ -51,7 +51,7 @@ int first_stage(FILE *file){
         printf("[%d] - current line: %s\n", IC, line);
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
-            if (get_label(line, label)==1){
+            if (get_label(line, label, &IS_ERROR, line_number)==1){
                 IS_LABEL = TRUE;
                 CHECK_LABEL_LENGTH(&IS_ERROR, line_number, label);
                 get_next_token(argument);
