@@ -83,6 +83,7 @@ SymbolNode *get_last_node(SymbolNode *root){
     return last_node;
 }
 
+
 External_list_Node *get_external_list_root(){
      /* init a new symbols linked list */
     External_list_Node *root = (External_list_Node *)malloc(sizeof(External_list_Node));
@@ -203,11 +204,11 @@ word *get_word_direct(char *argument, SymbolNode *root){
     SymbolNode *node = root;
     word *direct_word = (word *)malloc(sizeof(word));
     while (node->next != NULL){/*search in the symbols table*/
-        if(!strcmp(argument, root->symbol)){/*arg can only appear once in the table*/
+        node = node->next;
+        if(!strcmp(argument, node->symbol)){/*arg can only appear once in the table*/
             direct_word->bits = node->value;
             return direct_word;
         }
-        node = node->next;
         /*REMEMBER - need to check if arg in the table: if label_word == 0 */
     }
     /* call an error - label not in symbol list */
@@ -219,13 +220,11 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root){
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, argument);
-    printf(">>>>>>>>>>>>>>>>>>>>> %s\n", label);
     label_row = search_symbole_table(label, root);
-    printf("================> %d\n", label_row);
     if (label_row == -1){
         /*ERROR*/
     }
-    relative_word->bits += (label_row - (ic+1));
+    relative_word->bits = label_row - ic;
     return relative_word;
 }
 
