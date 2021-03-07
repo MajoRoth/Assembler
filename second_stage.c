@@ -30,7 +30,7 @@ OperationL L_table [] ={
 
 int IS_ENTRY = FALSE, IS_EXTERNAL = FALSE, ERROR = FALSE;
 
-int second_stage(FILE *file){
+int second_stage(FILE *file, char *file_name){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
     char label[MAX_LABEL];
@@ -140,9 +140,7 @@ int second_stage(FILE *file){
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC);
     /* we need to change later in order to get the nanme of the file */
-    printf("hey1");    
-    strcpy(dest_label, "asembly_exm");
-    create_files(dest_label);
+    create_files(file_name);
     return 1;
 }
 

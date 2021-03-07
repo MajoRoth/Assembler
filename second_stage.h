@@ -3,8 +3,7 @@
 
 #include <stdio.h>
 
-int second_stage(FILE *file);
-
+int second_stage(FILE *file, char *file_name);
 
 void create_files(char *file_name);
 

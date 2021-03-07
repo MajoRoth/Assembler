@@ -23,7 +23,7 @@ int assembler (char *file_path){
             merge_ic_dc();
             /* first stage finished - no errors */
             fseek(file, 0, SEEK_SET);
-            second_stage(file);
+            second_stage(file, file_path);
         }
         fclose(file);
     }
