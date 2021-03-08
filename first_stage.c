@@ -98,7 +98,7 @@ int first_stage(FILE *file){
                 add_symbol_node(label, IC, code, get_last_node(root));
             }
             get_command(argument, &command, hash_table);
-            /*CHECK_COMMAND(&IS_ERROR, line_number, command);*/
+            CHECK_COMMAND(&IS_ERROR, line_number, command);
             L = command->words_num;
             printf("L: %d name: %s", L, command->name);
             switch (L) {
@@ -326,7 +326,7 @@ void CHECK_LABEL_LENGTH(int *flag, int line, char *label){
 
 void CHECK_COMMAND(int *flag, int line, OperationItem *command){
     /*call after get command()*/
-    if (strcmp(command->name, "null")){
+    if(!strcmp(command->name, "null")){
         COMMAND_ERROR(flag, line);
     }
 }
