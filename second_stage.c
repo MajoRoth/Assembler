@@ -78,6 +78,9 @@ int second_stage(FILE *file, char *file_name){
             get_next_token(argument);
             add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
             command_memory[ic_pointer].ARE = E;
+	    printf("444444444444444444444 %d\t", ic_pointer);
+	    print_word( command_memory[ic_pointer].w);
+	    printf("\t %d \t %s\n", command_memory[ic_pointer].ARE, argument);
             ic_pointer++;
             IS_EXTERNAL = TRUE;
         }
