@@ -15,6 +15,10 @@ void ILLEGAL_LABEL_SYNTAX_ERROR(int *flag, int line);
 
 void COMMAND_ERROR(int *flag, int line);
 
+void OPERANDS_NUMBER_ERORR_1(int *flag, int line);
+
+void OPERANDS_NUMBER_ERORR_2(int *flag, int line);
+
 void REGISTER_NAME_ERROR(int *flag, int line);
 
 void UNDEFINED_LABEL_ERROR(int *flag, char *label);

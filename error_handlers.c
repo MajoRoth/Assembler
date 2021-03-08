@@ -34,6 +34,21 @@ void ILLEGAL_LABEL_SYNTAX_ERROR(int *flag, int line){
     }
 }
 
+void COMMAND_ERROR(int *flag, int line){
+    *flag = TRUE; 
+    printf("error in line %d: COMMAND DOES NOT EXISTS\n", line);
+}
+
+void OPERANDS_NUMBER_ERORR1(int *flag, int line){
+    *flag = TRUE; 
+    printf("error in line %d: TOO MANY OPERANDS\n", line);
+}
+
+void OPERANDS_NUMBER_ERORR2(int *flag, int line){
+    *flag = TRUE; 
+    printf("error in line %d: NOT ENOUGH OPERANDS\n", line);
+}
+
 /*checks wether the register name is valid*/
 void REGISTER_NAME_ERROR(int *flag, int line){
     *flag = TRUE; 

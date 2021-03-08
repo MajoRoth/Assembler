@@ -324,9 +324,13 @@ void CHECK_LABEL_LENGTH(int *flag, int line, char *label){
     }
 }
 
-/*void CHECK_COMMAND(int *flag, int line, OperationItem *command){*/
+void CHECK_COMMAND(int *flag, int line, OperationItem *command){
     /*call after get command()*/
-    /*if (strcmp(command->name, "null")){
+    if (strcmp(command->name, "null")){
         COMMAND_ERROR(flag, line);
     }
-}*/
+}
+
+void CHECK_OPERANDS_NUMBER(int *flag, int line, char *temp){
+
+}
