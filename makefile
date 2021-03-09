@@ -26,4 +26,4 @@ error_handlers.o: error_handlers.c error_handlers.h
 	gcc -c -Wall -ansi -pedantic error_handlers.c -o error_handlers.o
 
 clean:
-	rm *.o
+	rm ~.o

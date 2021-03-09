@@ -101,7 +101,6 @@ int first_stage(FILE *file){
             get_command(argument, &command, hash_table);
             CHECK_COMMAND(&IS_ERROR, line_number, command);
             L = command->words_num;
-            printf("L: %d name: %s", L, command->name);
             switch (L) {
                 case 2:
                     add_instruction_words_2(command, line_number);
@@ -154,19 +153,11 @@ void directive_string_line(){
     char *arg = (char *)malloc(sizeof(char)*MAX_ARGUMENT);
     int i;
     get_next_token(arg);
-    printf("%s\n", arg);
     drop_marks(arg);
-    printf("%s\n", arg);
     for (i=0; arg[i] != '\0'; i++){
         directive_memory[DC++].w = get_word(arg[i]);
-        printf("---------->");
-        print_word(directive_memory[DC-1].w);
-        printf("\n");
     }
     directive_memory[DC++].w = get_word('\0');
-    printf("---------->");
-    print_word(directive_memory[DC-1].w);
-    printf("\n");
 }
 
 /*
@@ -212,8 +203,6 @@ void add_instruction_words_2(OperationItem *command, int line_number){
     command_memory[IC].w = get_first_word(command, source, dest);
     command_memory[IC++].ARE = A;
 
-    printf("CM %d ", IC-1);
-    print_word(command_memory[IC-1].w);
     switch (source) {
         case 0:
             w1 = get_word_immediate(temp1);
@@ -266,8 +255,6 @@ void add_instruction_word_1(OperationItem *command, int line_number){
     CHECK_LEGAL_OPERANDS(&IS_ERROR, line_number, dest, -999, command);
     command_memory[IC].w = get_first_word(command, 0, dest);
     command_memory[IC++].ARE = A;
-    printf("CM %d ", IC-1);
-    print_word(command_memory[IC-1].w);
     /* add the words depends on the address method */
     switch (dest) {
         case 0:

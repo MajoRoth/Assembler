@@ -41,6 +41,7 @@ int second_stage(FILE *file, char *file_name){
     int directive_type = data;
     int ic_pointer, L;
     enum boolean IS_DIRECT = FALSE; /*IS_LABEL = FALSE */
+    int EXT_VAR = FALSE;
     OperationL *command;
 
     printf("SECOND STAGE STARTED\n");
@@ -64,7 +65,6 @@ int second_stage(FILE *file, char *file_name){
                 IS_DIRECT = TRUE;
             }
         }
-
         if ( directive_type == entry){
             get_next_token(argument);
             /* search the label in the symbol list */
@@ -73,22 +73,10 @@ int second_stage(FILE *file, char *file_name){
             }
             IS_ENTRY = TRUE;
         }
-
-        if(directive_type == external){
-            get_next_token(argument);
-            add_external_list_node(argument, ic_pointer, get_last_external_list_node(external_list_root));
-            command_memory[ic_pointer].ARE = E;
-	    printf("444444444444444444444 %d\t", ic_pointer);
-	    print_word( command_memory[ic_pointer].w);
-	    printf("\t %d \t %s\n", command_memory[ic_pointer].ARE, argument);
-            ic_pointer++;
-            IS_EXTERNAL = TRUE;
-        }
-        else if(IS_DIRECT == FALSE){
+        if(IS_DIRECT == FALSE){
             get_command_L(argument, &command, L_table);
             L = command->words_num;
             ic_pointer++;
-
             switch (L){
             /* AMIT - source_adress, dest_adress CONTAIN 1 FOR DIRECT OR 2 FOR RELATIVE, UNINITIALIZED ELSE.
             IF THERE IS LABEL IN THE OPERANDS - source_label, dest_label CONTAIN IT, UNINITIALIZED ELSE. */
@@ -100,8 +88,18 @@ int second_stage(FILE *file, char *file_name){
                 source_adress =  operand_address_method(argument);
                 if(source_adress == 1){
                     strcpy(source_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(source_label, root, &ERROR);
-                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].w = get_word_direct(source_label, root, &ERROR, &EXT_VAR);
+                    switch (EXT_VAR)
+                    {
+                    case FALSE:
+                        command_memory[ic_pointer].ARE = R;
+                        break;
+                    case TRUE:
+                        command_memory[ic_pointer].ARE = E;
+                        IS_EXTERNAL = TRUE;
+                        add_external_list_node(source_label, ic_pointer, get_last_external_list_node(external_list_root));
+                        break;
+                    }
                 }   
                 ic_pointer++;    
                 /*check the second operand*/
@@ -109,8 +107,18 @@ int second_stage(FILE *file, char *file_name){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR);
-                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR, &EXT_VAR);
+                    switch (EXT_VAR)
+                    {
+                    case FALSE:
+                        command_memory[ic_pointer].ARE = R;
+                        break;
+                    case TRUE:
+                        command_memory[ic_pointer].ARE = E;
+                        IS_EXTERNAL = TRUE;
+                        add_external_list_node(dest_label, ic_pointer, get_last_external_list_node(external_list_root));
+                        break;
+                    }
                 }
 
                 ic_pointer++;
@@ -122,13 +130,33 @@ int second_stage(FILE *file, char *file_name){
                 dest_adress =  operand_address_method(argument);
                 if(dest_adress == 1){
                     strcpy(dest_label, argument);
-                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR);
-                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].w = get_word_direct(dest_label, root, &ERROR, &EXT_VAR);
+                    switch (EXT_VAR)
+                    {
+                    case FALSE:
+                        command_memory[ic_pointer].ARE = R;
+                        break;
+                    case TRUE:
+                        command_memory[ic_pointer].ARE = E;
+                        IS_EXTERNAL = TRUE;
+                        add_external_list_node(dest_label, ic_pointer, get_last_external_list_node(external_list_root));
+                        break;
+                    }
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
-                    command_memory[ic_pointer].w = get_word_relative(dest_label, ic_pointer, root);
-                    command_memory[ic_pointer].ARE = R; /* could be also E, need to be modified for later suport */
+                    command_memory[ic_pointer].w = get_word_relative(dest_label, ic_pointer, root, &EXT_VAR);
+                    switch (EXT_VAR)
+                    {
+                    case FALSE:
+                        command_memory[ic_pointer].ARE = R;
+                        break;
+                    case TRUE:
+                        command_memory[ic_pointer].ARE = E;
+                        IS_EXTERNAL = TRUE;
+                        add_external_list_node(dest_label, ic_pointer, get_last_external_list_node(external_list_root));
+                        break;
+                    }
                 }
                 ic_pointer++;
                 break;
@@ -137,8 +165,9 @@ int second_stage(FILE *file, char *file_name){
                 break;
             }
         }
-
-        /* AMIT - 6 */        
+        /* reset variabels */
+        EXT_VAR = FALSE;
+        IS_DIRECT = FALSE;
     }
     print_table_symbol(root);
     print_table_row_ic(100, IC+DC);
@@ -168,7 +197,8 @@ if(IS_ENTRY == TRUE){
 
     file_ob = fopen(file_name_ob, "w");
     counter = 100;
-    /* write the first line with info */
+
+    fprintf(file_ob, "\t%d %d\n", IC-100, DC);
     while (counter<IC+DC)
     {
         row = &command_memory[counter];
@@ -221,7 +251,6 @@ void create_external(char *file_name){
 
     while(node->next != NULL){
         node = node->next;
-        printf("--%s\n", node->symbol);
         fprintf(file_ext, "%s %04d\n", node->symbol, node->value);
     }
     fclose(file_ext);

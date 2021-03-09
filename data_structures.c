@@ -123,11 +123,15 @@ void is_symbol_in_table(char *label){
     /* IDO  */
 }
 
-int search_symbole_table(char *label, SymbolNode *root){
+int search_symbole_table(char *label, SymbolNode *root, int *EXT_VAR){
     SymbolNode *node = root;
     while(node->next != NULL){
         node = node->next;
         if (!strcmp(label,node->symbol)){
+            if (node->attribute & 4)
+            {
+                *EXT_VAR = TRUE;
+            }
             return node->value;
         }
     }
@@ -173,8 +177,6 @@ word *get_first_word(OperationItem *command, int source, int dest){
     first_word->bits += source;
     first_word->bits = first_word->bits << 2;
     first_word->bits += dest;
-    printf("first word %s source: %d, dest: %d, word: ", command->name, source, dest);
-    print_word(first_word);
     return first_word;
 }
 
@@ -201,13 +203,17 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
-word *get_word_direct(char *argument, SymbolNode *root, int *flag){
+word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR){
     SymbolNode *node = root;
     word *direct_word = (word *)malloc(sizeof(word));
     while (node->next != NULL){/*search in the symbols table*/
         node = node->next;
         if(!strcmp(argument, node->symbol)){/*arg can only appear once in the table*/
             direct_word->bits = node->value;
+            if (node->attribute & 4)
+            {
+                *EXT_VAR = TRUE;
+            }
             return direct_word;
         }
         /*REMEMBER - need to check if arg in the table: if label_word == 0 */
@@ -216,12 +222,12 @@ word *get_word_direct(char *argument, SymbolNode *root, int *flag){
     return direct_word;
 }
 
-word *get_word_relative(char *argument, int ic, SymbolNode *root){
+word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
     word *relative_word = (word *)malloc(sizeof(word));
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, argument);
-    label_row = search_symbole_table(label, root);
+    label_row = search_symbole_table(label, root, EXT_VAR);
     if (label_row == -1){
         /*ERROR*/
     }
