@@ -39,12 +39,17 @@ void COMMAND_ERROR(int *flag, int line){
     printf("error in line %d: COMMAND DOES NOT EXISTS\n", line);
 }
 
-void OPERANDS_NUMBER_ERORR1(int *flag, int line){
+void LEGAL_OPERANDS_ERROR(int *flag, int line){
+    *flag = TRUE; 
+    printf("error in line %d: ILLEGAL OPERAND FOR THIS COMMAND\n", line);
+}
+
+void OPERANDS_NUMBER_ERORR_1(int *flag, int line){
     *flag = TRUE; 
     printf("error in line %d: TOO MANY OPERANDS\n", line);
 }
 
-void OPERANDS_NUMBER_ERORR2(int *flag, int line){
+void OPERANDS_NUMBER_ERORR_2(int *flag, int line){
     *flag = TRUE; 
     printf("error in line %d: NOT ENOUGH OPERANDS\n", line);
 }

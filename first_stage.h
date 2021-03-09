@@ -6,6 +6,7 @@
 #include "assembler_main.h"
 #include "constants.h"
 
+
 int first_stage(FILE *file);
 void directive_data_line();
 void directive_string_line();
@@ -17,4 +18,5 @@ void CHECK_DOUBLE_DECLARATION(int *flag, int line, SymbolNode *root, char *label
 void CHECK_REGISTER_NAME(int *flag, int line, char *argument);
 void CHECK_LABEL_LENGTH(int *flag, int line, char *label);
 void CHECK_COMMAND(int *flag, int line, OperationItem *command);
+void CHECK_LEGAL_OPERANDS(int *flag, int line, int dest, int source, OperationItem *command);
 #endif

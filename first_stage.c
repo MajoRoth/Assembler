@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 
 /* ----- SECOND IMPLEMENTATION ----- */
@@ -205,8 +206,9 @@ void add_instruction_words_2(OperationItem *command, int line_number){
     }
     source = operand_address_method(temp1);
     dest = operand_address_method(temp2);
+    CHECK_LEGAL_OPERANDS(&IS_ERROR, line_number, dest, source, command);
+
     /* YOU HAVE DEST, SOURCE AND COMMAND */
-    /* CHECK_OPERANDS(IS_ERROR, line_number, source, dest, command)*/
     command_memory[IC].w = get_first_word(command, source, dest);
     command_memory[IC++].ARE = A;
 
@@ -261,6 +263,7 @@ void add_instruction_word_1(OperationItem *command, int line_number){
     word *w1 = 0;
     get_next_token(argument);
     dest = operand_address_method(argument);
+    CHECK_LEGAL_OPERANDS(&IS_ERROR, line_number, dest, -999, command);
     command_memory[IC].w = get_first_word(command, 0, dest);
     command_memory[IC++].ARE = A;
     printf("CM %d ", IC-1);
@@ -330,6 +333,26 @@ void CHECK_COMMAND(int *flag, int line, OperationItem *command){
         COMMAND_ERROR(flag, line);
     }
 }
+
+void CHECK_LEGAL_OPERANDS(int *flag, int line, int dest, int source, OperationItem *command){
+    /*call inside add instruction word 1/2*/
+    int d;
+    int s;
+    d = pow(2, dest);
+    if (source != -999){
+        s = pow(2, source);
+        if(!(d & command->operands[1]) || !(s & command->operands[0])){
+            LEGAL_OPERANDS_ERROR(flag, line);
+        }
+    }
+    else{
+        if(!(d & command->operands[1])){
+            LEGAL_OPERANDS_ERROR(flag, line);
+        }
+    }
+}
+
+
 
 void CHECK_OPERANDS_NUMBER(int *flag, int line, char *temp){
 
