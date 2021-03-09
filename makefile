@@ -1,5 +1,5 @@
 run: main.o text_process.o second_stage.o first_stage.o data_structures.o assembler_main.o debug_tools.o error_handlers.o
-	gcc -g -Wall -ansi -pedantic main.o text_process.o second_stage.o first_stage.o data_structures.o assembler_main.o debug_tools.o error_handlers.o -o assembler
+	gcc -g -Wall -ansi -pedantic main.o text_process.o second_stage.o first_stage.o data_structures.o assembler_main.o debug_tools.o error_handlers.o -lm -o assembler
 
 main.o: main.c assembler_main.h
 	gcc -c -Wall -ansi -pedantic main.c -o main.o
@@ -14,7 +14,7 @@ second_stage.o: second_stage.c second_stage.h
 	gcc -c -Wall -ansi -pedantic second_stage.c -o second_stage.o
 
 first_stage.o: first_stage.c first_stage.h
-	gcc -c -Wall -ansi -pedantic -lm first_stage.c -o first_stage.o
+	gcc -c -Wall -ansi -pedantic first_stage.c -lm -o first_stage.o
 
 assembler_main.o: assembler_main.c assembler_main.h
 	gcc -c -Wall -ansi -pedantic assembler_main.c -o assembler_main.o

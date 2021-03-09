@@ -338,9 +338,9 @@ void CHECK_LEGAL_OPERANDS(int *flag, int line, int dest, int source, OperationIt
     /*call inside add instruction word 1/2*/
     int d;
     int s;
-    d = pow(2, dest);
+    d = (int) 8/(pow(2, dest));
     if (source != -999){
-        s = pow(2, source);
+	s = (int) 8/(pow(2, source)); 
         if(!(d & command->operands[1]) || !(s & command->operands[0])){
             LEGAL_OPERANDS_ERROR(flag, line);
         }
