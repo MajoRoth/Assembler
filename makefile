@@ -14,7 +14,7 @@ second_stage.o: second_stage.c second_stage.h
 	gcc -c -Wall -ansi -pedantic second_stage.c -o second_stage.o
 
 first_stage.o: first_stage.c first_stage.h
-	gcc -c -Wall -ansi -pedantic first_stage.c -o first_stage.o
+	gcc -c -Wall -ansi -pedantic -lm first_stage.c -o first_stage.o
 
 assembler_main.o: assembler_main.c assembler_main.h
 	gcc -c -Wall -ansi -pedantic assembler_main.c -o assembler_main.o
