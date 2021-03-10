@@ -1,6 +1,15 @@
 #include "debug_tools.h"
 #include "assembler_main.h"
 
+/**
+ * DEBUG TOOLS - writen to internal use.
+ * we decided to keep those functions to experiment with the project in the future.
+ * it is nice to see visually what happens "inside"
+ */
+
+/**
+ * prints a word in binary
+ */
 void print_word(word *w){
     int i;
     int bits = w->bits;
@@ -16,8 +25,11 @@ void print_word(word *w){
     }
 }
 
+/**
+ * prints ic
+ */
 void print_table_row_ic(int i, int j){
-    printf("\nprinting ic\n");
+    printf("\n---printing ic---\n");
     for(; i<j; i++){
         printf("%d\t", i);
         print_word(command_memory[i].w);
@@ -25,6 +37,9 @@ void print_table_row_ic(int i, int j){
     } 
 }
 
+/**
+ * prints dc
+ */
 void print_table_row_dc(int i, int j){
     for(; i<j; i++){
         printf("%d\t", i);
@@ -33,10 +48,12 @@ void print_table_row_dc(int i, int j){
     } 
 }
 
+/**
+ * prints symbol list
+ */
 void print_table_symbol(SymbolNode *root){
-    /* print all nodes until node->next == null */
     SymbolNode *node = root;
-    printf("printing symbol table\n");
+    printf("---printing symbol table---\n");
     while(node->next != NULL){
         node = node->next;
         printf("%s\t%d\t%d", node->symbol, node->value, node->attribute);
