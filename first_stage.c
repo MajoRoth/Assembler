@@ -10,9 +10,9 @@
 #include <ctype.h>
 #include <math.h>
 
-
-/* ----- SECOND IMPLEMENTATION ----- */
-
+/**
+ * global variable for first_stage.c
+ */
 OperationItem hash_table [] ={
         {"mov",  0,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, DIRECT + DIRECT_REG}},
         {"cmp",  1,  0, 2,{IMMEDIATE + DIRECT + DIRECT_REG, IMMEDIATE + DIRECT + DIRECT_REG}},
@@ -32,24 +32,31 @@ OperationItem hash_table [] ={
         {"stop", 15, 0, 0,{NONE,                            NONE}},
         {"null",  0, 0, 0,{NONE,                            NONE}}
 };
-int IS_ERROR = FALSE; /*error flag*/
+int IS_ERROR = FALSE;
 
+/**
+ * The skeleton of first stage - contains the logic and the
+ * calls to to the side functions of first_stage.c
+ * @param file - a file pointer
+ * @return 1 if no errors 0 if were
+ */
 int first_stage(FILE *file){
     char line[MAX_LINE];
     char argument[MAX_ARGUMENT];
     char label[MAX_LINE];
-    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE; /*label and directive flag*/
+    enum boolean IS_LABEL = FALSE, IS_DIRECT = FALSE;
     int directive_type = data;
     int L=0;
     int line_number = 1;
     enum boolean skip = FALSE;
-    OperationItem *command = &hash_table[16]; /*NULL*/
+    OperationItem *command = &hash_table[16];
 
     while (!feof(file))
     {
         /* main loop of stage 1 */
         get_line(file, line);
-        printf("[%d] - current line: %s\n", IC, line);
+        /* uncomment line bellow to debug first stage */
+        /*printf("[%d] - current line: %s\n", IC, line);*/
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
             if (get_label(line, label, &IS_ERROR, line_number)==1){
@@ -67,7 +74,6 @@ int first_stage(FILE *file){
         else{
             skip = TRUE;
         }
-
 
         if (IS_DIRECT == TRUE && skip == FALSE){
             if (directive_type == data ){
@@ -88,9 +94,6 @@ int first_stage(FILE *file){
                 get_next_token(label);
                 CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                 add_symbol_node(label, 0, external, get_last_node(root));
-            }
-            else{
-                /* intern line - ignore */
             }
         }
         else if (skip == FALSE){
@@ -128,9 +131,8 @@ int first_stage(FILE *file){
         return 1;
 }
 
-
-/*
- *  adds to directive_memory[] the following words of data expression
+/**
+ * adds to directive_memory[] the word following by data declaration
  */
 void directive_data_line(){
     char arg[MAX_ARGUMENT];
@@ -146,8 +148,8 @@ void directive_data_line(){
     }
 }
 
-/*
- *  adds to directive_memory[] the following words of string expression
+/**
+ * adds to directive_memory[] the word following by string declaration
  */
 void directive_string_line(){
     char *arg = (char *)malloc(sizeof(char)*MAX_ARGUMENT);
@@ -160,10 +162,11 @@ void directive_string_line(){
     directive_memory[DC++].w = get_word('\0');
 }
 
-/*
- * adds to IC the words for 2 words instruction
+/**
+ * adds to command_memory for words which L=2
+ * @param command - pointer to the command
  */
-void add_instruction_words_2(OperationItem *command, int line_number){
+void add_instruction_words_2(OperationItem *command){
     char argument[MAX_ARGUMENT];
     char *temp1 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     char *temp2 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
@@ -199,7 +202,6 @@ void add_instruction_words_2(OperationItem *command, int line_number){
     dest = operand_address_method(temp2);
     CHECK_LEGAL_OPERANDS(&IS_ERROR, line_number, dest, source, command);
 
-    /* YOU HAVE DEST, SOURCE AND COMMAND */
     command_memory[IC].w = get_first_word(command, source, dest);
     command_memory[IC++].ARE = A;
 
@@ -217,8 +219,6 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             CHECK_REGISTER_NAME(&IS_ERROR, line_number, temp1);
             w1 = get_word_register(temp1);
             break;
-        default:
-            w1 = 0; /* ERROR */
     }
     command_memory[IC].w = w1;
     command_memory[IC++].ARE = A;
@@ -236,17 +236,16 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             CHECK_REGISTER_NAME(&IS_ERROR, line_number, temp2);
             w2 = get_word_register(temp2);
             break;
-        default:
-            w2 = 0; /* ERROR */
     }
     command_memory[IC].w = w2;
     command_memory[IC++].ARE = A;
 }
 
-/*
- * adds to IC the a word for 1 word instruction
+/**
+ * adds to command_memory for words which L=1
+ * @param command - pointer to the command
  */
-void add_instruction_word_1(OperationItem *command, int line_number){
+void add_instruction_word_1(OperationItem *command){
     char argument[MAX_ARGUMENT];
     int dest;
     word *w1 = 0;
@@ -278,6 +277,12 @@ void add_instruction_word_1(OperationItem *command, int line_number){
     command_memory[IC++].ARE = A; /*updates ARE value*/
 }
 
+/**
+ * free the temporary variables
+ * @param line
+ * @param argument
+ * @param label
+ */
 void free_temp(char *line, char *argument, char *label){
     /*free the allocated memory*/
     memset(line, 0, MAX_LINE);
@@ -286,7 +291,10 @@ void free_temp(char *line, char *argument, char *label){
 }
 
 
-/* ERRORS */
+
+/**
+ *  ERRORS BELLOW
+ */
 
 /*checks wether the label has already been declared
 call this funcyion before you add new label to symbol table*/

@@ -1,10 +1,13 @@
 #include "assembler_main.h"
 #include <stdio.h>
 
+/**
+ * Main function for Assembler. gets the input from the command line and calls to assembler.
+ * @param argc
+ * @param argv
+ * @return None
+ */
 int main(int argc, char *argv[]) {
-    /* get the names from the command line as args
-     * and send each one to assembler_main.c
-     */
     int i;
     printf("entered main.c\n");
     if (argc==1)

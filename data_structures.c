@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+/** AMIT THINK IT MIGHT BE DELETED
 int get_funct_by_name(char *name, OperationItem *hash_table){
     int i;
     for (i=0; i < 16; i++) {
@@ -26,9 +27,15 @@ int get_opcode_by_name(char *name, OperationItem *hash_table){
     }
     return -1;
 }
+ */
 
+/**
+ * searching command and returning her pointer in **p
+ * @param argument - char *
+ * @param p - the operation that returns
+ * @param table - the table head
+ */
 void get_command(char *argument, OperationItem **p, OperationItem *table){
-    /* ignores spaces and returns the next command */
     int i;
     for (i=0; i< 16; i++){
         if (!strcmp(table[i].name, argument)){
@@ -38,9 +45,14 @@ void get_command(char *argument, OperationItem **p, OperationItem *table){
     }
     *p = table+16;
 }
- /*same func except the params - MAYBE CHANGE IT LATER*/
+
+/**
+ * searching command_L and returning her pointer in **p
+ * @param argument - char *
+ * @param p - the operation_L that returns
+ * @param table - the table head
+ */
 void get_command_L(char *argument, OperationL **p, OperationL *table){
-    /* ignores spaces and returns the next command for L_table */
     int i;
     for (i=0; i< 16; i++){
         if (!strcmp(table[i].name, argument)){
@@ -52,19 +64,27 @@ void get_command_L(char *argument, OperationL **p, OperationL *table){
 }
 
 
-/* initialize symbols table - linked list */
-
+/**
+ * initialize a list
+ * @return a pointer to the root
+ */
 SymbolNode *get_symbol_root(){
-    /* init a new symbols linked list */
     SymbolNode *root = (SymbolNode *)malloc(sizeof(SymbolNode));
-    root->attribute = -1; /* add capacity for 2 later */
+    root->attribute = -1;
     root->value = -1;
     root->symbol = "\0";
     root->next = NULL;
-
     return root;
 }
 
+/**
+ * adds a node to the linked list
+ * @param symbol - char *
+ * @param value  - int
+ * @param attribute - int
+ * @param prev - the node you want to concatenate to
+ * @return a pointer to the new node
+ */
 SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *prev){
     /* add symbol node to an existing linked list */
     SymbolNode *node = (SymbolNode *)malloc(sizeof(SymbolNode));
@@ -76,6 +96,11 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *
     return node;
 }
 
+/**
+ * get the last node from a linked list
+ * @param root
+ * @return a pointer to the last node
+ */
 SymbolNode *get_last_node(SymbolNode *root){
     SymbolNode *last_node = root;
     while (last_node->next != NULL){
@@ -84,7 +109,10 @@ SymbolNode *get_last_node(SymbolNode *root){
     return last_node;
 }
 
-
+/**
+ * initialize a list
+ * @return a pointer to the root
+ */
 External_list_Node *get_external_list_root(){
      /* init a new symbols linked list */
     External_list_Node *root = (External_list_Node *)malloc(sizeof(External_list_Node));
@@ -94,6 +122,14 @@ External_list_Node *get_external_list_root(){
     return root;
 }
 
+/**
+ * adds a node to the linked list
+ * @param symbol - char *
+ * @param value  - int
+ * @param attribute - int
+ * @param prev - the node you want to concatenate to
+ * @return a pointer to the new node
+ */
 External_list_Node *add_external_list_node(char *symbol, int value, External_list_Node *prev){
     /* add symbol node to an existing linked list */
     External_list_Node *node = (External_list_Node *)malloc(sizeof(External_list_Node));
@@ -105,6 +141,11 @@ External_list_Node *add_external_list_node(char *symbol, int value, External_lis
     return node;
 }
 
+/**
+ * get the last node from a linked list
+ * @param root
+ * @return a pointer to the last node
+ */
 External_list_Node *get_last_external_list_node(External_list_Node *root){
     External_list_Node *last_node = root;
     while (last_node->next != NULL){
@@ -113,17 +154,25 @@ External_list_Node *get_last_external_list_node(External_list_Node *root){
     return last_node;
 }
 
+/**
+ * check if a node has data attribute
+ * @param node
+ * @return 1 if true 0 if false
+ */
 int is_symbol_node_data(SymbolNode *node){
     /* checks if a node has "code" attribute */
     if (node->attribute == data) return 1;
     return 0;
 }
 
-void is_symbol_in_table(char *label){
-    /* IDO  */
-}
-
-int search_symbole_table(char *label, SymbolNode *root, int *EXT_VAR){
+/**
+ * searches a label in the symbol table
+ * @param label
+ * @param root
+ * @param EXT_VAR
+ * @return the value if it worked -1 if didn't
+ */
+int search_symbol_table(char *label, SymbolNode *root, int *EXT_VAR){
     SymbolNode *node = root;
     while(node->next != NULL){
         node = node->next;
@@ -139,6 +188,11 @@ int search_symbole_table(char *label, SymbolNode *root, int *EXT_VAR){
     return -1;
 }
 
+/**
+ * add entry attribute to symbol
+ * @param label
+ * @return 1 if worked 0 if didn't
+ */
 int add_entry_to_symbol(char *label){
     SymbolNode *node = root;
     while (node->next != NULL){
@@ -152,7 +206,11 @@ int add_entry_to_symbol(char *label){
     return 0;
 }
 
-
+/**
+ * iterates through the symbol list and adds ICF to data labels
+ * @param root
+ * @param ICF
+ */
 void add_ic(SymbolNode *root, int ICF){
     SymbolNode *node;
     node = root;
@@ -165,8 +223,13 @@ void add_ic(SymbolNode *root, int ICF){
 }
 
 
-/* word process */
-
+/**
+ * creating the "first word" of each operation
+ * @param command
+ * @param source
+ * @param dest
+ * @return a pointer to the word
+ */
 word *get_first_word(OperationItem *command, int source, int dest){
     word *first_word = (word *)malloc(sizeof(word));
     first_word->bits = 0;
@@ -180,9 +243,12 @@ word *get_first_word(OperationItem *command, int source, int dest){
     return first_word;
 }
 
-
+/**
+ * create a word by the immediate addressing method
+ * @param argument
+ * @return a pointer to the word
+ */
 word *get_word_immediate(char *argument){
-    /* returns word that represents the immediate operand*/
     char *operand = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     word *immediate_word = (word *)malloc(sizeof(word));
     int int_operand;
@@ -190,7 +256,7 @@ word *get_word_immediate(char *argument){
         drop_comma(argument);
     }
 
-    if(argument[1] == '-'){ /*in case operand is negative*/
+    if(argument[1] == '-'){
         strcpy(operand, &argument[2]);
         int_operand =-1 * atoi(operand);
     }
@@ -203,6 +269,14 @@ word *get_word_immediate(char *argument){
     return immediate_word;
 }
 
+/**
+ * create a word by the direct addressing method
+ * @param argument
+ * @param root
+ * @param flag
+ * @param EXT_VAR
+ * @return a pointer to the word
+ */
 word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR){
     SymbolNode *node = root;
     word *direct_word = (word *)malloc(sizeof(word));
@@ -222,6 +296,14 @@ word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR)
     return direct_word;
 }
 
+/**
+ * create a word by the relative addressing method
+ * @param argument
+ * @param ic
+ * @param root
+ * @param EXT_VAR
+ * @return a pointer to the word
+ */
 word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
     word *relative_word = (word *)malloc(sizeof(word));
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
@@ -235,6 +317,11 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
     return relative_word;
 }
 
+/**
+ * create a word by the register addressing method
+ * @param argument
+ * @return
+ */
 word *get_word_register(char *argument){
     /* note that argument is a string - you need to process it AMIT*/
     int shift;
@@ -245,16 +332,31 @@ word *get_word_register(char *argument){
     return register_word;
 }
 
+/**
+ * create word contains the int i
+ * @param i
+ * @return a pointer to the word
+ */
 word *get_word(int i) {
     word *w = (word *)malloc(sizeof(word));
     w->bits = i;
     return w;
 }
 
+/**
+ * get dest of a "first word"
+ * @param w
+ * @return dest - int
+ */
 int get_dest(word *w){
     return w->bits & 3;
 }
 
+/**
+ * get source of a "first word"
+ * @param w
+ * @return source - int
+ */
 int get_source(word *w){
     return w->bits & 12;
 }

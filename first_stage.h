@@ -1,17 +1,45 @@
 #ifndef ASSEMBLER_FIRST_STAGE_H
 #define ASSEMBLER_FIRST_STAGE_H
-
 #include <stdio.h>
-
 #include "assembler_main.h"
 #include "constants.h"
 
-
+/**
+ * The skeleton of first stage - contains the logic and the
+ * calls to to the side functions of first_stage.c
+ * @param file - a file pointer
+ * @return 1 if no errors 0 if were
+ */
 int first_stage(FILE *file);
+
+/**
+ * adds to directive_memory[] the word following by data declaration
+ */
 void directive_data_line();
+
+/**
+ * adds to directive_memory[] the word following by string declaration
+ */
 void directive_string_line();
-void add_instruction_words_2(OperationItem *command, int line_number);
-void add_instruction_word_1(OperationItem *command, int line_number);
+
+/**
+ * adds to command_memory for words which L=2
+ * @param command - pointer to the command
+ */
+void add_instruction_words_2(OperationItem *command);
+
+/**
+ * adds to command_memory for words which L=1
+ * @param command - pointer to the command
+ */
+void add_instruction_word_1(OperationItem *command);
+
+/**
+ * free the temporary variables
+ * @param line
+ * @param argument
+ * @param label
+ */
 void free_temp(char *line, char *argument, char *label);
 
 void CHECK_DOUBLE_DECLARATION(int *flag, int line, SymbolNode *root, char *label);

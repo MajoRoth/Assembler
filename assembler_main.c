@@ -7,9 +7,14 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * the main logic of the assembler is here. opens file, calls to first stage,
+ * merge ic and dc and calls to second stage
+ * @param file_path
+ * @return None
+ */
 int assembler (char *file_path){
     FILE *file = NULL;
-    printf("entered assembler_main.c\n");
 
     if (open_file(file_path, &file)){
         initialize_data_structures();
@@ -17,11 +22,9 @@ int assembler (char *file_path){
         DC = 0;
 
         if (first_stage(file)){
-            printf("STAGE 1 HAS BEEN DONE !!! \n");
             add_ic(root, IC);
             print_table_symbol(root);
             merge_ic_dc();
-            /* first stage finished - no errors */
             fseek(file, 0, SEEK_SET);
             second_stage(file, file_path);
         }
@@ -30,9 +33,12 @@ int assembler (char *file_path){
     return 1;
 }
 
-/*
- * checks for correctness of the file name and tries to open the file
- * @return 1 - if the file opened and 0 - if an error occurred.
+
+/**
+ * check for correctness of the file name and tries to open it
+ * @param file_path
+ * @param file
+ * @return 1 if succeed 0 if dosen't
  */
 int open_file(char *file_path, FILE **file){
     char file_path_as[MAX_LABEL];
@@ -43,12 +49,11 @@ int open_file(char *file_path, FILE **file){
         printf("file name is not valid\n");
         return 0;
     }
-    printf("%s opened sucessfully\n", file_path);
     return 1;
 }
 
-/*
- *  allocates memory and initialize the program data structures
+/**
+ * allocates memory to the global data structures
  */
 void initialize_data_structures(){
     command_memory = (TableRow *)malloc(MAX_TABLE * sizeof(TableRow));
@@ -57,8 +62,8 @@ void initialize_data_structures(){
     external_list_root = get_external_list_root();
 }
 
-/*
- *  free all of the program's allocated memory
+/**
+ * free the memory of the global data structures
  */
 void free_data_structures(){
     SymbolNode *node = root, *next_node;
@@ -81,6 +86,9 @@ void free_data_structures(){
     }
 }
 
+/**
+ * merge the ic and the dc after the first stage
+ */
 void merge_ic_dc(){
     int i;
     for (i=0; i<DC; i++){
