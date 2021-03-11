@@ -25,14 +25,16 @@ void directive_string_line();
 /**
  * adds to command_memory for words which L=2
  * @param command - pointer to the command
+ * @param line_number - curren row number in the file
  */
-void add_instruction_words_2(OperationItem *command);
+void add_instruction_words_2(OperationItem *command, int line_number);
 
 /**
  * adds to command_memory for words which L=1
  * @param command - pointer to the command
+ * @param line_number - curren row number in the file 
  */
-void add_instruction_word_1(OperationItem *command);
+void add_instruction_word_1(OperationItem *command, int line_number);
 
 /**
  * free the temporary variables

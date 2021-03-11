@@ -112,6 +112,9 @@ int first_stage(FILE *file){
                     add_instruction_word_1(command, line_number);
                     break;
                 case 0:
+                    if(get_next_token(argument)){ /*if there is another operand*/
+                        OPERANDS_NUMBER_ERORR_1(&IS_ERROR, line_number);
+                    }
                     command_memory[IC++].w = get_first_word(command, 0, 0);
                     break;
             }
@@ -165,15 +168,19 @@ void directive_string_line(){
 /**
  * adds to command_memory for words which L=2
  * @param command - pointer to the command
+ * @param line_number - curren row number in the file
  */
-void add_instruction_words_2(OperationItem *command){
+void add_instruction_words_2(OperationItem *command, int line_number){
     char argument[MAX_ARGUMENT];
     char *temp1 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     char *temp2 = (char *)malloc(MAX_ARGUMENT * sizeof(char));
     word *w1 = 0, *w2 = 0;
     int source, dest; 
-    get_next_token(argument);
+    if(!get_next_token(argument)){
+         OPERANDS_NUMBER_ERORR_2(&IS_ERROR, line_number);
+    }
     /* AMIT - FIX UNTILL NEXT MEETING, NEED TO WORK AT ALL WAYS WITH COMMAS AND SPACES */
+    /*IDO - need to add another check in this case - what if there is 1 operand instead of 2*/
     if (is_comma(argument)){
         if(!get_next_token(temp2)){
             get_first_operand(argument, temp1);
@@ -189,9 +196,15 @@ void add_instruction_words_2(OperationItem *command){
         get_next_token(temp2);
         if(temp2[0] == ',' && temp2[1] == '\0'){
             get_next_token(temp2);
+            if (get_next_token(argument)){
+                OPERANDS_NUMBER_ERORR_1(&IS_ERROR, line_number);
+            }
         }
         else if(is_comma(temp2)){
             drop_comma(temp2);
+            if (get_next_token(argument)){
+                OPERANDS_NUMBER_ERORR_1(&IS_ERROR, line_number);
+            }
         }
         else{
             COMMA_ERROR(&IS_ERROR, 0);
@@ -244,12 +257,18 @@ void add_instruction_words_2(OperationItem *command){
 /**
  * adds to command_memory for words which L=1
  * @param command - pointer to the command
+ * @param line_number - curren row number in the file
  */
-void add_instruction_word_1(OperationItem *command){
+void add_instruction_word_1(OperationItem *command, int line_number){
     char argument[MAX_ARGUMENT];
     int dest;
     word *w1 = 0;
-    get_next_token(argument);
+    if(!get_next_token(argument)){ /*if there are no operands*/
+        OPERANDS_NUMBER_ERORR_2(&IS_ERROR, line_number);
+    }
+    if (get_next_token(argument)){/*if there are 2 or more operands*/
+        OPERANDS_NUMBER_ERORR_1(&IS_ERROR, line_number);
+    }
     dest = operand_address_method(argument);
     CHECK_LEGAL_OPERANDS(&IS_ERROR, line_number, dest, -999, command);
     command_memory[IC].w = get_first_word(command, 0, dest);

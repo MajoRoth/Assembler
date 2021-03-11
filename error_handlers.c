@@ -60,15 +60,6 @@ void REGISTER_NAME_ERROR(int *flag, int line){
     printf("error in line %d: ILLEGAL REGISTER NAME\n", line);
     }
 
-
-/*void CHECK_OPERANDS(enum boolean *flag, int line, char *source ,char *dest, OperationItem *command){
-    if (command->words_num != 2){
-        *flag = TRUE;
-        printf("error in line %d: TOO MANY OPERANDS WERE GIVEN", line);
-    }
-function not finished
-}*/
-
 void UNDEFINED_LABEL_ERROR(int *flag, char *label){
     *flag = TRUE;
     printf("UNDEFINED LABEL %s\n", label);

@@ -25,6 +25,4 @@ void REGISTER_NAME_ERROR(int *flag, int line);
 
 void UNDEFINED_LABEL_ERROR(int *flag, char *label);
 
-/*void CHECK_OPERANDS(int *flag, int line, char *source ,char *dest, OperationItem *command);*/
-
 #endif
