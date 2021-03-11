@@ -309,7 +309,7 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, argument);
-    label_row = search_symbole_table(label, root, EXT_VAR);
+    label_row = search_symbol_table(label, root, EXT_VAR);
     if (label_row == -1){
         /*ERROR*/
     }

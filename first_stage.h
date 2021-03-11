@@ -14,13 +14,15 @@ int first_stage(FILE *file);
 
 /**
  * adds to directive_memory[] the word following by data declaration
+ * @param line_number - a pointer to the current line number
  */
-void directive_data_line();
+void directive_data_line(int *line_number);
 
 /**
  * adds to directive_memory[] the word following by string declaration
+ * @param line_number - a pointer to the current line_number
  */
-void directive_string_line();
+void directive_string_line(int *line_number);
 
 /**
  * adds to command_memory for words which L=2
