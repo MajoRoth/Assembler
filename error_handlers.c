@@ -119,5 +119,12 @@ void UNDEFINED_LABEL_ERROR(int *flag, char *label){
     printf("UNDEFINED LABEL %s\n", label);
 }
 
+/**
+ * NAME ERROR
+ * @param file_name - the name of the invalid file
+ */
+void FILE_NAME_ERROR(char *file_name){
+    printf("ERROR %s invalid file name\n", file_name);
+}
 
 

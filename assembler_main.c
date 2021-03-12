@@ -46,7 +46,7 @@ int open_file(char *file_path, FILE **file){
     strcat(file_path_as, ".as");
     *file = fopen(file_path_as,"r");
     if(!*file){
-        printf("file name is not valid\n");
+        printf("ERROR: %s is invalid file name\n", file_path);
         return 0;
     }
     return 1;

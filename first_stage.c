@@ -207,7 +207,7 @@ void add_instruction_words_2(OperationItem *command, int line_number){
             }
         }
         else{
-            COMMA_ERROR(&IS_ERROR, 0);
+            COMMA_ERROR(&IS_ERROR, line_number);
         }
 
     }
@@ -288,9 +288,6 @@ void add_instruction_word_1(OperationItem *command, int line_number){
             CHECK_REGISTER_NAME(&IS_ERROR, line_number, argument);
             w1 = get_word_register(argument);
             break;
-        default:
-            printf("ERROR");
-            /* ERROR */
     }
     command_memory[IC].w = w1;
     command_memory[IC++].ARE = A; /*updates ARE value*/

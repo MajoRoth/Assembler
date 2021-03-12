@@ -16,18 +16,16 @@ int first_stage(FILE *file);
  * adds to directive_memory[] the word following by data declaration
  * @param line_number - a pointer to the current line number
  */
-void directive_data_line(int *line_number);
+void directive_data_line();
 
 /**
  * adds to directive_memory[] the word following by string declaration
- * @param line_number - a pointer to the current line_number
  */
-void directive_string_line(int *line_number);
+void directive_string_line();
 
 /**
  * adds to command_memory for words which L=2
  * @param command - pointer to the command
- * @param line_number - curren row number in the file
  */
 void add_instruction_words_2(OperationItem *command, int line_number);
 

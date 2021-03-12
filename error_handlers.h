@@ -80,4 +80,10 @@ void REGISTER_NAME_ERROR(int *flag, int line);
  */
 void UNDEFINED_LABEL_ERROR(int *flag, char *label);
 
+/**
+ * FILE NAME ERROR
+ * @param file_name - the name of the invalid file
+ */
+void FILE_NAME_ERROR(char *file_name);
+
 #endif
