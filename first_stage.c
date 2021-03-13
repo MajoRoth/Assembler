@@ -189,11 +189,16 @@ void add_instruction_words_2(OperationItem *command, int line_number){
         else{
             drop_comma(argument);
             strcpy(temp1, argument);
+            if(get_next_token(argument)){
+                OPERANDS_NUMBER_ERORR_1(&IS_ERROR, line_number);
+            }
         }
     }
     else {
         strcpy(temp1, argument);
-        get_next_token(temp2);
+        if(!get_next_token(temp2)){
+            OPERANDS_NUMBER_ERORR_2(&IS_ERROR, line_number);
+        }
         if(temp2[0] == ',' && temp2[1] == '\0'){
             get_next_token(temp2);
             if (get_next_token(argument)){
