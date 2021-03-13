@@ -1,6 +1,6 @@
 # Assembler
 <p>This project was written as an academic assignment.<br>
-To implement an assembler - a compiler for assembly
+To implement an assembler - a compiler for assembly.
 </p>
 <h3>Who Can You Use It?</h3>
 <p>The was writen in Linux Ubuntu and compatible with this os.<br>
