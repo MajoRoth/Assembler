@@ -7,28 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-/** AMIT THINK IT MIGHT BE DELETED
-int get_funct_by_name(char *name, OperationItem *hash_table){
-    int i;
-    for (i=0; i < 16; i++) {
-        if (!strcmp(hash_table[i].name, name)){
-            return hash_table[i].funct;
-        }
-    }
-    return  -1;
-}
-
-int get_opcode_by_name(char *name, OperationItem *hash_table){
-    int i;
-    for (i=0; i < 16; i++) {
-        if (!strcmp(hash_table[i].name, name)){
-            return hash_table[i].opcode;
-        }
-    }
-    return -1;
-}
- */
-
 /**
  * searching command and returning her pointer in **p
  * @param argument - char *
