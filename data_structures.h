@@ -42,7 +42,7 @@ typedef struct External_list_Node{
     struct External_list_Node *next;
     char *symbol;
     int value;
-}External_list_Node;.
+}External_list_Node;
 
 /**
  * searching command and returning her pointer in **p
