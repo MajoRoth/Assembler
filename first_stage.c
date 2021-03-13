@@ -74,7 +74,6 @@ int first_stage(FILE *file){
         else{
             skip = TRUE;
         }
-
         if (IS_DIRECT == TRUE && skip == FALSE){
             if (directive_type == data ){
                 if(IS_LABEL == TRUE){
@@ -100,6 +99,7 @@ int first_stage(FILE *file){
             if (IS_LABEL == TRUE) {
                 CHECK_DOUBLE_DECLARATION(&IS_ERROR, line_number, root, label);
                 add_symbol_node(label, IC, code, get_last_node(root));
+
             }
             get_command(argument, &command, hash_table);
             CHECK_COMMAND(&IS_ERROR, line_number, command);
@@ -320,11 +320,11 @@ void free_temp(char *line, char *argument, char *label){
 /*checks wether the label has already been declared
 call this funcyion before you add new label to symbol table*/
 void CHECK_DOUBLE_DECLARATION(int *flag, int line, SymbolNode *root, char *label){
-    int b = 0;
+    int flag_break = FALSE;
     SymbolNode *node = root;
-    while(node->next != NULL && b == 0){
+    while(node->next != NULL && flag_break == FALSE){
         if (!strcmp(node->symbol, label)){
-            b=1;
+            flag_break = TRUE;
             DOUBLE_DECLARATION_ERROR(flag, line);
         }
         node = node->next;

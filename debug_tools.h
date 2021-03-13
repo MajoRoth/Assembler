@@ -23,3 +23,4 @@ void print_table_row_dc(int i, int j);
 void print_table_symbol(SymbolNode *);
 
 #endif 
+

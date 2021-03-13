@@ -170,7 +170,7 @@ word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR)
  * @param EXT_VAR
  * @return a pointer to the word
  */
-word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR);
+word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR, int *flag);
 
 /**
  * create a word by the register addressing method
@@ -197,3 +197,4 @@ int get_source(word *w);
 
 
 #endif 
+

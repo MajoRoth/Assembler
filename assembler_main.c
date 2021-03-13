@@ -23,12 +23,12 @@ int assembler (char *file_path){
 
         if (first_stage(file)){
             add_ic(root, IC);
-            print_table_symbol(root);
             merge_ic_dc();
             fseek(file, 0, SEEK_SET);
             second_stage(file, file_path);
         }
         fclose(file);
+        free_data_structures();
     }
     return 1;
 }
@@ -70,15 +70,13 @@ void free_data_structures(){
     External_list_Node *node1 = external_list_root, *next_node1;
     next_node = root->next;
     free(command_memory);
-    free(directive_memory);
-    free(root);
-    free(external_list_root);
     /* free the linked list */
     while (node->next != NULL){
         next_node = node->next;
         free(node);
         node = next_node;
     }
+
     while (node1->next != NULL){
         next_node1 = node1->next;
         free(node1);
@@ -96,3 +94,5 @@ void merge_ic_dc(){
     }
     free(directive_memory);
 }
+
+

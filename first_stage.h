@@ -50,3 +50,4 @@ void CHECK_LABEL_LENGTH(int *flag, int line, char *label);
 void CHECK_COMMAND(int *flag, int line, OperationItem *command);
 void CHECK_LEGAL_OPERANDS(int *flag, int line, int dest, int source, OperationItem *command);
 #endif
+

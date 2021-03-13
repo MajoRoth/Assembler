@@ -27,3 +27,4 @@ error_handlers.o: error_handlers.c error_handlers.h
 
 clean:
 	rm ~.o
+

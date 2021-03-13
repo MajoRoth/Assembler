@@ -89,7 +89,7 @@ int get_label(char *line, char *label, int *flag, int line_count){
         if (line[i] == ':'){
             if(isalpha(line[0])){ /* checks if c in A-Z or a-z */
                 label[i] = '\0';
-                return 1; /* need to be check if label already exists in symbol table */
+                return 1; 
             }
             else{
                 ILLEGAL_LABEL_SYNTAX_ERROR(flag, line_count);

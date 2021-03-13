@@ -12,5 +12,3 @@ void create_entry(char *file_name);
 void create_external(char *file_name);
 
 #endif
-
-

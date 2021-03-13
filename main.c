@@ -9,7 +9,6 @@
  */
 int main(int argc, char *argv[]) {
     int i;
-    printf("entered main.c\n");
     if (argc==1)
     {
         printf("specify at least 1 file\n");

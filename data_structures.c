@@ -69,6 +69,7 @@ SymbolNode *add_symbol_node(char *symbol, int value, int attribute, SymbolNode *
     node->attribute = attribute;
     node->value = value;
     node->symbol = (char *)malloc(MAX_LABEL);
+    node->next = NULL;
     strcpy(node->symbol, symbol);
     prev->next = node;
     return node;
@@ -138,7 +139,6 @@ External_list_Node *get_last_external_list_node(External_list_Node *root){
  * @return 1 if true 0 if false
  */
 int is_symbol_node_data(SymbolNode *node){
-    /* checks if a node has "code" attribute */
     if (node->attribute == data) return 1;
     return 0;
 }
@@ -268,7 +268,6 @@ word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR)
             }
             return direct_word;
         }
-        /*REMEMBER - need to check if arg in the table: if label_word == 0 */
     }
     UNDEFINED_LABEL_ERROR(flag, argument);
     return direct_word;
@@ -282,14 +281,14 @@ word *get_word_direct(char *argument, SymbolNode *root, int *flag, int *EXT_VAR)
  * @param EXT_VAR
  * @return a pointer to the word
  */
-word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
+word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR, int *flag){
     word *relative_word = (word *)malloc(sizeof(word));
     char *label = (char *)malloc(sizeof(char)* MAX_ARGUMENT);
     int label_row;
     strcpy(label, argument);
     label_row = search_symbol_table(label, root, EXT_VAR);
     if (label_row == -1){
-        /*ERROR*/
+        ILLEGAL_LABEL_SYNTAX_ERROR(flag, 0);
     }
     relative_word->bits = label_row - ic;
     return relative_word;
@@ -301,7 +300,6 @@ word *get_word_relative(char *argument, int ic, SymbolNode *root, int *EXT_VAR){
  * @return
  */
 word *get_word_register(char *argument){
-    /* note that argument is a string - you need to process it AMIT*/
     int shift;
     word *register_word = (word *)malloc(sizeof(word));
     register_word->bits += 1;
@@ -338,3 +336,4 @@ int get_dest(word *w){
 int get_source(word *w){
     return w->bits & 12;
 }
+

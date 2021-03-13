@@ -44,13 +44,11 @@ int second_stage(FILE *file, char *file_name){
     int EXT_VAR = FALSE;
     OperationL *command;
 
-    printf("SECOND STAGE STARTED\n");
     ic_pointer = 100;
     L = 0;
     while (!feof(file))
     {
         get_line(file, line);
-        printf("[ ] - current line: %s\n", line);
 
         if (!is_comment_line(line) && !is_empty_line(line)){
             get_first_token(line, argument);
@@ -145,7 +143,7 @@ int second_stage(FILE *file, char *file_name){
                 }
                 if(dest_adress == 2){ /*we dont need the - % */
                     strcpy(dest_label, &argument[1]);
-                    command_memory[ic_pointer].w = get_word_relative(dest_label, ic_pointer, root, &EXT_VAR);
+                    command_memory[ic_pointer].w = get_word_relative(dest_label, ic_pointer, root, &EXT_VAR, &ERROR);
                     switch (EXT_VAR)
                     {
                     case FALSE:
@@ -169,11 +167,14 @@ int second_stage(FILE *file, char *file_name){
         EXT_VAR = FALSE;
         IS_DIRECT = FALSE;
     }
-    print_table_symbol(root);
-    print_table_row_ic(100, IC+DC);
-    /* we need to change later in order to get the nanme of the file */
-    create_files(file_name);
-    return 1;
+
+    if (ERROR == FALSE)
+    {
+        create_files(file_name);
+        return 1;
+
+    }
+    return 0;
 }
 
 void create_files(char *file_name){

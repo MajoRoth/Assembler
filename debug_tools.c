@@ -60,3 +60,4 @@ void print_table_symbol(SymbolNode *root){
         printf("\n");
     } 
 }
+
