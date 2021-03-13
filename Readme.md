@@ -7,7 +7,7 @@ To implement an assembler - a compiler for assembly
 It may work on other platforms also as we didn't relied on any<br>
 additional dependencies but the standard libraries. </p>
 
-<h3>How To Use It?</h3>
+<h3>How To You Use It?</h3>
 
 Clone the git repository and run the makefile. 
 In Linux:
