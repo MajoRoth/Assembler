@@ -5,9 +5,13 @@
 #include <string.h>
 #include <ctype.h>
 
+/**
+ * parse each line from the file
+ * @param file_name
+ * @param line
+ * @return 1
+ */
 int get_line(FILE *file_name, char *line){
-    /* takes the next line from the file and copy it to the flag line.
-     return 1 is sucseeded and 0 otherwise*/
     int i=0;
     char c;
     while ((c=getc(file_name)) != '\n' && c != -1){
@@ -18,21 +22,27 @@ int get_line(FILE *file_name, char *line){
     return 1;
 }
 
+/**
+ * uses strtok to parse the line
+ * must be called first time on each line
+ * next arguments parse with get_next_token
+ * @param line
+ * @param argument
+ * @return 1
+ */
 int get_first_token(char *line, char *argument){
-    /*
-     * call this function the first time on evey new line - then call the rest of the times get_next_token()
-     * line - the output from get_line()
-    */
     char *temp;
     temp = strtok(line, " ");
     strcpy(argument, temp);
     return 1;
 }
 
+/**
+ * uses strtok to parse the line
+ * @param argument
+ * @return 1 if worked - 0 otherwise
+ */
 int get_next_token(char *argument) {
-    /*
-     * call this function only if you called get_first_token() before!
-    */
     char *temp;
     temp = strtok(NULL, " ");
     if (temp == NULL){
@@ -42,6 +52,10 @@ int get_next_token(char *argument) {
     return 1;
 }
 
+/**
+ * remove commas from str
+ * @param str
+ */
 void drop_comma(char *str) {
     char *src, *dst;
     char del = ',';
@@ -52,15 +66,24 @@ void drop_comma(char *str) {
     *dst = '\0';
 }
 
+/**
+ * remove marks " from str
+ * @param str
+ */
 void drop_marks(char *str) {
     strcpy(str, &str[3]);
     str[strlen(str)-3] = '\0';
 }
 
-
+/**
+ * checks for label in a line
+ * @param line
+ * @param label
+ * @param flag
+ * @param line_count
+ * @return 1 if worked - 0 otherwise
+ */
 int get_label(char *line, char *label, int *flag, int line_count){
-    /* checks for label. if there is label set the flag is_label to true, else to false
-     * returns the index which the line resumes*/
     int i;
     for (i=0; i<MAX_LABEL; i++){
         if (line[i] == ':'){
@@ -84,9 +107,12 @@ int get_label(char *line, char *label, int *flag, int line_count){
     return 0;
 }
 
+/**
+ * checks if a line is directive
+ * @param argument
+ * @return  enum attribute {code, string, data, external, entry} or -1
+ */
 int is_directive(char *argument){
-    /* checks for label.
-     * returns enum attribute {code, string, data, external, entry} or -1*/
     if (!strcmp(argument, ".string")){
         return string;
     }
@@ -104,8 +130,12 @@ int is_directive(char *argument){
     }    
 }
 
+/**
+ * checks wether there is a comma in argument
+ * @param argument
+ * @return
+ */
 int is_comma(char *argument){
-    /*checks wether there is a comma in argument*/
     int i = 0;
     while(argument[i] != '\0'){
         if (argument[i] == ','){
@@ -116,8 +146,12 @@ int is_comma(char *argument){
     return 0;
 }
 
+/**
+ * check addressing method
+ * @param argument
+ * @return a number between 0-3 that represents the operand address number
+ */
 int operand_address_method(char *argument){
-    /*returns a number between 0-3 that represents the operand address number*/
     if (argument[0] == '#'){
         return 0;
     }
@@ -132,29 +166,37 @@ int operand_address_method(char *argument){
     }
 }
 
-/* AMIT - MAYBE DO SOMTHING WITH MACRO? - REPETETIVE FUNCTIONS*/
+/**
+ * use strtok to get the operands
+ * like get_first_token use first on each line
+ * @param argument
+ * @param operand
+ * @return
+ */
 int get_first_operand(char *argument, char *operand) {
-    /*
-     * call this function the first time on evey new line -
-     * then call the rest of the times get_second_operand()
-    */
     char *temp;
     temp = strtok(argument, ",");
     strcpy(operand, temp);
     return 1;
 }
 
+/**
+ * use strtok to get the operands
+ * @param operand
+ * @return
+ */
 int get_second_operand(char *operand) {
-    /*
-     * call this function only if you called get_first_operand() before!
-    */
     char *temp;
     temp = strtok(NULL, ",");
     strcpy(operand, temp);
     return 1;
 }
 
-
+/**
+ * checks if a line is a comment line
+ * @param line
+ * @return
+ */
 int is_comment_line(char *line){
     if (line[0] == ';'){
         return 1;
@@ -163,9 +205,12 @@ int is_comment_line(char *line){
         return 0;
     }
 }
-
     
-
+/**
+ * checks if a line is an empty line
+ * @param line
+ * @return
+ */
 int is_empty_line(char *line){
     int i = 0;
     while(line[i] != '\0' && line[i] != '\n'){
