@@ -12,7 +12,7 @@ additional dependencies but the standard libraries. </p>
 Clone the git repository and run the makefile. 
 In Linux:
 `
-make
+$ make
 `
 <br>
 Write in terminal
